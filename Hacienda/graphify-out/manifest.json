@@ -1,0 +1,1187 @@
+{
+  "Bib_Hacienda/Bib_Hacienda/.vs/Bib_Hacienda.csproj.dtbcache.json": {
+    "mtime": 1762365559.8851414,
+    "ast_hash": "88d33e26d76e39af34d19c254d4d839b",
+    "semantic_hash": "88d33e26d76e39af34d19c254d4d839b"
+  },
+  "Bib_Hacienda/Bib_Hacienda/.vs/Bib_Hacienda/v17/DocumentLayout.backup.json": {
+    "mtime": 1762438752.7901156,
+    "ast_hash": "a2ee54f6ccdabf2d8bb59d11cb918f60",
+    "semantic_hash": "a2ee54f6ccdabf2d8bb59d11cb918f60"
+  },
+  "Bib_Hacienda/Bib_Hacienda/.vs/Bib_Hacienda/v17/DocumentLayout.json": {
+    "mtime": 1762439126.0920887,
+    "ast_hash": "80c5481b1fd0467b90bfd00ada6d7be0",
+    "semantic_hash": "80c5481b1fd0467b90bfd00ada6d7be0"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Aspectos/InterceptorAutenticacion.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "d67028f853792b454b46f32275efabb2",
+    "semantic_hash": "d67028f853792b454b46f32275efabb2"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Aspectos/InterceptorValidarInformacion.cs": {
+    "mtime": 1762381307.9984796,
+    "ast_hash": "b83e264e438821ac99ababa754d2e6fa",
+    "semantic_hash": "b83e264e438821ac99ababa754d2e6fa"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj": {
+    "mtime": 1762365615.6472003,
+    "ast_hash": "17cb360c5e281248f33d3b2a0c3f283b",
+    "semantic_hash": "17cb360c5e281248f33d3b2a0c3f283b"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.sln": {
+    "mtime": 1762196065.0,
+    "ast_hash": "303f214b12a41c8da9926e96d1d50c05",
+    "semantic_hash": "303f214b12a41c8da9926e96d1d50c05"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Autenticacion.cs": {
+    "mtime": 1762298283.0442803,
+    "ast_hash": "842fb6bfa2ccfbc6a911dacabe9332a4",
+    "semantic_hash": "842fb6bfa2ccfbc6a911dacabe9332a4"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Bacteriana.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "38cd4da85e525daed9a0ce5cf549b08e",
+    "semantic_hash": "38cd4da85e525daed9a0ce5cf549b08e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Cebon.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "aac277b26a1fa7198fc7f879e6dc8254",
+    "semantic_hash": "aac277b26a1fa7198fc7f879e6dc8254"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs": {
+    "mtime": 1762370371.6864624,
+    "ast_hash": "8f2993ce4dae6aaa5d39bb3891dfdc6a",
+    "semantic_hash": "8f2993ce4dae6aaa5d39bb3891dfdc6a"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Novillo.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "97b20a084c4585d5a4c561070b67eaa9",
+    "semantic_hash": "97b20a084c4585d5a4c561070b67eaa9"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Potrero.cs": {
+    "mtime": 1762365531.849894,
+    "ast_hash": "9bb093be6e52f3b92b9da84c2baac236",
+    "semantic_hash": "9bb093be6e52f3b92b9da84c2baac236"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Res.cs": {
+    "mtime": 1762370384.5221276,
+    "ast_hash": "b029e471f754e9d0b7743742182d4aec",
+    "semantic_hash": "b029e471f754e9d0b7743742182d4aec"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Ternero.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "9246b83774f9023397805986b3013544",
+    "semantic_hash": "9246b83774f9023397805986b3013544"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Usuario.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "4a625042f068990a173d321d0d3f7fde",
+    "semantic_hash": "4a625042f068990a173d321d0d3f7fde"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Vacuna.cs": {
+    "mtime": 1762296917.7649984,
+    "ast_hash": "6e075edbf59f2a2fdb3f1ca3942fb8cc",
+    "semantic_hash": "6e075edbf59f2a2fdb3f1ca3942fb8cc"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/Validacion.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "ab3ac431f16745afa81bc9bb1d8d24f9",
+    "semantic_hash": "ab3ac431f16745afa81bc9bb1d8d24f9"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarPotrero.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "9d7e81ba150008b9fbdd0d97c77622e4",
+    "semantic_hash": "9d7e81ba150008b9fbdd0d97c77622e4"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarRes.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "1f9c4a5d9047a7283f54d1e1b64fbc62",
+    "semantic_hash": "1f9c4a5d9047a7283f54d1e1b64fbc62"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarVacuna.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "d285bf5d4cd622a8ecaae873a70a9cff",
+    "semantic_hash": "d285bf5d4cd622a8ecaae873a70a9cff"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarVenta.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "3cbbe9b547edb9556b614e1c83d5094a",
+    "semantic_hash": "3cbbe9b547edb9556b614e1c83d5094a"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Venta.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "1f6011413520e1ac07ec7b4d689ef7d9",
+    "semantic_hash": "1f6011413520e1ac07ec7b4d689ef7d9"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Clases/Viva.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "0040b3ed86fa02f24134b2d4a440a26a",
+    "semantic_hash": "0040b3ed86fa02f24134b2d4a440a26a"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPesoMin.cs": {
+    "mtime": 1762365232.2754161,
+    "ast_hash": "922368f279eb3dc9b2c30f8942ed3c7a",
+    "semantic_hash": "922368f279eb3dc9b2c30f8942ed3c7a"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPesoVenta.cs": {
+    "mtime": 1762365243.4603922,
+    "ast_hash": "ba83be7fb00dc49c9e1011064db59bf4",
+    "semantic_hash": "ba83be7fb00dc49c9e1011064db59bf4"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPotreroLleno.cs": {
+    "mtime": 1762365211.3878007,
+    "ast_hash": "a2a3b5701b517c8fdd21d85ed7518025",
+    "semantic_hash": "a2a3b5701b517c8fdd21d85ed7518025"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPotreroMitad.cs": {
+    "mtime": 1762365220.765589,
+    "ast_hash": "a6f7108d7b94479a7df29f636860913b",
+    "semantic_hash": "a6f7108d7b94479a7df29f636860913b"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherVacunaVencida.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "2a57b0bdd2429fae404367f0363ec61c",
+    "semantic_hash": "2a57b0bdd2429fae404367f0363ec61c"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Eventos/PublisherVacunacionCompletada.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "e3dcab0e9d21da203bfc5fbce2f3f2f4",
+    "semantic_hash": "e3dcab0e9d21da203bfc5fbce2f3f2f4"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Interfaces/IAutenticacion.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "ac51a96d2594c67e04997cb1358a7e1c",
+    "semantic_hash": "ac51a96d2594c67e04997cb1358a7e1c"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Interfaces/ICreacionVacuna.cs": {
+    "mtime": 1762297819.1703274,
+    "ast_hash": "182be16b2ca9d9c4b60e3e99b8e6bc5f",
+    "semantic_hash": "182be16b2ca9d9c4b60e3e99b8e6bc5f"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Interfaces/IVacunacion.cs": {
+    "mtime": 1762230215.7886398,
+    "ast_hash": "4288587ccec0a4a4c84239c1d1ca5dc0",
+    "semantic_hash": "4288587ccec0a4a4c84239c1d1ca5dc0"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Interfaces/IValidarInformacion.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "593853ebcd093a537cb160e5c414cf3f",
+    "semantic_hash": "593853ebcd093a537cb160e5c414cf3f"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Interfaces/IVentaRes.cs": {
+    "mtime": 1762217143.0,
+    "ast_hash": "322a652d96e269f1ebf62512512ab643",
+    "semantic_hash": "322a652d96e269f1ebf62512512ab643"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Properties/AssemblyInfo.cs": {
+    "mtime": 1762196067.0,
+    "ast_hash": "26684c89d27e031e843e85e0500a8c0b",
+    "semantic_hash": "26684c89d27e031e843e85e0500a8c0b"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Reglas/ReglaPotrero.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "c2fa5f6d499a44a2ce436a682920df40",
+    "semantic_hash": "c2fa5f6d499a44a2ce436a682920df40"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Reglas/ReglaRes.cs": {
+    "mtime": 1762227937.8386602,
+    "ast_hash": "22a5c9d14e007577db5be486bba16e77",
+    "semantic_hash": "22a5c9d14e007577db5be486bba16e77"
+  },
+  "Bib_Hacienda/Bib_Hacienda/Reglas/ReglaVacuna.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "68ea86ccf2973eee5969822c961eeace",
+    "semantic_hash": "68ea86ccf2973eee5969822c961eeace"
+  },
+  "Bib_Hacienda/Bib_Hacienda/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs": {
+    "mtime": 1762196065.0,
+    "ast_hash": "896ab120ac6b6af2895fdb71c452b9d3",
+    "semantic_hash": "896ab120ac6b6af2895fdb71c452b9d3"
+  },
+  "p_mvcHacienda/.vs/p_mvcHacienda/v17/DocumentLayout.backup.json": {
+    "mtime": 1762441420.4522085,
+    "ast_hash": "ae082c71a20181a9880f904ab2aae6e4",
+    "semantic_hash": "ae082c71a20181a9880f904ab2aae6e4"
+  },
+  "p_mvcHacienda/.vs/p_mvcHacienda/v17/DocumentLayout.json": {
+    "mtime": 1762441549.654392,
+    "ast_hash": "ae082c71a20181a9880f904ab2aae6e4",
+    "semantic_hash": "ae082c71a20181a9880f904ab2aae6e4"
+  },
+  "p_mvcHacienda/Controllers/AccountController.cs": {
+    "mtime": 1762404244.575297,
+    "ast_hash": "a0dbec9ed3888109497fb116fca6b0e5",
+    "semantic_hash": "a0dbec9ed3888109497fb116fca6b0e5"
+  },
+  "p_mvcHacienda/Controllers/HomeController.cs": {
+    "mtime": 1762403330.2999587,
+    "ast_hash": "afb0427895a2601eb78b350eafbbd297",
+    "semantic_hash": "afb0427895a2601eb78b350eafbbd297"
+  },
+  "p_mvcHacienda/Controllers/PotreroController.cs": {
+    "mtime": 1762410200.6861458,
+    "ast_hash": "79d6e2947d12c838ffd92f60a5435a8b",
+    "semantic_hash": "79d6e2947d12c838ffd92f60a5435a8b"
+  },
+  "p_mvcHacienda/Controllers/ResController.cs": {
+    "mtime": 1762410170.7984817,
+    "ast_hash": "ddadb6d509ec4681912aa050cac232cb",
+    "semantic_hash": "ddadb6d509ec4681912aa050cac232cb"
+  },
+  "p_mvcHacienda/Controllers/UsuarioController.cs": {
+    "mtime": 1762404991.905455,
+    "ast_hash": "73e23891ddb108c0268bd41d967691d1",
+    "semantic_hash": "73e23891ddb108c0268bd41d967691d1"
+  },
+  "p_mvcHacienda/Controllers/VacunaController.cs": {
+    "mtime": 1762405411.7799828,
+    "ast_hash": "1eb70f10f5d055b7803d67f8fca2969d",
+    "semantic_hash": "1eb70f10f5d055b7803d67f8fca2969d"
+  },
+  "p_mvcHacienda/Controllers/VentaController.cs": {
+    "mtime": 1762404991.8812728,
+    "ast_hash": "923ad9c667f38407aafc1fecdef2fa69",
+    "semantic_hash": "923ad9c667f38407aafc1fecdef2fa69"
+  },
+  "p_mvcHacienda/Models/ErrorViewModel.cs": {
+    "mtime": 1762300118.2555282,
+    "ast_hash": "d1c53780ff70171a4aece34d85db386a",
+    "semantic_hash": "d1c53780ff70171a4aece34d85db386a"
+  },
+  "p_mvcHacienda/Models/LoginViewModel.cs": {
+    "mtime": 1762403298.2715838,
+    "ast_hash": "d47c89effd12472b9180ae5307e114a8",
+    "semantic_hash": "d47c89effd12472b9180ae5307e114a8"
+  },
+  "p_mvcHacienda/Program.cs": {
+    "mtime": 1762405257.9652083,
+    "ast_hash": "2aff4c82cfad56580fac26b54b0d2ff5",
+    "semantic_hash": "2aff4c82cfad56580fac26b54b0d2ff5"
+  },
+  "p_mvcHacienda/Properties/launchSettings.json": {
+    "mtime": 1762300114.4806862,
+    "ast_hash": "489e8887c3fb681a3415551a702d0c6c",
+    "semantic_hash": "489e8887c3fb681a3415551a702d0c6c"
+  },
+  "p_mvcHacienda/Servicios/PersistenciaService.cs": {
+    "mtime": 1762395062.1137931,
+    "ast_hash": "4d5be55173d44f5bdee91f3f38c90aa6",
+    "semantic_hash": "4d5be55173d44f5bdee91f3f38c90aa6"
+  },
+  "p_mvcHacienda/Servicios/PotreroService.cs": {
+    "mtime": 1762407027.1417453,
+    "ast_hash": "d14ab4e6998a00289d8b40eec1c86e6f",
+    "semantic_hash": "d14ab4e6998a00289d8b40eec1c86e6f"
+  },
+  "p_mvcHacienda/Servicios/ResService.cs": {
+    "mtime": 1762407027.3573463,
+    "ast_hash": "edcb8dfd335d397934a4f7b4f13c954d",
+    "semantic_hash": "edcb8dfd335d397934a4f7b4f13c954d"
+  },
+  "p_mvcHacienda/Servicios/UsuarioService.cs": {
+    "mtime": 1762403323.4375162,
+    "ast_hash": "21aa83534d22196784dbed52a4ca8d74",
+    "semantic_hash": "21aa83534d22196784dbed52a4ca8d74"
+  },
+  "p_mvcHacienda/Servicios/VacunaService.cs": {
+    "mtime": 1762407403.174347,
+    "ast_hash": "5d05a4cb4c141338b158e71eeef4bad3",
+    "semantic_hash": "5d05a4cb4c141338b158e71eeef4bad3"
+  },
+  "p_mvcHacienda/Servicios/VentaService.cs": {
+    "mtime": 1762315043.679736,
+    "ast_hash": "5395cf14a8d3bde101a387622d91b2d6",
+    "semantic_hash": "5395cf14a8d3bde101a387622d91b2d6"
+  },
+  "p_mvcHacienda/Views/Account/AccessDenied.cshtml": {
+    "mtime": 1762403314.0848312,
+    "ast_hash": "27c5d26bb2f52feb4a704c40a3b4ac70",
+    "semantic_hash": "27c5d26bb2f52feb4a704c40a3b4ac70"
+  },
+  "p_mvcHacienda/Views/Account/Login.cshtml": {
+    "mtime": 1762403307.8815947,
+    "ast_hash": "a54dd556c8eb94d366e9c35346449d12",
+    "semantic_hash": "a54dd556c8eb94d366e9c35346449d12"
+  },
+  "p_mvcHacienda/Views/Home/Index.cshtml": {
+    "mtime": 1762406246.7394404,
+    "ast_hash": "e4b094606f7e0235b976d1b0651f99db",
+    "semantic_hash": "e4b094606f7e0235b976d1b0651f99db"
+  },
+  "p_mvcHacienda/Views/Home/Privacy.cshtml": {
+    "mtime": 1762300114.4033885,
+    "ast_hash": "6ac68e2b0d9ab26bd02a905a365a2bcc",
+    "semantic_hash": "6ac68e2b0d9ab26bd02a905a365a2bcc"
+  },
+  "p_mvcHacienda/Views/Potrero/Create.cshtml": {
+    "mtime": 1762403658.2477064,
+    "ast_hash": "9073c736274eeb107b80064a32271c4a",
+    "semantic_hash": "9073c736274eeb107b80064a32271c4a"
+  },
+  "p_mvcHacienda/Views/Potrero/Details.cshtml": {
+    "mtime": 1762403674.057068,
+    "ast_hash": "bbeb6fedb5248e0afe1225aec6a70944",
+    "semantic_hash": "bbeb6fedb5248e0afe1225aec6a70944"
+  },
+  "p_mvcHacienda/Views/Potrero/Index.cshtml": {
+    "mtime": 1762402604.0745294,
+    "ast_hash": "2e1421640ed303ede7f4c045e90745ce",
+    "semantic_hash": "2e1421640ed303ede7f4c045e90745ce"
+  },
+  "p_mvcHacienda/Views/Res/Create.cshtml": {
+    "mtime": 1762403700.598393,
+    "ast_hash": "0e849fa9f241d9e1968c5ae0ea3ae74c",
+    "semantic_hash": "0e849fa9f241d9e1968c5ae0ea3ae74c"
+  },
+  "p_mvcHacienda/Views/Res/DetalleVacunas.cshtml": {
+    "mtime": 1762403739.4585516,
+    "ast_hash": "417730da2b81ab917669d1f076f2170e",
+    "semantic_hash": "417730da2b81ab917669d1f076f2170e"
+  },
+  "p_mvcHacienda/Views/Res/Index.cshtml": {
+    "mtime": 1762404694.2076032,
+    "ast_hash": "21b680b59f89fafbe8bebc9afaa9a86a",
+    "semantic_hash": "21b680b59f89fafbe8bebc9afaa9a86a"
+  },
+  "p_mvcHacienda/Views/Shared/Error.cshtml": {
+    "mtime": 1762300114.4043894,
+    "ast_hash": "939096be653d41fb8a147fb4ff36bfb5",
+    "semantic_hash": "939096be653d41fb8a147fb4ff36bfb5"
+  },
+  "p_mvcHacienda/Views/Shared/_Layout.cshtml": {
+    "mtime": 1762402584.1482658,
+    "ast_hash": "6d01cb71b7ac7bf59b522b592e9bd60a",
+    "semantic_hash": "6d01cb71b7ac7bf59b522b592e9bd60a"
+  },
+  "p_mvcHacienda/Views/Shared/_ValidationScriptsPartial.cshtml": {
+    "mtime": 1762300114.445388,
+    "ast_hash": "04c9739bd41a158c3fb95b9ec3020c94",
+    "semantic_hash": "04c9739bd41a158c3fb95b9ec3020c94"
+  },
+  "p_mvcHacienda/Views/Usuario/Create.cshtml": {
+    "mtime": 1762405349.8227575,
+    "ast_hash": "71f46e33042383d036f112aea45d66e3",
+    "semantic_hash": "71f46e33042383d036f112aea45d66e3"
+  },
+  "p_mvcHacienda/Views/Usuario/Index.cshtml": {
+    "mtime": 1762404673.3187613,
+    "ast_hash": "4aca921dec8cde535489b4da066442d0",
+    "semantic_hash": "4aca921dec8cde535489b4da066442d0"
+  },
+  "p_mvcHacienda/Views/Vacuna/Aplicar.cshtml": {
+    "mtime": 1762404272.9134908,
+    "ast_hash": "69921f082a88dbe4304c2e9664542f66",
+    "semantic_hash": "69921f082a88dbe4304c2e9664542f66"
+  },
+  "p_mvcHacienda/Views/Vacuna/Create.cshtml": {
+    "mtime": 1762405308.3885581,
+    "ast_hash": "5546d9eae8c1ebb05f8e567d7e100284",
+    "semantic_hash": "5546d9eae8c1ebb05f8e567d7e100284"
+  },
+  "p_mvcHacienda/Views/Vacuna/Index.cshtml": {
+    "mtime": 1762402657.7544737,
+    "ast_hash": "e93b09143f74b8bfaaae031f53545a29",
+    "semantic_hash": "e93b09143f74b8bfaaae031f53545a29"
+  },
+  "p_mvcHacienda/Views/Venta/Create.cshtml": {
+    "mtime": 1762302115.3264916,
+    "ast_hash": "2763f7093615a60320397c86d48bbf6c",
+    "semantic_hash": "2763f7093615a60320397c86d48bbf6c"
+  },
+  "p_mvcHacienda/Views/Venta/Index.cshtml": {
+    "mtime": 1762404703.8981955,
+    "ast_hash": "293f326720aadf594cc8de9824f9438b",
+    "semantic_hash": "293f326720aadf594cc8de9824f9438b"
+  },
+  "p_mvcHacienda/Views/_ViewImports.cshtml": {
+    "mtime": 1762300114.483775,
+    "ast_hash": "58d8d6fe63af69c86262751a83adb695",
+    "semantic_hash": "58d8d6fe63af69c86262751a83adb695"
+  },
+  "p_mvcHacienda/Views/_ViewStart.cshtml": {
+    "mtime": 1762300114.4877627,
+    "ast_hash": "e4cd881cf745e1e88cf2c5f6eceae943",
+    "semantic_hash": "e4cd881cf745e1e88cf2c5f6eceae943"
+  },
+  "p_mvcHacienda/appsettings.Development.json": {
+    "mtime": 1762300114.3354182,
+    "ast_hash": "804b473502a4c415cf75db61c56c32aa",
+    "semantic_hash": "804b473502a4c415cf75db61c56c32aa"
+  },
+  "p_mvcHacienda/appsettings.json": {
+    "mtime": 1762300114.3554199,
+    "ast_hash": "f7e65dde4e5533740a0d57ac9355c0e8",
+    "semantic_hash": "f7e65dde4e5533740a0d57ac9355c0e8"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/appsettings.Development.json": {
+    "mtime": 1762300114.3354182,
+    "ast_hash": "804b473502a4c415cf75db61c56c32aa",
+    "semantic_hash": "804b473502a4c415cf75db61c56c32aa"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/appsettings.json": {
+    "mtime": 1762300114.3554199,
+    "ast_hash": "f7e65dde4e5533740a0d57ac9355c0e8",
+    "semantic_hash": "f7e65dde4e5533740a0d57ac9355c0e8"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.deps.json": {
+    "mtime": 1762437434.6676874,
+    "ast_hash": "eba48e1623b14ea0aea0811b8a404339",
+    "semantic_hash": "eba48e1623b14ea0aea0811b8a404339"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.runtimeconfig.json": {
+    "mtime": 1762437434.7086868,
+    "ast_hash": "13b32759e5461fef2e52eaecfb99ba81",
+    "semantic_hash": "13b32759e5461fef2e52eaecfb99ba81"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.staticwebassets.endpoints.json": {
+    "mtime": 1762406216.695442,
+    "ast_hash": "99742df98620135f6830c06bb42df7fb",
+    "semantic_hash": "99742df98620135f6830c06bb42df7fb"
+  },
+  "p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.staticwebassets.runtime.json": {
+    "mtime": 1762437434.353689,
+    "ast_hash": "004fca8eccbfd481138a0a6036cbba78",
+    "semantic_hash": "004fca8eccbfd481138a0a6036cbba78"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs": {
+    "mtime": 1762300120.016692,
+    "ast_hash": "9b225453b5a8008eefb62f6c5c66ce15",
+    "semantic_hash": "9b225453b5a8008eefb62f6c5c66ce15"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/ApiEndpoints.json": {
+    "mtime": 1762441428.5839295,
+    "ast_hash": "d751713988987e9331980363e24189ce",
+    "semantic_hash": "d751713988987e9331980363e24189ce"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs": {
+    "mtime": 1762305422.8825636,
+    "ast_hash": "795808279870b05f859f5c662e4c78a8",
+    "semantic_hash": "795808279870b05f859f5c662e4c78a8"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.GlobalUsings.g.cs": {
+    "mtime": 1762300119.7125113,
+    "ast_hash": "27a3303725b3d7fb45be5fb2a2844928",
+    "semantic_hash": "27a3303725b3d7fb45be5fb2a2844928"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.RazorAssemblyInfo.cs": {
+    "mtime": 1762305423.0066671,
+    "ast_hash": "323ed7942fbaebfcf8b2ae628160193c",
+    "semantic_hash": "323ed7942fbaebfcf8b2ae628160193c"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/rjimswa.dswa.cache.json": {
+    "mtime": 1762437434.0887134,
+    "ast_hash": "3fa34d2b8070341e030847e51e0bf42e",
+    "semantic_hash": "3fa34d2b8070341e030847e51e0bf42e"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/rjsmcshtml.dswa.cache.json": {
+    "mtime": 1762437434.112687,
+    "ast_hash": "2a63ea86f82ac67e6b2eb8dd912179f6",
+    "semantic_hash": "2a63ea86f82ac67e6b2eb8dd912179f6"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/rjsmrazor.dswa.cache.json": {
+    "mtime": 1762437434.101687,
+    "ast_hash": "996d293105a5e2c9259e0e30dd428afe",
+    "semantic_hash": "996d293105a5e2c9259e0e30dd428afe"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/rpswa.dswa.cache.json": {
+    "mtime": 1762437435.3716898,
+    "ast_hash": "f0256c5668548fed77782605770d5eb4",
+    "semantic_hash": "f0256c5668548fed77782605770d5eb4"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.build.endpoints.json": {
+    "mtime": 1762406216.695442,
+    "ast_hash": "99742df98620135f6830c06bb42df7fb",
+    "semantic_hash": "99742df98620135f6830c06bb42df7fb"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.build.json": {
+    "mtime": 1762437434.2626867,
+    "ast_hash": "c001bbf5983558e601eccbe1a7bef508",
+    "semantic_hash": "c001bbf5983558e601eccbe1a7bef508"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.development.json": {
+    "mtime": 1762437434.353689,
+    "ast_hash": "004fca8eccbfd481138a0a6036cbba78",
+    "semantic_hash": "004fca8eccbfd481138a0a6036cbba78"
+  },
+  "p_mvcHacienda/obj/p_mvcHacienda.csproj.nuget.dgspec.json": {
+    "mtime": 1762437419.8983302,
+    "ast_hash": "df3180581e972ead270234e1cb9632f6",
+    "semantic_hash": "df3180581e972ead270234e1cb9632f6"
+  },
+  "p_mvcHacienda/obj/project.assets.json": {
+    "mtime": 1762437419.8733242,
+    "ast_hash": "496b37e2043836555a589b8454131a5a",
+    "semantic_hash": "496b37e2043836555a589b8454131a5a"
+  },
+  "p_mvcHacienda/p_mvcHacienda.csproj": {
+    "mtime": 1762369630.7112792,
+    "ast_hash": "43388d1c46adb7cb3ce3f1571f451058",
+    "semantic_hash": "43388d1c46adb7cb3ce3f1571f451058"
+  },
+  "p_mvcHacienda/p_mvcHacienda.sln": {
+    "mtime": 1762300118.8558671,
+    "ast_hash": "5e9a71db34148f4421d8fc921f006e60",
+    "semantic_hash": "5e9a71db34148f4421d8fc921f006e60"
+  },
+  "p_mvcHacienda/wwwroot/js/site.js": {
+    "mtime": 1762404622.0527532,
+    "ast_hash": "3def268488931f66e4276b6a3328330b",
+    "semantic_hash": "3def268488931f66e4276b6a3328330b"
+  },
+  "p_mvcHacienda/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js": {
+    "mtime": 1762300114.5290172,
+    "ast_hash": "2a905437ecdd58e97aad5ee4d30d3687",
+    "semantic_hash": "2a905437ecdd58e97aad5ee4d30d3687"
+  },
+  "p_mvcHacienda/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js": {
+    "mtime": 1762300114.5327604,
+    "ast_hash": "00e5caa5c85cb0efa90509048231708d",
+    "semantic_hash": "00e5caa5c85cb0efa90509048231708d"
+  },
+  "scripts/install.sh": {
+    "mtime": 1785920730.0,
+    "ast_hash": "51c43f2586296f2b379cc9cddf8d5f0a",
+    "semantic_hash": "51c43f2586296f2b379cc9cddf8d5f0a"
+  },
+  "scripts/validate-pack.py": {
+    "mtime": 1785920730.0,
+    "ast_hash": "64fe7fdd435977245c65e2e05b35464d",
+    "semantic_hash": "64fe7fdd435977245c65e2e05b35464d"
+  },
+  ".opencode/agents/adversarial-reviewer.md": {
+    "mtime": 1785942977.539673,
+    "ast_hash": "059ef405e5e647e11aaaf373ec05ed29",
+    "semantic_hash": "059ef405e5e647e11aaaf373ec05ed29"
+  },
+  ".opencode/agents/architecture-auditor.md": {
+    "mtime": 1785942977.5376732,
+    "ast_hash": "4eb76bfeb2edc89e5cdf9bd96f1a50c1",
+    "semantic_hash": "4eb76bfeb2edc89e5cdf9bd96f1a50c1"
+  },
+  ".opencode/agents/codebase-cartographer.md": {
+    "mtime": 1785942977.5356731,
+    "ast_hash": "5888a2093126c7d68c985a1fa05fe772",
+    "semantic_hash": "5888a2093126c7d68c985a1fa05fe772"
+  },
+  ".opencode/agents/dip-auditor.md": {
+    "mtime": 1785942977.5376732,
+    "ast_hash": "20df05b0d3d35c6de65be8ce361aab92",
+    "semantic_hash": "20df05b0d3d35c6de65be8ce361aab92"
+  },
+  ".opencode/agents/isp-auditor.md": {
+    "mtime": 1785942977.5376732,
+    "ast_hash": "a5a6615c825025f70d94884ace4b9e6e",
+    "semantic_hash": "a5a6615c825025f70d94884ace4b9e6e"
+  },
+  ".opencode/agents/lsp-auditor.md": {
+    "mtime": 1785942977.5376732,
+    "ast_hash": "5e719baf968facb9539579c1e08f6c74",
+    "semantic_hash": "5e719baf968facb9539579c1e08f6c74"
+  },
+  ".opencode/agents/ocp-auditor.md": {
+    "mtime": 1785942977.536673,
+    "ast_hash": "2c649ea4a18027f41cdc51fc9360f76d",
+    "semantic_hash": "2c649ea4a18027f41cdc51fc9360f76d"
+  },
+  ".opencode/agents/refactor-implementer.md": {
+    "mtime": 1785942977.5386732,
+    "ast_hash": "c16d49dfd4ed3de7981e10b0799a6f63",
+    "semantic_hash": "c16d49dfd4ed3de7981e10b0799a6f63"
+  },
+  ".opencode/agents/refactor-planner.md": {
+    "mtime": 1785942977.5386732,
+    "ast_hash": "7f03d071a1898b73ff8fd71c6d836f83",
+    "semantic_hash": "7f03d071a1898b73ff8fd71c6d836f83"
+  },
+  ".opencode/agents/solid-orchestrator.md": {
+    "mtime": 1785942977.5356731,
+    "ast_hash": "226882d0d33dc4468e901ad28e75d493",
+    "semantic_hash": "226882d0d33dc4468e901ad28e75d493"
+  },
+  ".opencode/agents/srp-auditor.md": {
+    "mtime": 1785942977.536673,
+    "ast_hash": "f5192cf4f6a40de60f3cb809e161c51d",
+    "semantic_hash": "f5192cf4f6a40de60f3cb809e161c51d"
+  },
+  ".opencode/agents/test-guardian.md": {
+    "mtime": 1785942977.5386732,
+    "ast_hash": "62d53bf06a6d413e06a269e087d19004",
+    "semantic_hash": "62d53bf06a6d413e06a269e087d19004"
+  },
+  ".opencode/commands/architecture-audit.md": {
+    "mtime": 1785941896.153133,
+    "ast_hash": "ba8ca1f70d29a82e86bc31c0abedfa2c",
+    "semantic_hash": "ba8ca1f70d29a82e86bc31c0abedfa2c"
+  },
+  ".opencode/commands/solid-apply.md": {
+    "mtime": 1785941896.153133,
+    "ast_hash": "53da885a9eb5de437cd745ad9f5b9e34",
+    "semantic_hash": "53da885a9eb5de437cd745ad9f5b9e34"
+  },
+  ".opencode/commands/solid-audit-file.md": {
+    "mtime": 1785941896.1496217,
+    "ast_hash": "8e3c3b18ca5301a27251381cd1262cf4",
+    "semantic_hash": "8e3c3b18ca5301a27251381cd1262cf4"
+  },
+  ".opencode/commands/solid-audit.md": {
+    "mtime": 1785941896.1494734,
+    "ast_hash": "bd063813382b228ab248cdd3d56cad85",
+    "semantic_hash": "bd063813382b228ab248cdd3d56cad85"
+  },
+  ".opencode/commands/solid-dip.md": {
+    "mtime": 1785941896.1516218,
+    "ast_hash": "0edfb4677f83327f8a56c95a0217e905",
+    "semantic_hash": "0edfb4677f83327f8a56c95a0217e905"
+  },
+  ".opencode/commands/solid-isp.md": {
+    "mtime": 1785941896.1516218,
+    "ast_hash": "e1871458cb351b42ad1ee6b162d41321",
+    "semantic_hash": "e1871458cb351b42ad1ee6b162d41321"
+  },
+  ".opencode/commands/solid-lsp.md": {
+    "mtime": 1785941896.150622,
+    "ast_hash": "adfe22c21ebf8d921e0466658f0795d0",
+    "semantic_hash": "adfe22c21ebf8d921e0466658f0795d0"
+  },
+  ".opencode/commands/solid-ocp.md": {
+    "mtime": 1785941896.150622,
+    "ast_hash": "b0556fb30555bade3bf79e7157a65a42",
+    "semantic_hash": "b0556fb30555bade3bf79e7157a65a42"
+  },
+  ".opencode/commands/solid-plan.md": {
+    "mtime": 1785941896.153133,
+    "ast_hash": "bc49d797da493ebb8e03b6bf121174db",
+    "semantic_hash": "bc49d797da493ebb8e03b6bf121174db"
+  },
+  ".opencode/commands/solid-srp.md": {
+    "mtime": 1785941896.1496217,
+    "ast_hash": "fef4fe0693e6ad19c402da6840f32002",
+    "semantic_hash": "fef4fe0693e6ad19c402da6840f32002"
+  },
+  ".opencode/commands/solid-verify.md": {
+    "mtime": 1785941896.153622,
+    "ast_hash": "d2e110408c6ab484325287dca18b22f5",
+    "semantic_hash": "d2e110408c6ab484325287dca18b22f5"
+  },
+  ".opencode/skills/architecture-csharp/SKILL.md": {
+    "mtime": 1785941826.6649845,
+    "ast_hash": "9fde6cabf5794afbb3b17847c01b00d4",
+    "semantic_hash": "9fde6cabf5794afbb3b17847c01b00d4"
+  },
+  ".opencode/skills/architecture-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.5042381,
+    "ast_hash": "daab15da3fa12eeb5bf9092e65d519ef",
+    "semantic_hash": "daab15da3fa12eeb5bf9092e65d519ef"
+  },
+  ".opencode/skills/behavior-preserving-refactor-csharp/SKILL.md": {
+    "mtime": 1785941826.6649845,
+    "ast_hash": "c84eedbb301097640000e36f4a1ca610",
+    "semantic_hash": "c84eedbb301097640000e36f4a1ca610"
+  },
+  ".opencode/skills/behavior-preserving-refactor-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.6194525,
+    "ast_hash": "5f69b63fd2be6281e61dae3620ab7f71",
+    "semantic_hash": "5f69b63fd2be6281e61dae3620ab7f71"
+  },
+  ".opencode/skills/csharp-codebase-map/SKILL.md": {
+    "mtime": 1785941781.3855703,
+    "ast_hash": "dbb6e1746e737cfb2944c75f3069a445",
+    "semantic_hash": "dbb6e1746e737cfb2944c75f3069a445"
+  },
+  ".opencode/skills/csharp-codebase-map/agents/openai.yaml": {
+    "mtime": 1785941718.785954,
+    "ast_hash": "05baa202818a3209f288d6e281b2066c",
+    "semantic_hash": "05baa202818a3209f288d6e281b2066c"
+  },
+  ".opencode/skills/dotnet-refactor-verification/SKILL.md": {
+    "mtime": 1785941826.6659844,
+    "ast_hash": "fb8e92719eb60dc10a14f702da8be8bf",
+    "semantic_hash": "fb8e92719eb60dc10a14f702da8be8bf"
+  },
+  ".opencode/skills/dotnet-refactor-verification/agents/openai.yaml": {
+    "mtime": 1785941719.7352097,
+    "ast_hash": "abd6e3c7d65bd321c9e5dfb3f64eaef4",
+    "semantic_hash": "abd6e3c7d65bd321c9e5dfb3f64eaef4"
+  },
+  ".opencode/skills/solid-analysis-protocol/SKILL.md": {
+    "mtime": 1785941781.3845701,
+    "ast_hash": "32e82f6ab37bf2143b3e574ab474ff94",
+    "semantic_hash": "32e82f6ab37bf2143b3e574ab474ff94"
+  },
+  ".opencode/skills/solid-analysis-protocol/agents/openai.yaml": {
+    "mtime": 1785941718.6654782,
+    "ast_hash": "82fd680e353f1729bf9d761240164a57",
+    "semantic_hash": "82fd680e353f1729bf9d761240164a57"
+  },
+  ".opencode/skills/solid-analysis-protocol/references/course-foundations.md": {
+    "mtime": 1785941781.3845701,
+    "ast_hash": "824d466fde7638c2d4477d581e30868a",
+    "semantic_hash": "824d466fde7638c2d4477d581e30868a"
+  },
+  ".opencode/skills/solid-dip-csharp/SKILL.md": {
+    "mtime": 1785941826.6639845,
+    "ast_hash": "55d4ced985c60980f1f3abe71265d0c3",
+    "semantic_hash": "55d4ced985c60980f1f3abe71265d0c3"
+  },
+  ".opencode/skills/solid-dip-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.3886554,
+    "ast_hash": "b0c1b9e0cb78691cc7aa063fb4291324",
+    "semantic_hash": "b0c1b9e0cb78691cc7aa063fb4291324"
+  },
+  ".opencode/skills/solid-isp-csharp/SKILL.md": {
+    "mtime": 1785941826.6639845,
+    "ast_hash": "09651148ab13e2a11323318579309f57",
+    "semantic_hash": "09651148ab13e2a11323318579309f57"
+  },
+  ".opencode/skills/solid-isp-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.2607775,
+    "ast_hash": "77860495d8362ab5c12ec5f1ebdd3837",
+    "semantic_hash": "77860495d8362ab5c12ec5f1ebdd3837"
+  },
+  ".opencode/skills/solid-lsp-csharp/SKILL.md": {
+    "mtime": 1785941781.3875701,
+    "ast_hash": "632d7176b3ca2611eed21dcc915006bf",
+    "semantic_hash": "632d7176b3ca2611eed21dcc915006bf"
+  },
+  ".opencode/skills/solid-lsp-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.1374574,
+    "ast_hash": "734c841bad3246b4d744209695ed13e4",
+    "semantic_hash": "734c841bad3246b4d744209695ed13e4"
+  },
+  ".opencode/skills/solid-ocp-csharp/SKILL.md": {
+    "mtime": 1785941781.3875701,
+    "ast_hash": "81bc49f4544448f65eefddc3499fa4ab",
+    "semantic_hash": "81bc49f4544448f65eefddc3499fa4ab"
+  },
+  ".opencode/skills/solid-ocp-csharp/agents/openai.yaml": {
+    "mtime": 1785941719.0154948,
+    "ast_hash": "facc432cdd07d2ef33d966b6a6159b2d",
+    "semantic_hash": "facc432cdd07d2ef33d966b6a6159b2d"
+  },
+  ".opencode/skills/solid-reporting/SKILL.md": {
+    "mtime": 1785941826.6669846,
+    "ast_hash": "4896097bcde54717859157c842ad2a4a",
+    "semantic_hash": "4896097bcde54717859157c842ad2a4a"
+  },
+  ".opencode/skills/solid-reporting/agents/openai.yaml": {
+    "mtime": 1785941719.852612,
+    "ast_hash": "61e89992e2bd516003be506c0f87db2f",
+    "semantic_hash": "61e89992e2bd516003be506c0f87db2f"
+  },
+  ".opencode/skills/solid-srp-csharp/SKILL.md": {
+    "mtime": 1785941781.3865702,
+    "ast_hash": "f23b91433be804e439057189cb3e2a49",
+    "semantic_hash": "f23b91433be804e439057189cb3e2a49"
+  },
+  ".opencode/skills/solid-srp-csharp/agents/openai.yaml": {
+    "mtime": 1785941718.9003398,
+    "ast_hash": "344f3530366b2c32db04d2e91b861278",
+    "semantic_hash": "344f3530366b2c32db04d2e91b861278"
+  },
+  "AGENTS.md": {
+    "mtime": 1785938111.9707067,
+    "ast_hash": "f798c927787becfa54723a78c2872a7a",
+    "semantic_hash": "f798c927787becfa54723a78c2872a7a"
+  },
+  "Bib_Hacienda/Bib_Hacienda/obj/Debug/Bib_Hacienda.csproj.FileListAbsolute.txt": {
+    "mtime": 1762225162.6955907,
+    "ast_hash": "487191fb06713a70f42ac00a80c31781",
+    "semantic_hash": "487191fb06713a70f42ac00a80c31781"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Castle.Core.5.2.1/ASL - Apache Software Foundation License.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "594ca0c940c2ac41c1643e74b429e714",
+    "semantic_hash": "594ca0c940c2ac41c1643e74b429e714"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Castle.Core.5.2.1/CHANGELOG.md": {
+    "mtime": 1762196068.0,
+    "ast_hash": "25d26d09849c7e69d113d06258566274",
+    "semantic_hash": "25d26d09849c7e69d113d06258566274"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Castle.Core.5.2.1/readme.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "4b4e9e2e58de7ea7939eb762e00bdd80",
+    "semantic_hash": "4b4e9e2e58de7ea7939eb762e00bdd80"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/LICENSE.TXT": {
+    "mtime": 1762196070.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/PACKAGE.md": {
+    "mtime": 1762196070.0,
+    "ast_hash": "3dcdb22610a9976cdd8de1782e3436be",
+    "semantic_hash": "3dcdb22610a9976cdd8de1782e3436be"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196070.0,
+    "ast_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e",
+    "semantic_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196070.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0/LICENSE.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0/PACKAGE.md": {
+    "mtime": 1762196069.0,
+    "ast_hash": "6c73bc22a9ba7492bca0942b7bd825b8",
+    "semantic_hash": "6c73bc22a9ba7492bca0942b7bd825b8"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e",
+    "semantic_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196069.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.ObjectPool.8.0.11/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "69178a6c02d1247f7ed2736f923afe17",
+    "semantic_hash": "69178a6c02d1247f7ed2736f923afe17"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Options.8.0.2/LICENSE.TXT": {
+    "mtime": 1762196067.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Options.8.0.2/PACKAGE.md": {
+    "mtime": 1762196067.0,
+    "ast_hash": "844336fe4ddf266a860dccdd35a9678b",
+    "semantic_hash": "844336fe4ddf266a860dccdd35a9678b"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Options.8.0.2/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196067.0,
+    "ast_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e",
+    "semantic_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Options.8.0.2/useSharedDesignerContext.txt": {
+    "mtime": 1762196067.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Primitives.8.0.0/LICENSE.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Primitives.8.0.0/PACKAGE.md": {
+    "mtime": 1762196068.0,
+    "ast_hash": "fd3ecdfee7385616180e66a32d226f2d",
+    "semantic_hash": "fd3ecdfee7385616180e66a32d226f2d"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Primitives.8.0.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e",
+    "semantic_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Primitives.8.0.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Buffers.4.6.0/PACKAGE.md": {
+    "mtime": 1762196070.0,
+    "ast_hash": "5fe657bd4f0ab12e907f7949239a1816",
+    "semantic_hash": "5fe657bd4f0ab12e907f7949239a1816"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Memory.4.5.5/LICENSE.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Memory.4.5.5/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "0bf833f1b32b1cdefbed5e860457d1dc",
+    "semantic_hash": "0bf833f1b32b1cdefbed5e860457d1dc"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Memory.4.5.5/useSharedDesignerContext.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Memory.4.5.5/version.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "8bc6b1777e7f1a868ca67c2fd33a5b7e",
+    "semantic_hash": "8bc6b1777e7f1a868ca67c2fd33a5b7e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Numerics.Vectors.4.5.0/LICENSE.TXT": {
+    "mtime": 1762196070.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Numerics.Vectors.4.5.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196070.0,
+    "ast_hash": "0bf833f1b32b1cdefbed5e860457d1dc",
+    "semantic_hash": "0bf833f1b32b1cdefbed5e860457d1dc"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Numerics.Vectors.4.5.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196070.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Numerics.Vectors.4.5.0/version.txt": {
+    "mtime": 1762196070.0,
+    "ast_hash": "81f65b4c28699a8aac1f571eba414da7",
+    "semantic_hash": "81f65b4c28699a8aac1f571eba414da7"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Runtime.CompilerServices.Unsafe.6.0.0/LICENSE.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Runtime.CompilerServices.Unsafe.6.0.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "5c0c947c0acf593dc4b839a5af8cd258",
+    "semantic_hash": "5c0c947c0acf593dc4b839a5af8cd258"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Runtime.CompilerServices.Unsafe.6.0.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196069.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Text.Encodings.Web.8.0.0/LICENSE.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Text.Encodings.Web.8.0.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e",
+    "semantic_hash": "bb0d94085c74c0c1ab94ff3451e5ed6e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Text.Encodings.Web.8.0.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196069.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Threading.Tasks.Extensions.4.5.4/LICENSE.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Threading.Tasks.Extensions.4.5.4/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196069.0,
+    "ast_hash": "0bf833f1b32b1cdefbed5e860457d1dc",
+    "semantic_hash": "0bf833f1b32b1cdefbed5e860457d1dc"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Threading.Tasks.Extensions.4.5.4/useSharedDesignerContext.txt": {
+    "mtime": 1762196069.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Threading.Tasks.Extensions.4.5.4/version.txt": {
+    "mtime": 1762196069.0,
+    "ast_hash": "34add15221df4bee5ff9be38a23cab0d",
+    "semantic_hash": "34add15221df4bee5ff9be38a23cab0d"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.ValueTuple.4.5.0/LICENSE.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.ValueTuple.4.5.0/THIRD-PARTY-NOTICES.TXT": {
+    "mtime": 1762196068.0,
+    "ast_hash": "0bf833f1b32b1cdefbed5e860457d1dc",
+    "semantic_hash": "0bf833f1b32b1cdefbed5e860457d1dc"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.ValueTuple.4.5.0/useSharedDesignerContext.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.ValueTuple.4.5.0/version.txt": {
+    "mtime": 1762196068.0,
+    "ast_hash": "81f65b4c28699a8aac1f571eba414da7",
+    "semantic_hash": "81f65b4c28699a8aac1f571eba414da7"
+  },
+  "MANIFEST.txt": {
+    "mtime": 1785942060.5081358,
+    "ast_hash": "82ae483326a0bb174fc435fe2a1d545c",
+    "semantic_hash": "82ae483326a0bb174fc435fe2a1d545c"
+  },
+  "README.md": {
+    "mtime": 1785941915.739802,
+    "ast_hash": "f17be07a59b746ba9b3fa2ea24d6a018",
+    "semantic_hash": "f17be07a59b746ba9b3fa2ea24d6a018"
+  },
+  "docs/solid/anti-overengineering.md": {
+    "mtime": 1785920730.0,
+    "ast_hash": "2ec5f74096486edd8e5a040a9e23009e",
+    "semantic_hash": "2ec5f74096486edd8e5a040a9e23009e"
+  },
+  "docs/solid/finding-schema.md": {
+    "mtime": 1785920730.0,
+    "ast_hash": "7af517ca21797508f60da6fce7219c6e",
+    "semantic_hash": "7af517ca21797508f60da6fce7219c6e"
+  },
+  "docs/solid/report-template.md": {
+    "mtime": 1785920730.0,
+    "ast_hash": "cc496cc4c1817c998b885f51ca4816f8",
+    "semantic_hash": "cc496cc4c1817c998b885f51ca4816f8"
+  },
+  "docs/solid/source-alignment.md": {
+    "mtime": 1785920730.0,
+    "ast_hash": "53e1278b6ca7b42477ddf0982ec5b400",
+    "semantic_hash": "53e1278b6ca7b42477ddf0982ec5b400"
+  },
+  "docs/solid/workflow.md": {
+    "mtime": 1785920730.0,
+    "ast_hash": "f2a3a6a4d654c33e41444a2dbf198fe3",
+    "semantic_hash": "f2a3a6a4d654c33e41444a2dbf198fe3"
+  },
+  "p_mvcHacienda/Datos/Potreros.txt": {
+    "mtime": 1762438413.2482219,
+    "ast_hash": "e0f9645c9e4b26069d29288735fe2901",
+    "semantic_hash": "e0f9645c9e4b26069d29288735fe2901"
+  },
+  "p_mvcHacienda/Datos/Reses.txt": {
+    "mtime": 1762441532.799022,
+    "ast_hash": "e9a146cf6976c94c2dcba4721a26ca3b",
+    "semantic_hash": "e9a146cf6976c94c2dcba4721a26ca3b"
+  },
+  "p_mvcHacienda/Datos/Usuarios.txt": {
+    "mtime": 1762407775.77151,
+    "ast_hash": "763d3d0992125397abdf445fc7860003",
+    "semantic_hash": "763d3d0992125397abdf445fc7860003"
+  },
+  "p_mvcHacienda/Datos/Vacunas.txt": {
+    "mtime": 1762438413.2472284,
+    "ast_hash": "4f2e3b1975ed92962aa154a6ac5c7c6c",
+    "semantic_hash": "4f2e3b1975ed92962aa154a6ac5c7c6c"
+  },
+  "p_mvcHacienda/Datos/VacunasAplicadas.txt": {
+    "mtime": 1762438413.2452035,
+    "ast_hash": "3f5b133bdb7dd138fc7bd5c0f92ca1a2",
+    "semantic_hash": "3f5b133bdb7dd138fc7bd5c0f92ca1a2"
+  },
+  "p_mvcHacienda/Datos/Ventas.txt": {
+    "mtime": 1762438577.3369758,
+    "ast_hash": "5f4747b417e8a0d4e45d43e6baf8f0ed",
+    "semantic_hash": "5f4747b417e8a0d4e45d43e6baf8f0ed"
+  },
+  "p_mvcHacienda/README.md": {
+    "mtime": 1762364367.4948444,
+    "ast_hash": "9a84fda5e9488a7f8633df86f00e90e3",
+    "semantic_hash": "9a84fda5e9488a7f8633df86f00e90e3"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.csproj.FileListAbsolute.txt": {
+    "mtime": 1762437434.7396867,
+    "ast_hash": "ea1e15cee6ff99e9f8f6b4c208bd5c2b",
+    "semantic_hash": "ea1e15cee6ff99e9f8f6b4c208bd5c2b"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.references.upToDateCheck.txt": {
+    "mtime": 1762304016.5185409,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.removed.txt": {
+    "mtime": 1762368422.504443,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "p_mvcHacienda/obj/Debug/net8.0/staticwebassets.upToDateCheck.txt": {
+    "mtime": 1762437434.3876898,
+    "ast_hash": "2275e889c1a4b540545292c8c16077a0",
+    "semantic_hash": "2275e889c1a4b540545292c8c16077a0"
+  },
+  "p_mvcHacienda/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt": {
+    "mtime": 1762300114.5351703,
+    "ast_hash": "ba2bed45d99b13d4c31485d0631ae675",
+    "semantic_hash": "ba2bed45d99b13d4c31485d0631ae675"
+  },
+  "p_mvcHacienda/wwwroot/lib/jquery-validation/LICENSE.md": {
+    "mtime": 1762300114.5259092,
+    "ast_hash": "41ef1b919db5e3aeaf47308518e7bcee",
+    "semantic_hash": "41ef1b919db5e3aeaf47308518e7bcee"
+  },
+  "p_mvcHacienda/wwwroot/lib/jquery/LICENSE.txt": {
+    "mtime": 1762300114.5225692,
+    "ast_hash": "f661402a551136dbe74282edc5bea28d",
+    "semantic_hash": "f661402a551136dbe74282edc5bea28d"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Castle.Core.5.2.1/castle-logo.png": {
+    "mtime": 1762196068.0,
+    "ast_hash": "c9b20e6fb4f0b41de681dd04bda6bbd8",
+    "semantic_hash": "c9b20e6fb4f0b41de681dd04bda6bbd8"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/Icon.png": {
+    "mtime": 1762196070.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0/Icon.png": {
+    "mtime": 1762196069.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.ObjectPool.8.0.11/Icon.png": {
+    "mtime": 1762196069.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Options.8.0.2/Icon.png": {
+    "mtime": 1762196067.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/Microsoft.Extensions.Primitives.8.0.0/Icon.png": {
+    "mtime": 1762196068.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Buffers.4.6.0/Icon.png": {
+    "mtime": 1762196070.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Runtime.CompilerServices.Unsafe.6.0.0/Icon.png": {
+    "mtime": 1762196069.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "Bib_Hacienda/Bib_Hacienda/packages/System.Text.Encodings.Web.8.0.0/Icon.png": {
+    "mtime": 1762196069.0,
+    "ast_hash": "09e1aea3b3b37c1d1df0cac1526db117",
+    "semantic_hash": "09e1aea3b3b37c1d1df0cac1526db117"
+  },
+  "p_mvcHacienda/Imagenes/pasto.jpg": {
+    "mtime": 1762405584.7395577,
+    "ast_hash": "7a9ed4606ecc389931e7244527c75582",
+    "semantic_hash": "7a9ed4606ecc389931e7244527c75582"
+  },
+  "p_mvcHacienda/Imagenes/tecnologia.jpg": {
+    "mtime": 1762406027.6530476,
+    "ast_hash": "15103c8337f1d23cb9b3137a7b6ba399",
+    "semantic_hash": "15103c8337f1d23cb9b3137a7b6ba399"
+  },
+  "p_mvcHacienda/Imagenes/vaca.webp": {
+    "mtime": 1762405603.804471,
+    "ast_hash": "87ebd214b5a9f3b304eedde0a66f332b",
+    "semantic_hash": "87ebd214b5a9f3b304eedde0a66f332b"
+  },
+  "p_mvcHacienda/wwwroot/imagenes/pasto.jpg": {
+    "mtime": 1762405584.7395577,
+    "ast_hash": "7a9ed4606ecc389931e7244527c75582",
+    "semantic_hash": "7a9ed4606ecc389931e7244527c75582"
+  },
+  "p_mvcHacienda/wwwroot/imagenes/tecnologia.jpg": {
+    "mtime": 1762406027.6530476,
+    "ast_hash": "15103c8337f1d23cb9b3137a7b6ba399",
+    "semantic_hash": "15103c8337f1d23cb9b3137a7b6ba399"
+  },
+  "p_mvcHacienda/wwwroot/imagenes/vaca.webp": {
+    "mtime": 1762405603.804471,
+    "ast_hash": "87ebd214b5a9f3b304eedde0a66f332b",
+    "semantic_hash": "87ebd214b5a9f3b304eedde0a66f332b"
+  }
+}

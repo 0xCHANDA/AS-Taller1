@@ -1,0 +1,121 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using p_mvcHacienda.Servicios;
+using p_mvcHacienda.Modelos;
+
+namespace p_mvcHacienda.Controllers
+{
+    public class ResController : Controller
+    {
+        private readonly ResService _resService;
+        private readonly PotreroService _potreroService;
+
+        public ResController(ResService resService, PotreroService potreroService)
+        {
+            _resService = resService;
+            _potreroService = potreroService;
+        }
+
+        // GET: Res/Index - Listar todas las reses
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var resesConPotrero = _resService.ObtenerTodasLasReses();
+            var estadisticas = _resService.ObtenerEstadisticas();
+
+            ViewBag.Estadisticas = estadisticas;
+
+            return View(resesConPotrero);
+        }
+
+        // GET: Res/Create - Mostrar formulario de creación
+        [HttpGet]
+        public ActionResult Create()
+        {
+            ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+            return View();
+        }
+
+        // POST: Res/Create - Procesar creación de res
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(string potreroId, string nombre, ushort edad, uint peso)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(potreroId) || string.IsNullOrWhiteSpace(nombre))
+                {
+                    ViewBag.Mensaje = "❌ Todos los campos son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                    return View();
+                }
+
+                var resultado = _potreroService.AgregarRes(potreroId, nombre, edad, peso);
+
+                if (resultado.EsExitoso)
+                {
+                    TempData["Mensaje"] = $"✅ {resultado.Mensaje}";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Mensaje = $"❌ {resultado.Mensaje}";
+                    ViewBag.TipoMensaje = "danger";
+                    ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ Error: {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+                ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                return View();
+            }
+        }
+
+        // POST: Res/Alimentar - Alimentar una res
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Alimentar(string potreroId, string nombreRes)
+        {
+            var resultado = _resService.AlimentarRes(potreroId, nombreRes);
+
+            if (resultado.EsExitoso)
+            {
+                TempData["Mensaje"] = $"✅ {resultado.Mensaje}";
+                TempData["TipoMensaje"] = "success";
+            }
+            else
+            {
+                TempData["Mensaje"] = $"❌ {resultado.Mensaje}";
+                TempData["TipoMensaje"] = "danger";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Res/Vender - Vender una res
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Vender(string potreroId, string nombreRes, uint monto)
+        {
+            var resultado = _resService.VenderRes(potreroId, nombreRes, monto);
+
+            if (resultado.EsExitoso)
+            {
+                TempData["Mensaje"] = $"✅ {resultado.Mensaje}";
+                TempData["TipoMensaje"] = "success";
+            }
+            else
+            {
+                TempData["Mensaje"] = $"❌ {resultado.Mensaje}";
+                TempData["TipoMensaje"] = "danger";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

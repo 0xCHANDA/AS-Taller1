@@ -1,0 +1,100 @@
+﻿using Castle.DynamicProxy;
+using Bib_Hacienda.Clases;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Aspectos
+{
+    //Interceptor que valida autenticación antes de ejecutar operaciones usando HTTP Context
+    public class InterceptorAutenticacion : IInterceptor
+    {
+        private Autenticacion autenticacion;
+        private Usuario usuario_actual;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        //Constructor que recibe autenticación, usuario y contexto HTTP
+        public InterceptorAutenticacion(Autenticacion autenticacion, Usuario usuario, IHttpContextAccessor httpContextAccessor)
+        {
+            this.autenticacion = autenticacion ?? throw new ArgumentNullException(nameof(autenticacion));
+            this.usuario_actual = usuario;
+            this._httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        }
+
+        public void Intercept(IInvocation invocation)
+        {
+            string operacion = invocation.Method.Name; // aplicar_vacuna, vender_res, etc.
+            string nombreUsuario = usuario_actual?.Nombre ?? "No autenticado";
+
+            try
+            {
+                // Guardar contexto en HttpContext.Items para uso posterior
+                if (_httpContextAccessor.HttpContext != null)
+                {
+                    _httpContextAccessor.HttpContext.Items["OperacionSolicitada"] = operacion;
+                    _httpContextAccessor.HttpContext.Items["UsuarioActual"] = nombreUsuario;
+                    _httpContextAccessor.HttpContext.Items["MensajeAutenticacion"] = $"Verificando permisos de '{nombreUsuario}' para: {operacion}";
+                }
+
+                //Verificar si el usuario tiene permisos
+                if (autenticacion.TienePermiso(usuario_actual, operacion))
+                {
+                    // Guardar autorización exitosa
+                    if (_httpContextAccessor.HttpContext != null)
+                    {
+                        _httpContextAccessor.HttpContext.Items["AutenticacionExitosa"] = true;
+                        _httpContextAccessor.HttpContext.Items["ResultadoAutenticacion"] = $"✓ Usuario '{nombreUsuario}' autorizado para: {operacion}";
+                    }
+
+                    //EJECUTAR la operación
+                    invocation.Proceed();
+
+                    // Operación completada
+                    if (_httpContextAccessor.HttpContext != null)
+                    {
+                        _httpContextAccessor.HttpContext.Items["OperacionCompletada"] = true;
+                    }
+                }
+                else
+                {
+                    // Acceso denegado
+                    if (_httpContextAccessor.HttpContext != null)
+                    {
+                        _httpContextAccessor.HttpContext.Items["AutenticacionExitosa"] = false;
+                        _httpContextAccessor.HttpContext.Items["ResultadoAutenticacion"] = $"✗ Acceso denegado para '{nombreUsuario}' en: {operacion}";
+                    }
+
+                    // Lanzar excepción para que el Controller la maneje
+                    throw new UnauthorizedAccessException($"El usuario '{nombreUsuario}' no tiene permisos para ejecutar: {operacion}");
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                // Capturar excepción de permisos
+                if (_httpContextAccessor.HttpContext != null)
+                {
+                    _httpContextAccessor.HttpContext.Items["ResultadoAutenticacion"] = ex.Message;
+                    _httpContextAccessor.HttpContext.Items["AutenticacionExitosa"] = false;
+                }
+
+                // Re-lanzar para que el Controller maneje la excepción
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // Capturar cualquier otro error
+                if (_httpContextAccessor.HttpContext != null)
+                {
+                    _httpContextAccessor.HttpContext.Items["ResultadoAutenticacion"] = $"✗ Error: {ex.Message}";
+                    _httpContextAccessor.HttpContext.Items["AutenticacionExitosa"] = false;
+                }
+
+                // Re-lanzar para que el Controller maneje la excepción
+                throw;
+            }
+        }
+    }
+}

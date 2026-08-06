@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arquitectura C#"
+  short_description: "Revisa capas, MVC, Clean y hexagonal"
+  default_prompt: "Usa $architecture-csharp para revisar los límites arquitectónicos de esta solución."

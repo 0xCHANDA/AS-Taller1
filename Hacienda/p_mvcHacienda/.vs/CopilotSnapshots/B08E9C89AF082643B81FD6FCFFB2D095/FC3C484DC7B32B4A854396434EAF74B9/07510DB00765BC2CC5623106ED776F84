@@ -1,0 +1,437 @@
+﻿using Bib_Hacienda.Clases;
+using System.Text.Json;
+using static Bib_Hacienda.Clases.Potrero;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class PersistenciaService
+    {
+        private readonly string _directorioArchivos = "Datos";
+
+        public PersistenciaService()
+        {
+            // Asegurar que el directorio existe
+            if (!Directory.Exists(_directorioArchivos))
+            {
+                Directory.CreateDirectory(_directorioArchivos);
+}
+        }
+
+        #region Guardar Datos
+
+        // Guardar potreros: Identificacion|TipoPotrero
+        public void GuardarPotreros(List<Potrero> potreros)
+  {
+            try
+        {
+      var lineas = new List<string>();
+   foreach (var potrero in potreros)
+        {
+              lineas.Add($"{potrero.Identificacion}|{potrero.Tipo_potrero}");
+                }
+            File.WriteAllLines(Path.Combine(_directorioArchivos, "Potreros.txt"), lineas);
+ }
+            catch (Exception ex)
+    {
+        throw new Exception($"Error al guardar potreros: {ex.Message}");
+        }
+        }
+
+        // Guardar reses: NombrePotrero|NombreRes|Peso|Edad|TipoRes
+        public void GuardarReses(List<Potrero> potreros)
+    {
+      try
+            {
+             var lineas = new List<string>();
+                foreach (var potrero in potreros)
+                {
+            foreach (var res in potrero.L_reses)
+          {
+       string tipoRes = res.GetType().Name;
+      lineas.Add($"{potrero.Identificacion}|{res.Nombre}|{res.Peso}|{res.Edad}|{tipoRes}");
+      }
+   }
+                File.WriteAllLines(Path.Combine(_directorioArchivos, "Reses.txt"), lineas);
+       }
+            catch (Exception ex)
+        {
+    throw new Exception($"Error al guardar reses: {ex.Message}");
+     }
+        }
+
+        // Guardar ventas: PotreroId|Fecha|ResNombre|ResPeso|ResEdad|ResTipo|Monto
+     public void GuardarVentas(List<Venta> ventas)
+        {
+  try
+ {
+                var lineas = new List<string>();
+         foreach (var venta in ventas)
+      {
+   string fecha = venta.Fecha.ToString("yyyy-MM-dd");
+            string tipoRes = venta.Res.GetType().Name;
+         lineas.Add($"{venta.Potrero.Identificacion}|{fecha}|{venta.Res.Nombre}|{venta.Res.Peso}|{venta.Res.Edad}|{tipoRes}|{venta.Monto}");
+                }
+   File.WriteAllLines(Path.Combine(_directorioArchivos, "Ventas.txt"), lineas);
+            }
+     catch (Exception ex)
+        {
+             throw new Exception($"Error al guardar ventas: {ex.Message}");
+            }
+     }
+
+        // Guardar vacunas: Nombre|Lote|FechaVencimiento|FechaAplicacion|Tipo|PeriodoAplicacion
+      public void GuardarVacunas(List<Vacuna> vacunas)
+   {
+            try
+{
+          var lineas = new List<string>();
+  foreach (var vacuna in vacunas)
+      {
+         string fechaVenc = vacuna.Fecha_vencimiento.ToString("yyyy-MM-dd");
+        string fechaAplic = vacuna.Fecha_aplicacion.ToString("yyyy-MM-dd");
+        string tipo = vacuna.GetType().Name;
+           uint periodo = vacuna is Bacteriana ? ((Bacteriana)vacuna).Periodo_aplicacion : 0;
+          lineas.Add($"{vacuna.Nombre}|{vacuna.Lote}|{fechaVenc}|{fechaAplic}|{tipo}|{periodo}");
+         }
+              File.WriteAllLines(Path.Combine(_directorioArchivos, "Vacunas.txt"), lineas);
+            }
+       catch (Exception ex)
+            {
+       throw new Exception($"Error al guardar vacunas: {ex.Message}");
+  }
+        }
+
+        // Guardar vacunas aplicadas a reses: NombrePotrero|NombreRes|NombreVacuna|Lote|FechaVenc|FechaAplic|Tipo|Periodo
+        public void GuardarVacunasAplicadas(List<Potrero> potreros)
+        {
+     try
+ {
+            var lineas = new List<string>();
+        foreach (var potrero in potreros)
+         {
+          foreach (var res in potrero.L_reses)
+    {
+          foreach (var vacuna in res.L_vacunas_aplicadas)
+   {
+     string fechaVenc = vacuna.Fecha_vencimiento.ToString("yyyy-MM-dd");
+string fechaAplic = vacuna.Fecha_aplicacion.ToString("yyyy-MM-dd");
+       string tipo = vacuna.GetType().Name;
+       uint periodo = vacuna is Bacteriana ? ((Bacteriana)vacuna).Periodo_aplicacion : 0;
+    lineas.Add($"{potrero.Identificacion}|{res.Nombre}|{vacuna.Nombre}|{vacuna.Lote}|{fechaVenc}|{fechaAplic}|{tipo}|{periodo}");
+           }
+    }
+}
+      File.WriteAllLines(Path.Combine(_directorioArchivos, "VacunasAplicadas.txt"), lineas);
+            }
+ catch (Exception ex)
+            {
+           throw new Exception($"Error al guardar vacunas aplicadas: {ex.Message}");
+     }
+        }
+
+        // Guardar usuarios: Nombre|Contrasena
+        public void GuardarUsuarios(List<Usuario> usuarios)
+        {
+  try
+      {
+        var lineas = new List<string>();
+       foreach (var usuario in usuarios)
+     {
+      lineas.Add($"{usuario.Nombre}|{usuario.Contrasena}");
+       }
+     File.WriteAllLines(Path.Combine(_directorioArchivos, "Usuarios.txt"), lineas);
+            }
+     catch (Exception ex)
+            {
+  throw new Exception($"Error al guardar usuarios: {ex.Message}");
+     }
+        }
+
+        #endregion
+
+        #region Cargar Datos
+
+        // Cargar potreros: Identificacion|TipoPotrero
+        public List<Potrero> CargarPotreros()
+    {
+    try
+            {
+string rutaArchivo = Path.Combine(_directorioArchivos, "Potreros.txt");
+
+              if (!File.Exists(rutaArchivo))
+     {
+              return new List<Potrero>();
+         }
+
+        var potreros = new List<Potrero>();
+                var lineas = File.ReadAllLines(rutaArchivo);
+
+     foreach (var linea in lineas)
+    {
+         if (string.IsNullOrWhiteSpace(linea)) continue;
+
+             var partes = linea.Split('|');
+        if (partes.Length >= 2)
+ {
+          string identificacion = partes[0];
+     l_tipos_potreros tipo = Enum.Parse<l_tipos_potreros>(partes[1]);
+          potreros.Add(new Potrero(identificacion, tipo));
+     }
+  }
+
+       return potreros;
+        }
+            catch (Exception ex)
+   {
+     throw new Exception($"Error al cargar potreros: {ex.Message}");
+   }
+        }
+
+     // Cargar reses: NombrePotrero|NombreRes|Peso|Edad|TipoRes
+        public void CargarReses(List<Potrero> potreros)
+        {
+            try
+            {
+  string rutaArchivo = Path.Combine(_directorioArchivos, "Reses.txt");
+
+           if (!File.Exists(rutaArchivo))
+           {
+        return;
+                }
+
+        var lineas = File.ReadAllLines(rutaArchivo);
+
+           foreach (var linea in lineas)
+   {
+     if (string.IsNullOrWhiteSpace(linea)) continue;
+
+     var partes = linea.Split('|');
+  if (partes.Length >= 5)
+    {
+             string nombrePotrero = partes[0];
+         string nombreRes = partes[1];
+        uint peso = uint.Parse(partes[2]);
+            ushort edad = ushort.Parse(partes[3]);
+
+      var potrero = potreros.FirstOrDefault(p => p.Identificacion == nombrePotrero);
+     if (potrero != null)
+ {
+    potrero.anadir_res(nombreRes, edad, peso);
+                }
+          }
+    }
+       }
+     catch (Exception ex)
+            {
+         throw new Exception($"Error al cargar reses: {ex.Message}");
+            }
+        }
+
+        // Cargar ventas: PotreroId|Fecha|ResNombre|ResPeso|ResEdad|ResTipo|Monto
+        public List<Venta> CargarVentas(List<Potrero> potreros)
+        {
+ try
+    {
+             string rutaArchivo = Path.Combine(_directorioArchivos, "Ventas.txt");
+
+      if (!File.Exists(rutaArchivo))
+                {
+        return new List<Venta>();
+    }
+
+     var ventas = new List<Venta>();
+       var lineas = File.ReadAllLines(rutaArchivo);
+
+     foreach (var linea in lineas)
+         {
+     if (string.IsNullOrWhiteSpace(linea)) continue;
+
+            var partes = linea.Split('|');
+          if (partes.Length >= 7)
+        {
+      string potreroId = partes[0];
+     DateTime fecha = DateTime.Parse(partes[1]);
+     string resNombre = partes[2];
+      uint resPeso = uint.Parse(partes[3]);
+      ushort resEdad = ushort.Parse(partes[4]);
+       string resTipo = partes[5];
+      uint monto = uint.Parse(partes[6]);
+
+          // Buscar o crear potrero
+    var potrero = potreros.FirstOrDefault(p => p.Identificacion == potreroId);
+        if (potrero == null)
+      {
+             potrero = new Potrero(potreroId, l_tipos_potreros.ternero);
+       }
+
+   // Crear res según el tipo
+    Res res = resTipo switch
+   {
+      "Ternero" => new Ternero(resNombre, resPeso, resEdad),
+               "Novillo" => new Novillo(resNombre, resPeso, resEdad),
+             "Cebon" => new Cebon(resNombre, resPeso, resEdad),
+        _ => new Ternero(resNombre, resPeso, resEdad)
+       };
+
+  ventas.Add(new Venta(potrero, fecha, res, monto));
+           }
+    }
+
+        return ventas;
+  }
+         catch (Exception ex)
+         {
+            throw new Exception($"Error al cargar ventas: {ex.Message}");
+        }
+        }
+
+   // Cargar vacunas: Nombre|Lote|FechaVencimiento|FechaAplicacion|Tipo|PeriodoAplicacion
+ public List<Vacuna> CargarVacunas()
+        {
+ try
+            {
+     string rutaArchivo = Path.Combine(_directorioArchivos, "Vacunas.txt");
+
+            if (!File.Exists(rutaArchivo))
+    {
+    return new List<Vacuna>();
+    }
+
+        var vacunas = new List<Vacuna>();
+  var lineas = File.ReadAllLines(rutaArchivo);
+
+      foreach (var linea in lineas)
+       {
+            if (string.IsNullOrWhiteSpace(linea)) continue;
+
+            var partes = linea.Split('|');
+          if (partes.Length >= 6)
+                    {
+                string nombre = partes[0];
+         string lote = partes[1];
+      DateTime fechaVenc = DateTime.Parse(partes[2]);
+             DateTime fechaAplic = DateTime.Parse(partes[3]);
+       string tipo = partes[4];
+   uint periodo = uint.Parse(partes[5]);
+
+    Vacuna vacuna;
+     if (tipo == "Bacteriana")
+  {
+         vacuna = new Bacteriana(nombre, lote, fechaVenc, fechaAplic, periodo);
+       }
+            else
+   {
+    vacuna = new Viva(nombre, lote, fechaVenc, fechaAplic, enum_l_atenuaciones.Atenuacion10);
+    }
+
+     vacunas.Add(vacuna);
+            }
+                }
+
+  return vacunas;
+            }
+         catch (Exception ex)
+  {
+                throw new Exception($"Error al cargar vacunas: {ex.Message}");
+            }
+  }
+
+        // Cargar vacunas aplicadas: NombrePotrero|NombreRes|NombreVacuna|Lote|FechaVenc|FechaAplic|Tipo|Periodo
+        public void CargarVacunasAplicadas(List<Potrero> potreros)
+        {
+            try
+     {
+      string rutaArchivo = Path.Combine(_directorioArchivos, "VacunasAplicadas.txt");
+
+      if (!File.Exists(rutaArchivo))
+      {
+   return;
+          }
+
+     var lineas = File.ReadAllLines(rutaArchivo);
+
+  foreach (var linea in lineas)
+    {
+         if (string.IsNullOrWhiteSpace(linea)) continue;
+
+          var partes = linea.Split('|');
+      if (partes.Length >= 8)
+         {
+     string nombrePotrero = partes[0];
+        string nombreRes = partes[1];
+             string nombreVacuna = partes[2];
+            string lote = partes[3];
+         DateTime fechaVenc = DateTime.Parse(partes[4]);
+          DateTime fechaAplic = DateTime.Parse(partes[5]);
+   string tipo = partes[6];
+        uint periodo = uint.Parse(partes[7]);
+
+               var potrero = potreros.FirstOrDefault(p => p.Identificacion == nombrePotrero);
+                  if (potrero != null)
+          {
+    var res = potrero.buscar_res(nombreRes);
+      if (res != null)
+          {
+       Vacuna vacuna;
+             if (tipo == "Bacteriana")
+        {
+        vacuna = new Bacteriana(nombreVacuna, lote, fechaVenc, fechaAplic, periodo);
+    }
+           else
+    {
+        vacuna = new Viva(nombreVacuna, lote, fechaVenc, fechaAplic, enum_l_atenuaciones.Atenuacion10);
+  }
+
+       res.L_vacunas_aplicadas.Add(vacuna);
+  }
+      }
+        }
+       }
+          }
+   catch (Exception ex)
+   {
+   throw new Exception($"Error al cargar vacunas aplicadas: {ex.Message}");
+            }
+   }
+
+        // Cargar usuarios: Nombre|Contrasena
+        public List<Usuario> CargarUsuarios()
+        {
+   try
+    {
+        string rutaArchivo = Path.Combine(_directorioArchivos, "Usuarios.txt");
+
+  if (!File.Exists(rutaArchivo))
+          {
+    return new List<Usuario>();
+      }
+
+     var usuarios = new List<Usuario>();
+       var lineas = File.ReadAllLines(rutaArchivo);
+
+      foreach (var linea in lineas)
+   {
+      if (string.IsNullOrWhiteSpace(linea)) continue;
+
+        var partes = linea.Split('|');
+ if (partes.Length >= 2)
+ {
+      string nombre = partes[0];
+   string contrasena = partes[1];
+       usuarios.Add(new Usuario(nombre, contrasena));
+        }
+     }
+
+    return usuarios;
+}
+ catch (Exception ex)
+    {
+      Console.WriteLine($"⚠️ Error al cargar usuarios: {ex.Message}");
+      return new List<Usuario>();
+       }
+        }
+
+        #endregion
+    }
+}

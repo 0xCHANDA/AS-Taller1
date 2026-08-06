@@ -1,0 +1,131 @@
+﻿using Bib_Hacienda.Clases;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using p_mvcHacienda.Servicios;
+
+namespace p_mvcHacienda.Controllers
+{
+    public class ResController : Controller
+    {
+        private readonly ResService _resService;
+        private readonly PotreroService _potreroService;
+        private readonly Hacienda _hacienda;
+
+        public ResController(ResService resService, PotreroService potreroService, Hacienda hacienda)
+        {
+            _resService = resService;
+            _potreroService = potreroService;
+            _hacienda = hacienda;
+        }
+
+        // GET: Res/Index - Listar todas las reses
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var resesConPotrero = _resService.ObtenerTodasLasReses();
+            var estadisticas = _resService.ObtenerEstadisticas();
+
+            ViewBag.Estadisticas = estadisticas;
+
+            return View(resesConPotrero);
+        }
+
+        // GET: Res/Create - Mostrar formulario de creación
+        [HttpGet]
+        public ActionResult Create()
+        {
+            ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+            return View();
+        }
+
+        // POST: Res/Create - Procesar creación de res
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(string potreroId, string nombre, ushort edad, uint peso)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(potreroId) || string.IsNullOrWhiteSpace(nombre))
+                {
+                    ViewBag.Mensaje = "❌ Todos los campos son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                    return View();
+                }
+
+                // Usar PotreroService que ya tiene la lógica correcta
+                bool exitoso = _potreroService.AgregarRes(potreroId, nombre, edad, peso);
+
+                if (exitoso)
+                {
+                    TempData["Mensaje"] = $"✅ Res '{nombre}' agregada y validada exitosamente";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+            }
+
+            ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+            return View();
+        }
+
+        // POST: Res/Alimentar - Alimentar una res con cantidad específica
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Alimentar(string potreroId, string nombreRes, uint cantidadAlimento = 1)
+        {
+            try
+            {
+                // Validar cantidad de alimento
+                if (cantidadAlimento < 1 || cantidadAlimento > 10)
+                {
+                    throw new ArgumentException("La cantidad de alimento debe estar entre 1 y 10");
+                }
+
+                bool exitoso = _resService.AlimentarRes(potreroId, nombreRes, cantidadAlimento);
+
+                if (exitoso)
+                {
+                    string mensajeAlimento = cantidadAlimento == 1 ? "vez" : "veces";
+                    TempData["Mensaje"] = $"✅ Res '{nombreRes}' alimentada {cantidadAlimento} {mensajeAlimento} y validada exitosamente";
+                    TempData["TipoMensaje"] = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = $"❌ {ex.Message}";
+                TempData["TipoMensaje"] = "danger";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Res/Vender - Vender una res
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Vender(string potreroId, string nombreRes, uint monto)
+        {
+            try
+            {
+                bool exitoso = _resService.VenderRes(potreroId, nombreRes, monto);
+
+                if (exitoso)
+                {
+                    TempData["Mensaje"] = $"✅ Venta de res '{nombreRes}' validada y registrada exitosamente por ${monto:N0}";
+                    TempData["TipoMensaje"] = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = $"❌ {ex.Message}";
+                TempData["TipoMensaje"] = "danger";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

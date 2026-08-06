@@ -1,0 +1,100 @@
+﻿@using Bib_Hacienda.Clases
+@model Potrero
+
+@{
+    ViewData["Title"] = "Detalles del Potrero";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+ <div class="col-md-10">
+ <!-- Encabezado -->
+   <div class="text-center mb-4">
+       <h1 class="display-5 fw-bold" style="color: #2e7d32;">
+🌿 Detalles del Potrero
+        </h1>
+     <p class="lead text-muted">Información completa del potrero @Model.Identificacion</p>
+   </div>
+
+  <!-- Tarjeta principal -->
+  <div class="card shadow-lg" style="background-color: #fdf5e6; border: 2px solid #2e7d32;">
+    <div class="card-header text-white text-center" style="background-color: #2e7d32;">
+  <h3 class="mb-0">🏷️ @Model.Identificacion</h3>
+</div>
+      <div class="card-body p-4">
+    <div class="row">
+       <!-- Información básica -->
+     <div class="col-md-6 mb-4">
+  <h5 class="border-bottom pb-2" style="color: #2e7d32;">📋 Información Básica</h5>
+   <dl class="row">
+       <dt class="col-sm-5">📦 Tipo:</dt>
+      <dd class="col-sm-7">
+         <span class="badge bg-secondary fs-6">@Model.Tipo_potrero</span>
+      </dd>
+      </dl>
+ </div>
+
+  <!-- Estadísticas de ocupación -->
+        <div class="col-md-6 mb-4">
+    <h5 class="border-bottom pb-2" style="color: #2e7d32;">📊 Ocupación</h5>
+     <dl class="row">
+      <dt class="col-sm-5">🐄 Reses actuales:</dt>
+ <dd class="col-sm-7"><strong class="fs-4">@Model.L_reses.Count</strong></dd>
+          </dl>
+        </div>
+     </div>
+
+    <!-- Lista de reses -->
+ @if (Model.L_reses.Any())
+    {
+ <div class="row mt-4">
+  <div class="col-12">
+ <h5 class="border-bottom pb-2" style="color: #2e7d32;">🐄 Reses en este Potrero</h5>
+       <div class="table-responsive">
+    <table class="table table-sm table-hover">
+   <thead class="table-success">
+  <tr>
+      <th>Nombre</th>
+    <th>Tipo</th>
+       <th>Peso (kg)</th>
+        <th>Edad (meses)</th>
+       <th>Vacunas Aplicadas</th>
+   </tr>
+  </thead>
+       <tbody>
+  @foreach (var res in Model.L_reses)
+       {
+   <tr>
+<td class="fw-bold">@res.Nombre</td>
+    <td>
+   <span class="badge bg-info">@res.GetType().Name</span>
+     </td>
+     <td>@res.Peso kg</td>
+  <td>@res.Edad meses</td>
+      <td>@res.L_vacunas_aplicadas.Count vacunas</td>
+    </tr>
+         }
+   </tbody>
+   </table>
+  </div>
+      </div>
+     </div>
+}
+   else
+      {
+<div class="alert alert-info mt-4">
+    <strong>ℹ️ Este potrero está vacío.</strong> No hay reses registradas actualmente.
+       </div>
+  }
+
+     <!-- Botón volver -->
+      <div class="mt-4 text-center">
+     <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-5">
+  ⬅️ Volver al Listado
+       </a>
+   </div>
+      </div>
+  </div>
+   </div>
+    </div>
+</div>

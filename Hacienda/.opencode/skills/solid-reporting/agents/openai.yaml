@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reporte SOLID"
+  short_description: "Consolida hallazgos sin duplicarlos"
+  default_prompt: "Usa $solid-reporting para consolidar la auditoría SOLID."

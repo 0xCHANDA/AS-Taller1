@@ -1,0 +1,47 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
+using Bib_Hacienda.Clases;
+
+namespace Bib_Hacienda.Eventos
+{
+    public class PublisherVacunaVencida
+    {
+        //Definicion del delegado y el evento
+        public delegate void dele_vacuna_vencida();
+        public event dele_vacuna_vencida evt_vacuna_vencida;
+
+        //Metodo para informar si la vacuna está vencida
+        public bool Informar_Vacuna_Vencida(Vacuna vacuna)
+        {
+            try
+            {
+                if (evt_vacuna_vencida != null)
+                {
+                    evt_vacuna_vencida();
+
+                    //Validar si la vacuna está vencida
+                    if (vacuna.Fecha_vencimiento <= DateTime.Now)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    throw new Exception("No hay suscriptores para el evento de vacuna vencida.");
+                }
+            }
+            catch (Exception er)
+            {
+                throw new Exception("[evento] Error inesperado en el metodo Informar_Vacuna_Vencida: " + er.Message);
+            }
+        }
+    }
+}

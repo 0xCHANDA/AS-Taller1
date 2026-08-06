@@ -1,0 +1,4 @@
+interface:
+  display_name: "ISP para C#"
+  short_description: "Audita interfaces desde sus clientes reales"
+  default_prompt: "Usa $solid-isp-csharp para auditar ISP en estas interfaces C#."

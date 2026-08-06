@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+  /// <summary>
+ /// Representa una venta de res en la hacienda
+    /// </summary>
+    public class Venta
+    {
+    //Atributos privados
+        private Potrero potrero;
+        private DateTime fecha;
+        private Res res;
+      private uint monto;
+
+        /// <summary>
+        /// Constructor de la clase Venta
+        /// </summary>
+        /// <param name="potrero">Potrero donde estaba la res</param>
+        /// <param name="fecha">Fecha de la venta</param>
+        /// <param name="res">Res vendida</param>
+   /// <param name="monto">Monto de la venta</param>
+        public Venta(Potrero potrero, DateTime fecha, Res res, uint monto)
+        {
+   this.Potrero = potrero;
+            this.Fecha = fecha;
+      this.Res = res;
+            this.Monto = monto;
+    }
+
+//Propiedades públicas para acceso desde MVC
+  /// <summary>
+        /// Potrero donde estaba la res vendida
+        /// </summary>
+        public Potrero Potrero { get => potrero; set => potrero = value; }
+
+        /// <summary>
+      /// Fecha en que se realizó la venta
+   /// </summary>
+   public DateTime Fecha { get => fecha; set => fecha = value; }
+
+        /// <summary>
+ /// Res que fue vendida
+        /// </summary>
+        public Res Res { get => res; set => res = value; }
+
+      /// <summary>
+        /// Monto de la venta en pesos
+        /// </summary>
+        public uint Monto { get => monto; set => monto = value; }
+    }
+}

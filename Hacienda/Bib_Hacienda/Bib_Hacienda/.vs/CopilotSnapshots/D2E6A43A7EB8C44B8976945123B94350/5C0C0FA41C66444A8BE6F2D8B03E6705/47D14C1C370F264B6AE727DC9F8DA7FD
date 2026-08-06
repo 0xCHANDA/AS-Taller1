@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases.Validaciones
+{
+    /// <summary>
+    /// Clase especializada en validar objetos de tipo Potrero
+    /// Verifica que los datos del potrero sean correctos antes de guardar en BD
+    /// </summary>
+    public class ValidarPotrero : Validacion
+    {
+        /// <summary>
+        /// Valida que un potrero tenga datos correctos para ser guardado
+        /// Verifica: identificación no vacía y lista de reses no nula
+        /// </summary>
+        /// <param name="potrero">Potrero a validar</param>
+        /// <returns>True si es válido, False en caso contrario</returns>
+        public override bool ValidarPotrero(Potrero potrero)
+        {
+            try
+            {
+                // Validar que el potrero no sea nulo
+                if (!ValidarNoNulo(potrero))
+                {
+                    MostrarMensaje("Potrero [NULL]", false);
+                    return false;
+                }
+
+                // Validar identificación
+                if (!ValidarString(potrero.Identificacion))
+                {
+                    MostrarMensaje("Potrero [Identificación vacía]", false);
+                    return false;
+                }
+
+                // Validar que la lista de reses no sea nula
+                if (potrero.L_reses == null)
+                {
+                    MostrarMensaje($"Potrero '{potrero.Identificacion}' [Lista de reses NULL]", false);
+                    return false;
+                }
+
+                // Si todas las validaciones pasan
+                MostrarMensaje($"Potrero '{potrero.Identificacion}' (Reses: {potrero.L_reses.Count})", true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Validación] ✗ Error al validar Potrero: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarRes
+        /// </summary>
+        public override bool ValidarRes(Res res)
+        {
+            throw new NotImplementedException("Para validar Res, use la clase ValidarRes");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarVacuna
+        /// </summary>
+        public override bool ValidarVacuna(Vacuna vacuna)
+        {
+            throw new NotImplementedException("Para validar Vacuna, use la clase ValidarVacuna");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarVenta
+        /// </summary>
+        public override bool ValidarVenta(Venta venta)
+        {
+            throw new NotImplementedException("Para validar Venta, use la clase ValidarVenta");
+        }
+    }
+}

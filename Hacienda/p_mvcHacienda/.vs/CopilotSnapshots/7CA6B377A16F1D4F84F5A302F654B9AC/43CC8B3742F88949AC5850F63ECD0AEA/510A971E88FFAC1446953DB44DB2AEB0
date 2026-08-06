@@ -1,0 +1,46 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace p_mvcHacienda.Helpers
+{
+    /// <summary>
+    /// Clase helper para manejar mensajes de validación entre HttpContext y TempData
+    /// </summary>
+    public static class ValidacionHelper
+  {
+        /// <summary>
+   /// Transfiere los mensajes de validación desde HttpContext.Items a TempData
+  /// </summary>
+     public static void TransferirMensajesValidacion(HttpContext httpContext, ITempDataDictionary tempData)
+        {
+ if (httpContext?.Items == null || tempData == null)
+   return;
+
+      // Verificar si hay mensaje de validación en el contexto
+   if (httpContext.Items.TryGetValue("MensajeValidacion", out var mensaje) && mensaje != null)
+     {
+    tempData["MensajeValidacion"] = mensaje.ToString();
+         
+          // Verificar si la validación fue exitosa
+       if (httpContext.Items.TryGetValue("ValidacionExitosa", out var exitosa) && exitosa != null)
+       {
+   tempData["ValidacionExitosa"] = exitosa.ToString()?.ToLower();
+ }
+  else
+       {
+    tempData["ValidacionExitosa"] = "false";
+}
+         }
+        }
+
+        /// <summary>
+     /// Método auxiliar para controllers que quieran transferir manualmente
+  /// </summary>
+   public static void TransferirDesdeController(Controller controller)
+        {
+   if (controller?.HttpContext != null && controller.TempData != null)
+     {
+    TransferirMensajesValidacion(controller.HttpContext, controller.TempData);
+      }
+     }
+    }
+}

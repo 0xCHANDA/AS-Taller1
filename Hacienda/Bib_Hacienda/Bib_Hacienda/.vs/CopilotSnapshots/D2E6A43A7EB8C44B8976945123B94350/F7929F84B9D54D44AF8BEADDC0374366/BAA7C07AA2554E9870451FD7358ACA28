@@ -1,0 +1,45 @@
+﻿using Bib_Hacienda.Clases;
+using Bib_Hacienda.Reglas;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Eventos
+{
+    public class PublisherVacunacionCompletada
+    {
+        //Definicion del delegado y el evento
+        public delegate void dele_vacunacion_completada();
+        public event dele_vacunacion_completada evt_vacunacion_completada;
+
+        //Metodo para informar que una res ha completado su esquema de vacunacion
+        public void Informar_Vacunacion_Completada(Res res, ushort contador_bacterianas, ushort contador_vivas)
+        {
+            try
+            {
+                if (evt_vacunacion_completada != null)
+                {
+                    evt_vacunacion_completada();
+
+                    //Verificar si la res ha completado su esquema de vacunacion
+                    if (res is Ternero && contador_bacterianas >= ReglaVacuna.max_bac_ternero && contador_vivas >= ReglaVacuna.max_viv_ternero ||
+                        (res is Novillo && contador_bacterianas >= ReglaVacuna.max_bac_novillo && contador_vivas >= ReglaVacuna.max_viv_novillo) ||
+                        (res is Cebon && contador_bacterianas >= ReglaVacuna.max_bac_cebon && contador_vivas >= ReglaVacuna.max_viv_cebon))
+                    {
+                        throw new Exception($"[Evento] La res '{res.Nombre}' ha completado su esquema de vacunación.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("No hay suscriptores para el evento de vacunación completada.");
+                }
+            }
+            catch (Exception er)
+            {
+                throw new Exception("[evento] Error inesperado en el metodo Informar_Vacunacion_Completada: " + er.Message);
+            }
+        }
+    }
+}

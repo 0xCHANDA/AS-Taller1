@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mapa de código C#"
+  short_description: "Cartografía de soluciones y dependencias C#"
+  default_prompt: "Usa $csharp-codebase-map para mapear esta solución C# antes del análisis."

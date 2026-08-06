@@ -1,0 +1,194 @@
+﻿using Bib_Hacienda.Clases;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class VacunaService
+    {
+        // Atributos
+        private readonly Hacienda _hacienda;
+        private readonly PersistenciaService _persistencia;
+        
+        // Constructor
+      public VacunaService(Hacienda hacienda, PersistenciaService persistencia)
+        {
+            _hacienda = hacienda;
+  _persistencia = persistencia;
+}
+
+        // Crear vacuna viva o bacteriana
+    public string CrearVacuna(string nombre, string lote, DateTime fechaVencimiento, DateTime fechaAplicacion, uint? periodoAplicacion, enum_l_atenuaciones? atenuacion)
+        {
+            try
+      {
+        // Bacteriana: requiere periodo y NO atenuación
+     if (periodoAplicacion.HasValue && !atenuacion.HasValue)
+    {
+  _hacienda.crear_vacuna(nombre, lote, fechaVencimiento, fechaAplicacion, periodoAplicacion.Value);
+      }
+     // Viva: requiere atenuación y NO periodo
+     else if (!periodoAplicacion.HasValue && atenuacion.HasValue)
+                {
+        _hacienda.crear_vacuna(nombre, lote, fechaVencimiento, fechaAplicacion, atenuacion.Value);
+                }
+            else
+              {
+     return "Error: parámetros inválidos para crear la vacuna";
+          }
+
+        _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+
+       if (fechaVencimiento < DateTime.Now)
+ {
+         return $"Vacuna '{nombre}' creada pero está vencida desde {fechaVencimiento:dd/MM/yyyy}";
+         }
+
+ return $"Vacuna '{nombre}' (Lote: {lote}) creada exitosamente";
+            }
+            catch (Exception ex)
+   {
+ return $"Error: {ex.Message}";
+     }
+        }
+
+        // Aplicar vacuna a una res
+        public string AplicarVacuna(string potreroId, string nombreRes, string loteVacuna)
+        {
+      try
+  {
+     // Asegurar catálogo cargado
+        if (_hacienda.L_vacunas.Count == 0)
+   {
+var cargadas = _persistencia.CargarVacunas();
+         foreach (var v in cargadas) _hacienda.L_vacunas.Add(v);
+          }
+
+       // Buscar la vacuna por su lote
+                var vacuna = _hacienda.L_vacunas.FirstOrDefault(v => v.Lote == loteVacuna);
+            if (vacuna == null)
+        {
+throw new Exception($"No se encontró una vacuna con el lote '{loteVacuna}'");
+           }
+
+                // Verificar si está vencida
+        if (vacuna.Fecha_vencimiento < DateTime.Now)
+          {
+        return $"ERROR: La vacuna '{vacuna.Nombre}' está vencida desde {vacuna.Fecha_vencimiento:dd/MM/yyyy}. No se puede aplicar";
+    }
+
+         // Aplicar la vacuna desde la hacienda
+      string resultadoDominio = _hacienda.aplicar_vacuna(vacuna, nombreRes, potreroId);
+
+ // Remover del inventario disponible
+       var existente = _hacienda.L_vacunas.FirstOrDefault(v => v.Lote == loteVacuna);
+if (existente != null)
+     {
+         _hacienda.L_vacunas.Remove(existente);
+        }
+
+       // Persistir cambios
+        _persistencia.GuardarVacunasAplicadas(_hacienda.L_potreros);
+   _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+      _persistencia.GuardarPotreros(_hacienda.L_potreros);
+    _persistencia.GuardarReses(_hacienda.L_potreros);
+
+     // Limpiar mensaje de duplicados
+         return LimpiarMensaje(resultadoDominio);
+    }
+            catch (Exception ex)
+   {
+            return $"Error: {ex.Message}";
+            }
+        }
+
+  // Método para limpiar mensajes duplicados
+        private string LimpiarMensaje(string mensaje)
+        {
+   if (string.IsNullOrWhiteSpace(mensaje))
+       return mensaje;
+
+            // Separar por puntos
+     var partes = mensaje.Split(new[] { ". " }, StringSplitOptions.RemoveEmptyEntries)
+             .Select(p => p.Trim())
+      .Where(p => !string.IsNullOrWhiteSpace(p))
+    .ToList();
+
+      // Remover duplicados exactos
+         var partesUnicas = new List<string>();
+       var vistos = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+    foreach (var parte in partes)
+    {
+     if (!vistos.Contains(parte))
+     {
+         vistos.Add(parte);
+         partesUnicas.Add(parte);
+        }
+            }
+
+     // Reconstruir mensaje
+   string resultado = string.Join(". ", partesUnicas);
+   
+            // Añadir punto final si no lo tiene
+      if (!resultado.EndsWith(".}")
+    {
+      resultado += ".";
+        }
+
+            return resultado;
+        }
+
+        // Obtener todas las vacunas disponibles
+  public List<Vacuna> ObtenerVacunasDisponibles()
+        {
+   // Lazy-load desde archivo si el catálogo está vacío
+            if (_hacienda.L_vacunas.Count == 0)
+          {
+    var cargadas = _persistencia.CargarVacunas();
+  foreach (var v in cargadas) _hacienda.L_vacunas.Add(v);
+            }
+     
+            // Retornar solo vacunas no vencidas
+       return _hacienda.L_vacunas
+            .Where(v => v.Fecha_vencimiento >= DateTime.Now)
+     .OrderBy(v => v.Nombre)
+   .ToList();
+     }
+
+        // Obtener vacunas aplicadas a una res
+        public List<Vacuna> ObtenerVacunasAplicadas(string potreroId, string nombreRes)
+        {
+          try
+   {
+                var potrero = _hacienda.buscar_potrero(potreroId);
+  var res = potrero.buscar_res(nombreRes);
+           return res.L_vacunas_aplicadas;
+       }
+  catch
+  {
+          return new List<Vacuna>();
+   }
+        }
+
+    // Obtener estadísticas de vacunas
+        public Dictionary<string, object> ObtenerEstadisticas()
+ {
+            // Asegurar catálogo cargado
+            if (_hacienda.L_vacunas.Count == 0)
+            {
+                var cargadas = _persistencia.CargarVacunas();
+                foreach (var v in cargadas) _hacienda.L_vacunas.Add(v);
+       }
+
+            var vacunas = _hacienda.L_vacunas;
+            return new Dictionary<string, object>
+            {
+      { "TotalVacunas", vacunas.Count },
+      { "Bacterianas", vacunas.Count(v => v is Bacteriana) },
+    { "Vivas", vacunas.Count(v => v is Viva) },
+      { "Vencidas", vacunas.Count(v => v.Fecha_vencimiento < DateTime.Now) },
+      { "Vigentes", vacunas.Count(v => v.Fecha_vencimiento >= DateTime.Now) }
+ };
+        }
+    }
+}

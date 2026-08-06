@@ -1,0 +1,376 @@
+﻿using Bib_Hacienda.Clases;
+using System.Text.Json;
+using static Bib_Hacienda.Clases.Potrero;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class PersistenciaService
+    {
+        private readonly string _directorioArchivos = "Datos";
+
+        public PersistenciaService()
+        {
+            // Asegurar que el directorio existe
+            if (!Directory.Exists(_directorioArchivos))
+            {
+                Directory.CreateDirectory(_directorioArchivos);
+            }
+        }
+
+        #region Guardar Datos
+
+        // Guardar potreros y sus reses
+        public void GuardarPotreros(List<Potrero> potreros)
+        {
+            try
+            {
+                // Proyección de los datos necesarios para guardar
+                var datos = potreros.Select(p => new
+                {
+                    // Guardar solo los datos necesarios
+                    Identificacion = p.Identificacion,
+                    TipoPotrero = p.Tipo_potrero.ToString(),
+                    Reses = p.L_reses.Select(r => new
+                    {
+                        // Guardar solo los datos necesarios de la res
+                        Nombre = r.Nombre,
+                        Peso = r.Peso,
+                        Edad = r.Edad,
+                        Tipo = r.GetType().Name,
+                        Vacunas = r.L_vacunas_aplicadas.Select(v => new
+                        {
+                            // Guardar solo los datos necesarios de la vacuna
+                            Nombre = v.Nombre,
+                            Lote = v.Lote,
+                            FechaVencimiento = v.Fecha_vencimiento,
+                            FechaAplicacion = v.Fecha_aplicacion,
+                            Tipo = v.GetType().Name,
+                            // Solo guardamos periodo de bacteriana (viva no tiene accesor público)
+                            PeriodoAplicacion = v is Bacteriana ? ((Bacteriana)v).Periodo_aplicacion : 0
+                        }).ToList()
+                    }).ToList()
+                }).ToList();
+
+                // Serializar a JSON con formato indentado para mejor legibilidad
+                string json = JsonSerializer.Serialize(datos, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(Path.Combine(_directorioArchivos, "Potreros.txt"), json);
+            }
+                catch (Exception ex)
+            {
+                throw new Exception($"Error al guardar potreros: {ex.Message}");
+        }
+    }
+
+    public void GuardarVentas(List<Venta> ventas)
+    {
+        try
+        {
+            var datos = ventas.Select(v => new
+            {
+                PotreroId = v.Potrero.Identificacion,
+                Fecha = v.Fecha,
+                ResNombre = v.Res.Nombre,
+                ResPeso = v.Res.Peso,
+                ResEdad = v.Res.Edad,
+                ResTipo = v.Res.GetType().Name,
+                Monto = v.Monto
+            }).ToList();
+
+            string json = JsonSerializer.Serialize(datos, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(Path.Combine(_directorioArchivos, "Ventas.txt"), json);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al guardar ventas: {ex.Message}");
+        }
+    }
+
+    public void GuardarVacunas(List<Vacuna> vacunas)
+    {
+        try
+        {
+            var datos = vacunas.Select(v => new
+            {
+                Nombre = v.Nombre,
+                Lote = v.Lote,
+                FechaVencimiento = v.Fecha_vencimiento,
+                FechaAplicacion = v.Fecha_aplicacion,
+                Tipo = v.GetType().Name,
+                // Solo guardamos periodo de bacteriana
+                PeriodoAplicacion = v is Bacteriana ? ((Bacteriana)v).Periodo_aplicacion : 0
+            }).ToList();
+
+            string json = JsonSerializer.Serialize(datos, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(Path.Combine(_directorioArchivos, "Vacunas.txt"), json);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al guardar vacunas: {ex.Message}");
+        }
+    }
+
+    public void GuardarUsuarios(List<Usuario> usuarios)
+    {
+        try
+        {
+            var datos = usuarios.Select(u => new
+            {
+                Nombre = u.Nombre,
+                Contrasena = u.Contrasena
+            }).ToList();
+
+            string json = JsonSerializer.Serialize(datos, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(Path.Combine(_directorioArchivos, "Usuarios.txt"), json);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al guardar usuarios: {ex.Message}");
+        }
+    }
+
+    #endregion
+
+    #region Cargar Datos
+
+    public List<Potrero> CargarPotreros()
+    {
+        try
+        {
+            string rutaArchivo = Path.Combine(_directorioArchivos, "Potreros.txt");
+
+            if (!File.Exists(rutaArchivo) || new FileInfo(rutaArchivo).Length == 0)
+            {
+                return new List<Potrero>();
+            }
+
+            string json = File.ReadAllText(rutaArchivo);
+            var datos = JsonSerializer.Deserialize<List<JsonElement>>(json);
+
+            if (datos == null) return new List<Potrero>();
+
+            var potreros = new List<Potrero>();
+
+            foreach (var item in datos)
+            {
+                string identificacion = item.GetProperty("Identificacion").GetString() ?? "";
+                string tipoStr = item.GetProperty("TipoPotrero").GetString() ?? "";
+                l_tipos_potreros tipo = Enum.Parse<l_tipos_potreros>(tipoStr);
+                var potrero = new Potrero(identificacion, tipo);
+
+                // Cargar reses si existen
+                if (item.TryGetProperty("Reses", out JsonElement resesElement))
+                {
+                    foreach (var resItem in resesElement.EnumerateArray())
+                    {
+                        string nombreRes = resItem.GetProperty("Nombre").GetString() ?? "";
+                        uint pesoRes = resItem.GetProperty("Peso").GetUInt32();
+                        ushort edadRes = resItem.GetProperty("Edad").GetUInt16();
+
+                        // Agregar la res al potrero usando el método anadir_res
+                        potrero.anadir_res(nombreRes, edadRes, pesoRes);
+
+                        // Cargar vacunas aplicadas si existen
+                        if (resItem.TryGetProperty("Vacunas", out JsonElement vacunasElement))
+                        {
+                            var res = potrero.buscar_res(nombreRes);
+
+                            foreach (var vacItem in vacunasElement.EnumerateArray())
+                            {
+                                string nombreVac = vacItem.GetProperty("Nombre").GetString() ?? "";
+                                string loteVac = vacItem.GetProperty("Lote").GetString() ?? "";
+                                DateTime fechaVenc = vacItem.GetProperty("FechaVencimiento").GetDateTime();
+                                DateTime fechaAplic = vacItem.GetProperty("FechaAplicacion").GetDateTime();
+                                string tipoVac = vacItem.GetProperty("Tipo").GetString() ?? "";
+
+                                Vacuna vacuna;
+                                if (tipoVac == "Bacteriana")
+                                {
+                                    uint periodo = vacItem.GetProperty("PeriodoAplicacion").GetUInt32();
+                                    vacuna = new Bacteriana(nombreVac, loteVac, fechaVenc, fechaAplic, periodo);
+                                }
+                                else
+                                {
+                                    // Para Viva, usamos Atenuacion10 por defecto
+                                    vacuna = new Viva(nombreVac, loteVac, fechaVenc, fechaAplic, enum_l_atenuaciones.Atenuacion10);
+                                }
+
+                                res.L_vacunas_aplicadas.Add(vacuna);
+                            }
+                        }
+                    }
+                }
+
+                potreros.Add(potrero);
+            }
+
+            return potreros;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al cargar potreros: {ex.Message}");
+        }
+    }
+
+    public List<Venta> CargarVentas(List<Potrero> potreros)
+    {
+        try
+        {
+            string rutaArchivo = Path.Combine(_directorioArchivos, "Ventas.txt");
+
+            if (!File.Exists(rutaArchivo) || new FileInfo(rutaArchivo).Length == 0)
+            {
+                return new List<Venta>();
+            }
+
+            string json = File.ReadAllText(rutaArchivo);
+            var datos = JsonSerializer.Deserialize<List<JsonElement>>(json);
+
+            if (datos == null) return new List<Venta>();
+
+            var ventas = new List<Venta>();
+
+            foreach (var item in datos)
+            {
+                string potreroId = item.GetProperty("PotreroId").GetString() ?? "";
+                DateTime fecha = item.GetProperty("Fecha").GetDateTime();
+                string resNombre = item.GetProperty("ResNombre").GetString() ?? "";
+                uint resPeso = item.GetProperty("ResPeso").GetUInt32();
+                ushort resEdad = item.GetProperty("ResEdad").GetUInt16();
+                string resTipo = item.GetProperty("ResTipo").GetString() ?? "";
+                uint monto = item.GetProperty("Monto").GetUInt32();
+
+                // Buscar o crear potrero
+                var potrero = potreros.FirstOrDefault(p => p.Identificacion == potreroId);
+                if (potrero == null)
+                {
+                    // Si no existe, crear un potrero temporal (las ventas son históricas)
+                    potrero = new Potrero(potreroId, l_tipos_potreros.ternero);
+                }
+
+                // Crear res según el tipo
+                Res res = resTipo switch
+                {
+                    "Ternero" => new Ternero(resNombre, resPeso, resEdad),
+                    "Novillo" => new Novillo(resNombre, resPeso, resEdad),
+                    "Cebon" => new Cebon(resNombre, resPeso, resEdad),
+                    _ => new Ternero(resNombre, resPeso, resEdad)
+                };
+
+                var venta = new Venta(potrero, fecha, res, monto);
+                ventas.Add(venta);
+            }
+
+            return ventas;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al cargar ventas: {ex.Message}");
+        }
+    }
+
+    public List<Vacuna> CargarVacunas()
+    {
+        try
+        {
+            string rutaArchivo = Path.Combine(_directorioArchivos, "Vacunas.txt");
+
+            if (!File.Exists(rutaArchivo) || new FileInfo(rutaArchivo).Length == 0)
+            {
+                return new List<Vacuna>();
+            }
+
+            string json = File.ReadAllText(rutaArchivo);
+            var datos = JsonSerializer.Deserialize<List<JsonElement>>(json);
+
+            if (datos == null) return new List<Vacuna>();
+
+            var vacunas = new List<Vacuna>();
+
+            foreach (var item in datos)
+            {
+                string nombre = item.GetProperty("Nombre").GetString() ?? "";
+                string lote = item.GetProperty("Lote").GetString() ?? "";
+                DateTime fechaVenc = item.GetProperty("FechaVencimiento").GetDateTime();
+                DateTime fechaAplic = item.GetProperty("FechaAplicacion").GetDateTime();
+                string tipo = item.GetProperty("Tipo").GetString() ?? "";
+
+                Vacuna vacuna;
+                if (tipo == "Bacteriana")
+                {
+                    uint periodo = item.GetProperty("PeriodoAplicacion").GetUInt32();
+                    vacuna = new Bacteriana(nombre, lote, fechaVenc, fechaAplic, periodo);
+                }
+                else
+                {
+                    // Para Viva, usamos Atenuacion10 por defecto
+                    vacuna = new Viva(nombre, lote, fechaVenc, fechaAplic, enum_l_atenuaciones.Atenuacion10);
+                }
+
+                vacunas.Add(vacuna);
+            }
+
+            return vacunas;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al cargar vacunas: {ex.Message}");
+        }
+    }
+
+    public List<Usuario> CargarUsuarios()
+    {
+        try
+        {
+            string rutaArchivo = Path.Combine(_directorioArchivos, "Usuarios.txt");
+
+            if (!File.Exists(rutaArchivo) || new FileInfo(rutaArchivo).Length == 0)
+            {
+                return new List<Usuario>();
+            }
+
+            string json = File.ReadAllText(rutaArchivo);
+
+            // Validar que el contenido parece YEISON
+            string jsonTrimmed = json.TrimStart();
+            if (!jsonTrimmed.StartsWith("[") && !jsonTrimmed.StartsWith("{"))
+            {
+                // Archivo corrupto o con contenido inválido, reinicializar
+                Console.WriteLine("⚠️ Archivo Usuarios.txt corrupto. Reinicializando...");
+                File.WriteAllText(rutaArchivo, "[]");
+                return new List<Usuario>();
+            }
+
+            var datos = JsonSerializer.Deserialize<List<JsonElement>>(json);
+            if (datos == null) return new List<Usuario>();
+
+            var usuarios = new List<Usuario>();
+
+            foreach (var item in datos)
+            {
+                string nombre = item.GetProperty("Nombre").GetString() ?? "";
+                string contrasena = item.GetProperty("Contrasena").GetString() ?? "";
+
+                usuarios.Add(new Usuario(nombre, contrasena));
+            }
+
+            return usuarios;
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            // Si hay error de YEISON, reinicializar el archivo y devolver lista vacía
+            Console.WriteLine("Error al deserializar Usuarios.txt. Reinicializando archivo...");
+            string rutaArchivo = Path.Combine(_directorioArchivos, "Usuarios.txt");
+            File.WriteAllText(rutaArchivo, "[]");
+            return new List<Usuario>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al cargar usuarios: {ex.Message}");
+        }
+    }
+
+    #endregion
+}
+
+}

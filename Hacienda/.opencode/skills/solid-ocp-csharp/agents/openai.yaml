@@ -1,0 +1,4 @@
+interface:
+  display_name: "OCP para C#"
+  short_description: "Audita ejes de variación y extensibilidad"
+  default_prompt: "Usa $solid-ocp-csharp para auditar OCP en este código C#."

@@ -1,0 +1,19 @@
+﻿using Bib_Hacienda.Clases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Interfaces
+{
+    //Interfaz para autenticar usuarios antes de ejecutar operaciones
+    public interface IAutenticacion
+    {
+        //Autentica un usuario con nombre y contraseña
+      bool Autenticar(string nombre, string contrasena);
+
+     //Verifica si un usuario tiene permisos para una operación
+        bool TienePermiso(Usuario usuario, string operacion);
+    }
+}

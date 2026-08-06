@@ -1,0 +1,125 @@
+﻿using Bib_Hacienda.Clases;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class ResService
+    {
+        // Atributos
+        private readonly Hacienda _hacienda;
+        private readonly PersistenciaService _persistencia;
+
+        // Constructor
+        public ResService(Hacienda hacienda, PersistenciaService persistencia)
+        {
+            _hacienda = hacienda;
+            _persistencia = persistencia;
+        }
+
+        // Obtener todas las reses de todos los potreros
+        public List<(Potrero Potrero, Res Res)> ObtenerTodasLasReses()
+        {
+            // Lista para almacenar las reses junto con su potrero
+            var resesConPotrero = new List<(Potrero, Res)>();
+
+            // Recorrer cada potrero y sus reses
+            foreach (var potrero in _hacienda.L_potreros)
+            {
+                // Agregar cada res junto con su potrero a la lista
+                foreach (var res in potrero.L_reses)
+                {
+                    resesConPotrero.Add((potrero, res));
+                }
+            }
+
+            return resesConPotrero;
+        }
+
+        // Buscar res en un potrero
+        public Res? BuscarRes(string potreroId, string nombreRes) //signo de pregunta porque es nulleable o sea que
+                                                                  //busca una res y si no la encuentra devuelve null
+        {
+            try
+            {
+                // Buscar el potrero por su identificación
+                var potrero = _hacienda.buscar_potrero(potreroId);
+                return potrero.buscar_res(nombreRes);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Alimentar una res
+        public bool AlimentarRes(string potreroId, string nombreRes)
+        {
+            try
+            {
+                // Verificar que existe la res
+                var res = BuscarRes(potreroId, nombreRes);
+                if (res == null)
+                {
+                    throw new InvalidOperationException($"No se encontró la res '{nombreRes}' en el potrero '{potreroId}'");
+                }
+
+                // Alimentar la res en el potrero especificado
+                string resultado = _hacienda.alimentar_res(potreroId, nombreRes);
+                _persistencia.GuardarPotreros(_hacienda.L_potreros);
+                _persistencia.GuardarReses(_hacienda.L_potreros);
+
+                // Si llegamos aquí, la operación fue exitosa
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Re-lanzar la excepción para que el controlador la maneje
+                throw new Exception($"Error al alimentar la res: {ex.Message}");
+            }
+        }
+
+        // Vender una res
+        public bool VenderRes(string potreroId, string nombreRes, uint monto)
+        {
+            try
+            {
+                // Verificar que existe la res
+                var res = BuscarRes(potreroId, nombreRes);
+                if (res == null)
+                {
+                    throw new InvalidOperationException($"No se encontró la res '{nombreRes}' en el potrero '{potreroId}'");
+                }
+
+                // Vender la res en el potrero especificado
+                string resultado = _hacienda.vender_res(potreroId, nombreRes, monto);
+                _persistencia.GuardarPotreros(_hacienda.L_potreros);
+                _persistencia.GuardarReses(_hacienda.L_potreros);
+                _persistencia.GuardarVentas(_hacienda.L_ventas);
+
+                // Si llegamos aquí, la operación fue exitosa
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Re-lanzar la excepción para que el controlador la maneje
+                throw new Exception($"Error al vender la res: {ex.Message}");
+            }
+        }
+
+        // Obtener estadísticas de reses
+        public Dictionary<string, object> ObtenerEstadisticas()
+        {
+            // Obtener todas las reses
+            var todasLasReses = ObtenerTodasLasReses();
+
+            //devuelve un diccionario con las estadisticas
+            return new Dictionary<string, object>
+            {
+                { "TotalReses", todasLasReses.Count },
+                { "Terneros", todasLasReses.Count(r => r.Res is Ternero) },
+                { "Novillos", todasLasReses.Count(r => r.Res is Novillo) },
+                { "Cebones", todasLasReses.Count(r => r.Res is Cebon) },
+                { "PesoPromedio", todasLasReses.Any() ? todasLasReses.Average(r => r.Res.Peso) : 0 }
+            };
+        }
+    }
+}

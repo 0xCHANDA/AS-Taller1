@@ -1,0 +1,81 @@
+﻿using Bib_Hacienda.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases.Validaciones
+{
+    /// <summary>
+    /// Clase abstracta base para todas las validaciones del sistema
+    /// Implementa IValidarInformacion y proporciona métodos comunes
+    /// </summary>
+    public abstract class Validacion : IValidarInformacion
+    {
+        /// <summary>
+   /// Valida una res. Debe ser implementado por las clases hijas
+        /// </summary>
+        /// <param name="res">Res a validar</param>
+    /// <returns>True si es válida, False en caso contrario</returns>
+        public abstract bool ValidarRes(Res res);
+
+        /// <summary>
+        /// Valida un potrero. Debe ser implementado por las clases hijas
+        /// </summary>
+    /// <param name="potrero">Potrero a validar</param>
+        /// <returns>True si es válido, False en caso contrario</returns>
+   public abstract bool ValidarPotrero(Potrero potrero);
+
+    /// <summary>
+        /// Valida una vacuna. Debe ser implementado por las clases hijas
+        /// </summary>
+        /// <param name="vacuna">Vacuna a validar</param>
+    /// <returns>True si es válida, False en caso contrario</returns>
+        public abstract bool ValidarVacuna(Vacuna vacuna);
+
+        /// <summary>
+        /// Valida una venta. Debe ser implementado por las clases hijas
+        /// </summary>
+     /// <param name="venta">Venta a validar</param>
+    /// <returns>True si es válida, False en caso contrario</returns>
+        public abstract bool ValidarVenta(Venta venta);
+
+        /// <summary>
+    /// Método común para mostrar mensajes de validación
+        /// </summary>
+  /// <param name="entidad">Nombre de la entidad validada</param>
+/// <param name="esValido">Indica si la validación fue exitosa</param>
+ protected void MostrarMensaje(string entidad, bool esValido)
+        {
+            if (esValido)
+    {
+  Console.WriteLine($"[Validación] ✓ {entidad} es válido y puede ser guardado en la base de datos.");
+          }
+            else
+         {
+      Console.WriteLine($"[Validación] ✗ {entidad} NO es válido y NO puede ser guardado en la base de datos.");
+            }
+    }
+
+        /// <summary>
+        /// Valida que un string no sea nulo o vacío
+        /// </summary>
+    /// <param name="valor">String a validar</param>
+        /// <returns>True si es válido, False en caso contrario</returns>
+        protected bool ValidarString(string valor)
+        {
+       return !string.IsNullOrWhiteSpace(valor);
+    }
+
+        /// <summary>
+/// Valida que un objeto no sea nulo
+      /// </summary>
+   /// <param name="objeto">Objeto a validar</param>
+        /// <returns>True si no es nulo, False en caso contrario</returns>
+        protected bool ValidarNoNulo(object objeto)
+        {
+  return objeto != null;
+        }
+    }
+}

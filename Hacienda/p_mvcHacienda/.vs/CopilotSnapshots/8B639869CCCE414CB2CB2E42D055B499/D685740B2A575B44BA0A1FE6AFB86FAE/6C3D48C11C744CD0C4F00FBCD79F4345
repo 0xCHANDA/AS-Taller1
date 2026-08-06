@@ -1,0 +1,117 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using p_mvcHacienda.Models;
+using p_mvcHacienda.Servicios;
+
+namespace p_mvcHacienda.Controllers
+{
+    public class PotreroController : Controller
+    {
+private readonly PotreroService _potreroService;
+
+        // Inyección de dependencias del servicio
+    public PotreroController(PotreroService potreroService)
+     {
+   _potreroService = potreroService;
+     }
+
+        // GET: Potrero/Index - Listar todos los potreros
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var potreros = _potreroService.ObtenerTodosLosPotreros();
+            var estadisticas = _potreroService.ObtenerEstadisticas();
+
+            ViewBag.Estadisticas = estadisticas;
+
+            return View(potreros);
+        }
+
+        // GET: Potrero/Create - Mostrar formulario de creación
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Potrero/Create - Procesar creación de potrero
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Potrero potrero)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(potrero);
+                }
+
+                var resultado = _potreroService.CrearPotrero(
+                    potrero.Identificacion,
+                    potrero.Tipo,
+                    potrero.CapacidadMaxima
+                );
+
+                if (resultado.Contains("✅"))
+                {
+                    TempData["Mensaje"] = resultado;
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Mensaje = resultado;
+                    ViewBag.TipoMensaje = "danger";
+                    return View(potrero);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ Error: {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+                return View(potrero);
+            }
+        }
+
+        // GET: Potrero/Details/5 - Ver detalles de un potrero
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var potrero = _potreroService.ObtenerPotreroPorId(id);
+
+            if (potrero == null)
+            {
+                TempData["Mensaje"] = "❌ Potrero no encontrado";
+                TempData["TipoMensaje"] = "danger";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(potrero);
+        }
+
+        // POST: Potrero/AgregarRes/5 - Agregar una res al potrero
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AgregarRes(int id)
+        {
+            var resultado = _potreroService.AgregarResAlPotrero(id);
+
+            TempData["Mensaje"] = resultado;
+            TempData["TipoMensaje"] = resultado.Contains("✅") ? "success" : "warning";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Potrero/RemoverRes/5 - Remover una res del potrero
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoverRes(int id)
+        {
+            var resultado = _potreroService.RemoverResDelPotrero(id);
+
+            TempData["Mensaje"] = resultado;
+            TempData["TipoMensaje"] = resultado.Contains("✅") ? "success" : "warning";
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

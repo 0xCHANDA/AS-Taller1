@@ -1,0 +1,4 @@
+interface:
+  display_name: "Verificación .NET"
+  short_description: "Protege conducta con compilación y pruebas"
+  default_prompt: "Usa $dotnet-refactor-verification para verificar este refactor .NET."

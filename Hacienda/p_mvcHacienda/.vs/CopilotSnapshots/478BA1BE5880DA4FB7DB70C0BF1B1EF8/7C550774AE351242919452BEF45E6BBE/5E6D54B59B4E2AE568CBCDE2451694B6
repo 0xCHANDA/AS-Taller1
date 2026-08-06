@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "👤 Crear Usuario";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+   <div class="col-md-6">
+ <!-- Encabezado -->
+   <div class="text-center mb-4">
+      <h1 class="display-5 fw-bold" style="color: #6a1b9a;">
+👤 Crear Nuevo Usuario
+   </h1>
+  <p class="lead text-muted">Registra un nuevo usuario en el sistema</p>
+  </div>
+
+    <!-- Mensaje de error -->
+ @if (ViewBag.Mensaje != null)
+{
+   <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show" role="alert">
+  <strong>@ViewBag.Mensaje</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        }
+
+            <!-- Formulario -->
+       <div class="card shadow-lg" style="background-color: #f3e5f5; border: 2px solid #6a1b9a;">
+     <div class="card-header text-white text-center" style="background-color: #6a1b9a;">
+     <h4 class="mb-0">📝 Datos del Usuario</h4>
+ </div>
+    <div class="card-body p-4">
+  <form asp-action="Create" method="post" id="formUsuario">
+    @Html.AntiForgeryToken()
+
+<!-- Nombre de Usuario -->
+  <div class="mb-4">
+        <label for="nombre" class="form-label fw-bold" style="color: #6a1b9a;">
+        👤 Nombre de Usuario
+  </label>
+<div class="input-group input-group-lg">
+      <span class="input-group-text" style="background-color: #e1bee7;">
+ <i class="bi bi-person"></i>
+  </span>
+      <input name="nombre" type="text" 
+     class="form-control" 
+       placeholder="Ej: juan.perez"
+   style="border: 2px solid #ce93d8;" 
+   required 
+  minlength="3"
+   maxlength="50" />
+  </div>
+   <small class="form-text text-muted">
+   Mínimo 3 caracteres, máximo 50. Solo letras, números, punto y guión bajo.
+  </small>
+      </div>
+
+      <!-- Contraseña -->
+       <div class="mb-4">
+ <label for="contrasena" class="form-label fw-bold" style="color: #6a1b9a;">
+🔒 Contraseña
+     </label>
+     <div class="input-group input-group-lg">
+     <span class="input-group-text" style="background-color: #e1bee7;">
+      <i class="bi bi-lock"></i>
+   </span>
+   <input name="contrasena" type="password" 
+  class="form-control" 
+     id="inputPassword"
+      placeholder="••••••••"
+  style="border: 2px solid #ce93d8;" 
+required 
+     minlength="4" />
+         <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+      👁️
+    </button>
+  </div>
+     <small class="form-text text-muted">Mínimo 4 caracteres para mayor seguridad</small>
+ </div>
+
+ <!-- Confirmar Contraseña -->
+     <div class="mb-4">
+     <label for="confirmarContrasena" class="form-label fw-bold" style="color: #6a1b9a;">
+    🔒 Confirmar Contraseña
+ </label>
+<div class="input-group input-group-lg">
+  <span class="input-group-text" style="background-color: #e1bee7;">
+  <i class="bi bi-lock-fill"></i>
+  </span>
+      <input type="password" 
+       class="form-control" 
+    id="inputConfirmar"
+     placeholder="••••••••"
+       style="border: 2px solid #ce93d8;" 
+required />
+         </div>
+  <small class="form-text text-danger" id="errorPassword" style="display: none;">
+     ❌ Las contraseñas no coinciden
+   </small>
+     </div>
+
+   <!-- Botones -->
+     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+        <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4">
+      ❌ Cancelar
+   </a>
+ <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow" id="btnSubmit">
+     ✅ Crear Usuario 👤
+     </button>
+  </div>
+  </form>
+     </div>
+ </div>
+
+   <!-- Recomendaciones de seguridad -->
+      <div class="card mt-4 shadow-sm" style="background-color: #fff3e0; border-left: 5px solid #ff9800;">
+    <div class="card-body">
+ <h5 class="card-title text-warning">🔐 Consejos de Seguridad</h5>
+          <ul class="mb-0">
+      <li>Usa una contraseña única y difícil de adivinar</li>
+ <li>Combina letras mayúsculas, minúsculas y números</li>
+     <li>Evita usar información personal obvia</li>
+     <li>Cambia la contraseña periódicamente</li>
+    <li>No compartas tu contraseña con otras personas</li>
+     </ul>
+ </div>
+   </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Mostrar/ocultar contraseña
+ document.getElementById('togglePassword')?.addEventListener('click', function() {
+  var passwordInput = document.getElementById('inputPassword');
+  var type = passwordInput.type === 'password' ? 'text' : 'password';
+  passwordInput.type = type;
+   this.textContent = type === 'password' ? '👁️' : '🙈';
+ });
+
+        // Validar que las contraseñas coincidan
+     function validarPasswords() {
+   var password = document.getElementById('inputPassword').value;
+  var confirmar = document.getElementById('inputConfirmar').value;
+     var errorMsg = document.getElementById('errorPassword');
+   var btnSubmit = document.getElementById('btnSubmit');
+  
+       if (confirmar && password !== confirmar) {
+     errorMsg.style.display = 'block';
+   btnSubmit.disabled = true;
+return false;
+      } else {
+ errorMsg.style.display = 'none';
+      btnSubmit.disabled = false;
+   return true;
+ }
+ }
+
+        document.getElementById('inputPassword')?.addEventListener('input', validarPasswords);
+        document.getElementById('inputConfirmar')?.addEventListener('input', validarPasswords);
+
+    // Validar formulario antes de enviar
+   document.getElementById('formUsuario')?.addEventListener('submit', function(e) {
+  if (!validarPasswords()) {
+    e.preventDefault();
+ alert('⚠️ Las contraseñas no coinciden. Por favor verifícalas.');
+     }
+      });
+
+        // Validar formato del nombre de usuario
+   document.querySelector('input[name="nombre"]')?.addEventListener('input', function() {
+   var regex = /^[a-zA-Z0-9._-]+$/;
+       if (this.value && !regex.test(this.value)) {
+this.setCustomValidity('Solo se permiten letras, números, punto, guión y guión bajo');
+       } else {
+            this.setCustomValidity('');
+      }
+ });
+    </script>
+}

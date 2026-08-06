@@ -1,0 +1,121 @@
+﻿using Bib_Hacienda.Clases;
+using p_mvcHacienda.Servicios;
+using Castle.DynamicProxy;
+using p_mvcHacienda.Aspectos;
+
+namespace p_mvcHacienda
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            // Registrar IHttpContextAccessor (necesario para el interceptor)
+            builder.Services.AddHttpContextAccessor();
+
+            // Registrar el generador de proxies de Castle
+            builder.Services.AddSingleton<ProxyGenerator>();
+
+            // Registrar el interceptor de validación
+            builder.Services.AddSingleton<ValidacionInterceptor>();
+
+            // Registrar PersistenciaService con proxy dinámico para interceptar validaciones
+            builder.Services.AddSingleton<PersistenciaService>(sp =>
+            {
+                var proxyGenerator = sp.GetRequiredService<ProxyGenerator>();
+                var interceptor = sp.GetRequiredService<ValidacionInterceptor>();
+                var persistenciaReal = new PersistenciaService();
+
+                // Crear proxy que intercepta todas las llamadas a PersistenciaService
+                var persistenciaConValidacion = proxyGenerator.CreateClassProxyWithTarget(
+                    persistenciaReal,
+                    interceptor
+                );
+
+                return persistenciaConValidacion;
+            });
+
+            builder.Services.AddSingleton<Hacienda>(sp =>
+            {
+                var hacienda = new Hacienda();
+                var persistencia = sp.GetRequiredService<PersistenciaService>();
+
+                // Cargar datos al iniciar
+                try
+                {
+                    var potreros = persistencia.CargarPotreros();
+                    foreach (var potrero in potreros)
+                    {
+                        hacienda.L_potreros.Add(potrero);
+                    }
+
+                    // Cargar reses en los potreros
+                    persistencia.CargarReses(hacienda.L_potreros);
+
+                    // Cargar vacunas aplicadas a las reses
+                    persistencia.CargarVacunasAplicadas(hacienda.L_potreros);
+
+                    var ventas = persistencia.CargarVentas(hacienda.L_potreros);
+                    foreach (var venta in ventas)
+                    {
+                        hacienda.L_ventas.Add(venta);
+                    }
+
+                    var vacunas = persistencia.CargarVacunas();
+                    foreach (var vacuna in vacunas)
+                    {
+                        hacienda.L_vacunas.Add(vacuna);
+                    }
+
+                    Console.WriteLine($"✅ Datos cargados: {potreros.Count} potreros, {ventas.Count} ventas, {vacunas.Count} vacunas");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ Error al cargar datos: {ex.Message}");
+                }
+
+                return hacienda;
+            });
+
+            builder.Services.AddSingleton<PotreroService>();
+            builder.Services.AddSingleton<ResService>();
+            builder.Services.AddSingleton<VacunaService>();
+            builder.Services.AddSingleton<VentaService>();
+            builder.Services.AddSingleton<UsuarioService>(sp =>
+            {
+                var persistencia = sp.GetRequiredService<PersistenciaService>();
+                var usuarioService = new UsuarioService(persistencia);
+                usuarioService.CargarUsuarios();
+                return usuarioService;
+            });
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
+        }
+    }
+}

@@ -1,0 +1,109 @@
+﻿using Bib_Hacienda.Clases;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class VacunaService
+    {
+     private readonly Hacienda _hacienda;
+        private readonly PersistenciaService _persistencia;
+
+     public VacunaService(Hacienda hacienda, PersistenciaService persistencia)
+     {
+        _hacienda = hacienda;
+         _persistencia = persistencia;
+        }
+
+    // Crear vacuna bacteriana
+   public string CrearVacunaBacteriana(string nombre, string lote, DateTime fechaVencimiento, DateTime fechaAplicacion, uint periodoAplicacion)
+        {
+   try
+     {
+       var vacuna = new Bacteriana(nombre, lote, fechaVencimiento, fechaAplicacion, periodoAplicacion);
+     _hacienda.L_vacunas.Add(vacuna);
+       _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+   return $"✅ Vacuna bacteriana '{nombre}' creada exitosamente";
+          }
+     catch (Exception ex)
+            {
+       return $"❌ {ex.Message}";
+            }
+     }
+
+   // Crear vacuna viva
+        public string CrearVacunaViva(string nombre, string lote, DateTime fechaVencimiento, DateTime fechaAplicacion, enum_l_atenuaciones atenuacion)
+  {
+     try
+       {
+         var vacuna = new Viva(nombre, lote, fechaVencimiento, fechaAplicacion, atenuacion);
+        _hacienda.L_vacunas.Add(vacuna);
+    _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+    return $"✅ Vacuna viva '{nombre}' creada exitosamente";
+            }
+  catch (Exception ex)
+  {
+    return $"❌ {ex.Message}";
+  }
+        }
+
+  // Aplicar vacuna a una res
+public string AplicarVacuna(string potreroId, string nombreRes, string loteVacuna)
+  {
+      try
+       {
+       var vacuna = _hacienda.L_vacunas.FirstOrDefault(v => v.Lote == loteVacuna);
+
+      if (vacuna == null)
+  {
+  throw new Exception($"No se encontró una vacuna con el lote '{loteVacuna}'");
+     }
+
+     // La firma correcta es: aplicar_vacuna(Vacuna vacuna, string nombre, string id_potrero)
+     string resultado = _hacienda.aplicar_vacuna(vacuna, nombreRes, potreroId);
+    _persistencia.GuardarPotreros(_hacienda.L_potreros);
+       _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+    return $"✅ {resultado}";
+     }
+   catch (Exception ex)
+     {
+     return $"❌ {ex.Message}";
+        }
+   }
+
+        // Obtener todas las vacunas disponibles
+     public List<Vacuna> ObtenerVacunasDisponibles()
+        {
+  return _hacienda.L_vacunas.OrderBy(v => v.Nombre).ToList();
+  }
+
+   // Obtener vacunas aplicadas a una res
+ public List<Vacuna> ObtenerVacunasAplicadas(string potreroId, string nombreRes)
+     {
+   try
+     {
+       var potrero = _hacienda.buscar_potrero(potreroId);
+   var res = potrero.buscar_res(nombreRes);
+     return res.L_vacunas_aplicadas;
+      }
+       catch
+      {
+    return new List<Vacuna>();
+       }
+  }
+
+        // Obtener estadísticas de vacunas
+public Dictionary<string, object> ObtenerEstadisticas()
+        {
+   var vacunas = _hacienda.L_vacunas;
+    
+    return new Dictionary<string, object>
+            {
+ { "TotalVacunas", vacunas.Count },
+       { "Bacterianas", vacunas.Count(v => v is Bacteriana) },
+       { "Vivas", vacunas.Count(v => v is Viva) },
+       { "Vencidas", vacunas.Count(v => v.Fecha_vencimiento < DateTime.Now) },
+   { "Vigentes", vacunas.Count(v => v.Fecha_vencimiento >= DateTime.Now) }
+        };
+  }
+    }
+}

@@ -1,0 +1,46 @@
+﻿@model List<Bib_Hacienda.Clases.Vacuna>
+@using Bib_Hacienda.Clases
+@{
+ ViewData["Title"] = $"Vacunas aplicadas - {ViewBag.NombreRes}";
+}
+<div class="container mt-4">
+ <h2>Vacunas aplicadas a @ViewBag.NombreRes (Potrero: @ViewBag.PotreroId)</h2>
+ <a asp-action="Index" class="btn btn-secondary btn-sm">Volver</a>
+ @if (Model != null && Model.Any())
+ {
+ <table class="table table-striped mt-3">
+ <thead>
+ <tr>
+ <th>Nombre</th>
+ <th>Lote</th>
+ <th>Tipo</th>
+ <th>Fecha Venc.</th>
+ <th>Fecha Aplic.</th>
+ <th>Detalle</th>
+ </tr>
+ </thead>
+ <tbody>
+ @foreach (var v in Model)
+ {
+ <tr>
+ <td>@v.Nombre</td>
+ <td>@v.Lote</td>
+ <td>@(v is Bacteriana ? "Bacteriana" : "Viva")</td>
+ <td>@v.Fecha_vencimiento.ToString("yyyy-MM-dd")</td>
+ <td>@v.Fecha_aplicacion.ToString("yyyy-MM-dd")</td>
+ <td>
+ @if (v is Bacteriana b)
+ { <span>@b.Periodo_aplicacion semana(s)</span> }
+ else if (v is Viva)
+ { <span>Atenuada</span> }
+ </td>
+ </tr>
+ }
+ </tbody>
+ </table>
+ }
+ else
+ {
+ <div class="alert alert-info mt-3">No hay vacunas aplicadas.</div>
+ }
+</div>

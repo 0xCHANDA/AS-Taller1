@@ -1,0 +1,88 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases.Validaciones
+{
+    /// <summary>
+    /// Clase especializada en validar objetos de tipo Res
+    /// Verifica que los datos de la res sean correctos antes de guardar en BD
+    /// </summary>
+    public class ValidarRes : Validacion
+    {
+        /// <summary>
+        /// Valida que una res tenga datos correctos para ser guardada
+        /// Verifica: nombre no vacío, peso mayor a 0, edad mayor a 0
+        /// </summary>
+        /// <param name="res">Res a validar</param>
+        /// <returns>True si es válida, False en caso contrario</returns>
+        public override bool ValidarRes(Res res)
+        {
+            try
+            {
+                // Validar que la res no sea nula
+                if (!ValidarNoNulo(res))
+                {
+                    MostrarMensaje("Res [NULL]", false);
+                    return false;
+                }
+
+                // Validar nombre
+                if (!ValidarString(res.Nombre))
+                {
+                    MostrarMensaje($"Res [Nombre vacío]", false);
+                    return false;
+                }
+
+                // Validar peso
+                if (res.Peso <= 0)
+                {
+                    MostrarMensaje($"Res '{res.Nombre}' [Peso inválido: {res.Peso}]", false);
+                    return false;
+                }
+
+                // Validar edad
+                if (res.Edad <= 0)
+                {
+                    MostrarMensaje($"Res '{res.Nombre}' [Edad inválida: {res.Edad}]", false);
+                    return false;
+                }
+
+                // Si todas las validaciones pasan
+                MostrarMensaje($"Res '{res.Nombre}' (Peso: {res.Peso}kg, Edad: {res.Edad} meses)", true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Validación] ✗ Error al validar Res: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarPotrero
+        /// </summary>
+        public override bool ValidarPotrero(Potrero potrero)
+        {
+            throw new NotImplementedException("Para validar Potrero, use la clase ValidarPotrero");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarVacuna
+        /// </summary>
+        public override bool ValidarVacuna(Vacuna vacuna)
+        {
+            throw new NotImplementedException("Para validar Vacuna, use la clase ValidarVacuna");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidarVenta
+        /// </summary>
+        public override bool ValidarVenta(Venta venta)
+        {
+            throw new NotImplementedException("Para validar Venta, use la clase ValidarVenta");
+        }
+    }
+}

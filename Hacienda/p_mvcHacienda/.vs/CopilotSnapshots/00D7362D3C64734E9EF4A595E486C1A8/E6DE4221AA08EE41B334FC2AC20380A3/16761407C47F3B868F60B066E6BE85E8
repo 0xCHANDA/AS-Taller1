@@ -1,0 +1,162 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using p_mvcHacienda.Servicios;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Controllers
+{
+    public class VacunaController : Controller
+    {
+        private readonly VacunaService _vacunaService;
+        private readonly ResService _resService;
+        private readonly PotreroService _potreroService;
+
+        public VacunaController(VacunaService vacunaService, ResService resService, PotreroService potreroService)
+        {
+            _vacunaService = vacunaService;
+            _resService = resService;
+            _potreroService = potreroService;
+        }
+
+        // GET: Vacuna/Index - Listar todas las vacunas
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var vacunas = _vacunaService.ObtenerVacunasDisponibles();
+            var estadisticas = _vacunaService.ObtenerEstadisticas();
+
+            ViewBag.Estadisticas = estadisticas;
+
+            return View(vacunas);
+        }
+
+        // GET: Vacuna/Create - Mostrar formulario de creación
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Vacuna/Create - Procesar creación de vacuna
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(string tipoVacuna, string nombre, string lote,
+            DateTime fechaVencimiento, DateTime fechaAplicacion,
+            uint? periodoAplicacion, enum_l_atenuaciones? atenuacion)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(lote))
+                {
+                    ViewBag.Mensaje = "❌ El nombre y lote son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    return View();
+                }
+
+                bool exitoso;
+                if (tipoVacuna == "Bacteriana")
+                {
+                    if (!periodoAplicacion.HasValue)
+                    {
+                        ViewBag.Mensaje = "❌ El período de aplicación es requerido para vacunas bacterianas";
+                        ViewBag.TipoMensaje = "danger";
+                        return View();
+                    }
+                    exitoso = _vacunaService.CrearVacunaBacteriana(nombre, lote, fechaVencimiento, fechaAplicacion, periodoAplicacion.Value);
+                }
+                else // Viva
+                {
+                    if (!atenuacion.HasValue)
+                    {
+                        ViewBag.Mensaje = "❌ La atenuación es requerida para vacunas vivas";
+                        ViewBag.TipoMensaje = "danger";
+                        return View();
+                    }
+                    exitoso = _vacunaService.CrearVacunaViva(nombre, lote, fechaVencimiento, fechaAplicacion, atenuacion.Value);
+                }
+
+                if (exitoso)
+                {
+                    TempData["Mensaje"] = $"✅ Vacuna '{nombre}' creada exitosamente";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+            }
+
+            return View();
+        }
+
+        // GET: Vacuna/Aplicar - Mostrar formulario para aplicar vacuna
+        [HttpGet]
+        public ActionResult Aplicar()
+        {
+            ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+            ViewBag.Reses = _resService.ObtenerTodasLasReses();
+            ViewBag.Vacunas = _vacunaService.ObtenerVacunasDisponibles();
+            return View();
+        }
+
+        // POST: Vacuna/Aplicar - Procesar aplicación de vacuna
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Aplicar(string potreroId, string nombreRes, string loteVacuna)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(potreroId) || string.IsNullOrWhiteSpace(nombreRes) || string.IsNullOrWhiteSpace(loteVacuna))
+                {
+                    ViewBag.Mensaje = "❌ Todos los campos son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                    ViewBag.Reses = _resService.ObtenerTodasLasReses();
+                    ViewBag.Vacunas = _vacunaService.ObtenerVacunasDisponibles();
+                    return View();
+                }
+
+                bool exitoso = _vacunaService.AplicarVacuna(potreroId, nombreRes, loteVacuna);
+
+                if (exitoso)
+                {
+                    TempData["Mensaje"] = $"✅ Vacuna aplicada exitosamente a la res '{nombreRes}'";
+                    TempData["TipoMensaje"] = "success";
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = $"❌ {ex.Message}";
+                TempData["TipoMensaje"] = "danger";
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // POST: Vacuna/CrearPredefinidas - Crear vacunas del sistema
+        [HttpPost]
+        public ActionResult CrearPredefinidas()
+        {
+            try
+            {
+                bool exitoso = _vacunaService.CrearVacunasPredefinidas();
+
+                if (exitoso)
+                {
+                    TempData["Mensaje"] = "✅ Vacunas predefinidas creadas exitosamente";
+                    TempData["TipoMensaje"] = "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = $"❌ {ex.Message}";
+                TempData["TipoMensaje"] = "danger";
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}

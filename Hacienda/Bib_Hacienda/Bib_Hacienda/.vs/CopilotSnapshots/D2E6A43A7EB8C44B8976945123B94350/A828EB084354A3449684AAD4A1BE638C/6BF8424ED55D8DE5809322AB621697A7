@@ -1,0 +1,62 @@
+﻿using Bib_Hacienda.Clases;
+using Bib_Hacienda.Singleton;
+using System;
+using static Bib_Hacienda.Clases.Potrero;
+
+namespace TestEventos
+{
+    class Program
+    {
+      static void Main(string[] args)
+        {
+  Console.WriteLine("=== TEST DE EVENTOS ===\n");
+
+            try
+        {
+          Hacienda hacienda = HaciendaSingleton.Instancia;
+
+       // Test 1: Crear potrero
+Console.WriteLine("1. Creando potrero...");
+          string resultado1 = hacienda.crear_potrero("Test1", l_tipos_potreros.ternero);
+      Console.WriteLine(resultado1);
+      Console.WriteLine();
+
+    // Test 2: Agregar res con peso BAJO (debe disparar evento de desnutrición)
+          Console.WriteLine("2. Agregando res con peso bajo (100 kg < 150 kg mínimo):");
+     string resultado2 = hacienda.anadir_res_potrero("Test1", "ResFlaca", 6, 100);
+     Console.WriteLine(resultado2);
+          Console.WriteLine();
+
+             // Test 3: Agregar res con peso ALTO (debe disparar evento de venta)
+      Console.WriteLine("3. Agregando res con peso alto (300 kg >= 250 kg venta):");
+      string resultado3 = hacienda.anadir_res_potrero("Test1", "ResGorda", 6, 300);
+    Console.WriteLine(resultado3);
+        Console.WriteLine();
+
+     // Test 4: Agregar 73 reses más (total 75, debe disparar evento de mitad)
+ Console.WriteLine("4. Agregando 73 reses más para llegar a 75...");
+  for (int i = 3; i <= 75; i++)
+           {
+  hacienda.anadir_res_potrero("Test1", $"Res{i}", 6, 200);
+  if (i % 10 == 0)
+      Console.WriteLine($"   {i} reses agregadas...");
+          }
+ 
+        // La res #75 debería mostrar el evento
+             Console.WriteLine("\n5. Resultado de la res #75:");
+             // Ya se agregó en el loop, mostrar el total
+      Potrero potrero = hacienda.buscar_potrero("Test1");
+       Console.WriteLine($"Total de reses en potrero: {potrero.L_reses.Count}");
+    Console.WriteLine();
+
+}
+            catch (Exception ex)
+            {
+  Console.WriteLine($"ERROR: {ex.Message}");
+            }
+
+   Console.WriteLine("\nPresione una tecla para salir...");
+         Console.ReadKey();
+     }
+    }
+}

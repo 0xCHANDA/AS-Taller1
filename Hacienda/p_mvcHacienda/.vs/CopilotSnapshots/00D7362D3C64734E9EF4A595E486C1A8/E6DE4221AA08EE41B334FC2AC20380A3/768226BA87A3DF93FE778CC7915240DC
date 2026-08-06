@@ -1,0 +1,181 @@
+﻿using Bib_Hacienda.Clases;
+using p_mvcHacienda.Aspectos;
+using static Bib_Hacienda.Clases.Potrero;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class PotreroService
+    {
+      //Atributos
+        private readonly Hacienda _hacienda;
+  private readonly PersistenciaService _persistencia;
+
+        //Constructor
+        public PotreroService(Hacienda hacienda, PersistenciaService persistencia)
+        {
+_hacienda = hacienda;
+  _persistencia = persistencia;
+        }
+
+        // Crear un nuevo potrero con validación de aspectos
+    public bool CrearPotrero(
+     [ValidacionAspecto(TipoValidacion.IdentificacionPotrero)] string identificacion, 
+        l_tipos_potreros tipo)
+        {
+   try
+      {
+       // ASPECTO: Aplicar validaciones automáticas
+     ValidacionInterceptor.ValidarParametros(
+     new object[] { identificacion, tipo },
+          System.Reflection.MethodBase.GetCurrentMethod()!);
+
+// Verificar si ya existe un potrero con esa identificación
+        if (_hacienda.L_potreros.Any(p => p.Identificacion == identificacion))
+   {
+ throw new InvalidOperationException($"Ya existe un potrero con la identificación '{identificacion}'");
+ }
+
+   // Intentar crear el potrero
+      string resultado = _hacienda.crear_potrero(identificacion, tipo);
+         
+    // Guardar los cambios
+     _persistencia.GuardarPotreros(_hacienda.L_potreros);
+       _persistencia.GuardarReses(_hacienda.L_potreros);
+     
+    // Si llegamos aquí, la operación fue exitosa
+             return true;
+      }
+   catch (Exception ex)
+    {
+   // Re-lanzar la excepción para que el controlador la maneje
+  throw new Exception($"Error al crear el potrero: {ex.Message}");
+     }
+}
+
+   // Obtener todos los potreros
+    public List<Potrero> ObtenerTodosLosPotreros()
+      {
+            return _hacienda.L_potreros.OrderBy(p => p.Identificacion).ToList();
+  }
+
+        // Obtener un potrero por identificación con validación
+     public Potrero? ObtenerPotreroPorIdentificacion(
+   [ValidacionAspecto(TipoValidacion.NoVacio)] string identificacion)
+   {
+try
+  {
+   // ASPECTO: Validar parámetros
+   ValidacionInterceptor.ValidarParametros(
+       new object[] { identificacion },
+        System.Reflection.MethodBase.GetCurrentMethod()!);
+
+      return _hacienda.buscar_potrero(identificacion);
+         }
+            catch
+     {
+       return null;
+      }
+        }
+
+     // Agregar una res al potrero con validaciones de aspecto
+        public bool AgregarRes(
+  [ValidacionAspecto(TipoValidacion.NoVacio)] string potreroId, 
+         [ValidacionAspecto(TipoValidacion.NoVacio)] string nombreRes, 
+         [ValidacionAspecto(TipoValidacion.EdadRes)] ushort edad, 
+    [ValidacionAspecto(TipoValidacion.PesoRes)] uint peso)
+   {
+            try
+    {
+     // ASPECTO: Aplicar validaciones automáticas
+     ValidacionInterceptor.ValidarParametros(
+  new object[] { potreroId, nombreRes, edad, peso },
+  System.Reflection.MethodBase.GetCurrentMethod()!);
+
+       // Validación de reglas de negocio específicas
+      ValidarRegrasDeNegocioReses(potreroId, nombreRes, edad, peso);
+
+     // Verificar que el potrero existe
+    var potrero = _hacienda.buscar_potrero(potreroId);
+     if (potrero == null)
+  {
+      throw new InvalidOperationException($"No se encontró el potrero '{potreroId}'");
+   }
+
+      // Verificar que no existe una res con ese nombre en el potrero
+     if (potrero.L_reses.Any(r => r.Nombre == nombreRes))
+  {
+    throw new InvalidOperationException($"Ya existe una res con el nombre '{nombreRes}' en el potrero '{potreroId}'");
+   }
+
+      // Intentar agregar la res
+     string resultado = _hacienda.anadir_res_potrero(potreroId, nombreRes, edad, peso);
+    
+    // Guardar los cambios
+     _persistencia.GuardarPotreros(_hacienda.L_potreros);
+   _persistencia.GuardarReses(_hacienda.L_potreros);
+      
+    // Si llegamos aquí, la operación fue exitosa
+      return true;
+       }
+   catch (Exception ex)
+      {
+       // Re-lanzar la excepción para que el controlador la maneje
+ throw new Exception($"Error al agregar la res: {ex.Message}");
+    }
+   }
+
+  /// <summary>
+        /// ASPECTO: Validaciones específicas de reglas de negocio para reses
+        /// Este método implementa POA separando las validaciones transversales
+        /// </summary>
+     private void ValidarRegrasDeNegocioReses(string potreroId, string nombreRes, ushort edad, uint peso)
+  {
+         var potrero = _hacienda.L_potreros.FirstOrDefault(p => p.Identificacion == potreroId);
+   if (potrero == null) return;
+
+    // Validar coherencia entre tipo de potrero y edad de la res
+        // Orden corregido: Terneros (0-12), Cebones (12-36), Novillos (+36)
+        switch (potrero.Tipo_potrero)
+  {
+     case l_tipos_potreros.ternero:
+        if (edad > 12)
+         throw new ArgumentException("Los terneros deben tener máximo 12 meses de edad");
+       break;
+           
+   case l_tipos_potreros.cebon:
+       if (edad < 12 || edad > 36)
+       throw new ArgumentException("Los cebones deben tener entre 12 y 36 meses de edad");
+  break;
+     
+            case l_tipos_potreros.novillo:
+         if (edad <= 36)
+  throw new ArgumentException("Los novillos deben tener más de 36 meses de edad");
+ break;
+}
+
+     // Validar peso según edad (aspecto de coherencia de datos)
+    if (edad <= 12 && peso > 250)
+       throw new ArgumentException("El peso es demasiado alto para la edad del ternero");
+      
+        if (edad > 36 && peso < 300)
+ throw new ArgumentException("El peso es demasiado bajo para un novillo adulto");
+    }
+
+  // Obtener estadísticas con orden corregido
+   public Dictionary<string, object> ObtenerEstadisticas()
+ {
+       var potreros = _hacienda.L_potreros;
+     return new Dictionary<string, object>
+    {
+   { "TotalPotreros", potreros.Count },
+ { "TotalReses", potreros.Sum(p => p.L_reses.Count) },
+ { "PotrerosVacios", potreros.Count(p => p.L_reses.Count == 0) },
+      { "PotrerosConReses", potreros.Count(p => p.L_reses.Count > 0) },
+       // Estadísticas por tipo (orden corregido)
+     { "PotrerosternerosJovenes", potreros.Count(p => p.Tipo_potrero == l_tipos_potreros.ternero) },
+         { "PotreroscebnoesMedios", potreros.Count(p => p.Tipo_potrero == l_tipos_potreros.cebon) },
+      { "PotrerosnovillosViejos", potreros.Count(p => p.Tipo_potrero == l_tipos_potreros.novillo) }
+        };
+   }
+    }
+}

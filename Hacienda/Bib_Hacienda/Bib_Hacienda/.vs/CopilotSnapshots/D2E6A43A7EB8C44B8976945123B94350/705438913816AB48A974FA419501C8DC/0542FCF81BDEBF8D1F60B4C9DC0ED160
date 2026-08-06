@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+    public class Venta
+    {
+        private Potrero potrero;
+        private DateTime fecha;
+        private Res res;
+        private uint monto;
+
+        public Venta(Potrero potrero, DateTime fecha, Res res, uint monto)
+        {
+            this.potrero = potrero;
+            this.fecha = fecha;
+            this.res = res;
+            this.monto = monto;
+        }
+    }
+}

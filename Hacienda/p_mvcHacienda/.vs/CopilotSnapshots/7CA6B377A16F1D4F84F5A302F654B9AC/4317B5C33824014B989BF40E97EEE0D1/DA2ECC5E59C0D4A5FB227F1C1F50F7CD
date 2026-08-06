@@ -1,0 +1,179 @@
+﻿using Castle.DynamicProxy;
+using Bib_Hacienda.Clases;
+using Bib_Hacienda.Clases.Validaciones;
+
+namespace p_mvcHacienda.Aspectos
+{
+    /// <summary>
+    /// Interceptor que valida datos antes de guardarlos usando las clases de validación de Bib_Hacienda
+    /// </summary>
+    public class ValidacionInterceptor : IInterceptor
+    {
+   private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly string _directorioLogs = "Logs";
+
+   public ValidacionInterceptor(IHttpContextAccessor httpContextAccessor)
+        {
+ _httpContextAccessor = httpContextAccessor;
+  
+         // Crear directorio de logs si no existe
+ if (!Directory.Exists(_directorioLogs))
+            {
+             Directory.CreateDirectory(_directorioLogs);
+  }
+        }
+
+        public void Intercept(IInvocation invocation)
+      {
+ string nombreMetodo = invocation.Method.Name;
+            string nombreClase = invocation.TargetType?.Name ?? "Desconocido";
+            
+      try
+      {
+     // Validar antes de ejecutar el método si es un método de guardado
+    if (EsMetodoDeGuardado(nombreMetodo))
+        {
+             bool validacionExitosa = ValidarDatos(invocation);
+             
+            if (!validacionExitosa)
+     {
+var mensaje = "❌ Validación fallida: Los datos no cumplen con los requisitos mínimos";
+  RegistrarLog(nombreClase, nombreMetodo, mensaje, false);
+               GuardarEnContexto(mensaje, false);
+    
+   // No ejecutar el método de guardado si la validación falla
+          throw new InvalidOperationException(mensaje);
+     }
+  }
+         
+   // Ejecutar el método original
+                invocation.Proceed();
+                
+// Registrar éxito después de ejecutar
+                if (EsMetodoDeGuardado(nombreMetodo))
+      {
+         var mensaje = $"✅ Validación exitosa: Datos guardados correctamente en {nombreMetodo}";
+         RegistrarLog(nombreClase, nombreMetodo, mensaje, true);
+       GuardarEnContexto(mensaje, true);
+        }
+            }
+       catch (InvalidOperationException ex)
+            {
+         // Re-lanzar excepciones de validación
+throw;
+            }
+            catch (Exception ex)
+    {
+       var mensaje = $"⚠️ Error en {nombreMetodo}: {ex.Message}";
+RegistrarLog(nombreClase, nombreMetodo, mensaje, false);
+        GuardarEnContexto(mensaje, false);
+     throw;
+        }
+        }
+
+   private bool EsMetodoDeGuardado(string nombreMetodo)
+ {
+            var metodosDeGuardado = new[] 
+    { 
+                "GuardarPotreros", 
+        "GuardarReses", 
+  "GuardarVentas", 
+           "GuardarVacunas", 
+              "GuardarVacunasAplicadas",
+             "GuardarUsuarios"
+            };
+        
+            return metodosDeGuardado.Contains(nombreMetodo);
+    }
+
+        private bool ValidarDatos(IInvocation invocation)
+        {
+      try
+ {
+     var argumentos = invocation.Arguments;
+           if (argumentos == null || argumentos.Length == 0)
+        return true;
+
+  var primerArgumento = argumentos[0];
+    
+                // Validar según el tipo de dato
+     if (primerArgumento is List<Potrero> potreros)
+        {
+   var validador = new ValidadorPotrero();
+       foreach (var potrero in potreros)
+                  {
+      if (!validador.ValidarPotrero(potrero))
+                 return false;
+         }
+   return true;
+                }
+       else if (primerArgumento is List<Venta> ventas)
+  {
+             var validador = new ValidadorVenta();
+        foreach (var venta in ventas)
+         {
+   if (!validador.ValidarVenta(venta))
+  return false;
+          }
+   return true;
+           }
+          else if (primerArgumento is List<Vacuna> vacunas)
+         {
+  var validador = new ValidadorVacuna();
+       foreach (var vacuna in vacunas)
+                {
+     if (!validador.ValidarVacuna(vacuna))
+                 return false;
+               }
+    return true;
+     }
+            else if (primerArgumento is List<Usuario> usuarios)
+     {
+  // Para usuarios, validar que tengan nombre y contraseña
+      return usuarios.All(u => !string.IsNullOrWhiteSpace(u.Nombre) && !string.IsNullOrWhiteSpace(u.Contrasena));
+        }
+
+  // Si llegamos aquí, asumimos que es válido
+       return true;
+    }
+            catch
+     {
+          return false;
+            }
+     }
+
+        private void RegistrarLog(string clase, string metodo, string mensaje, bool exitoso)
+        {
+            try
+    {
+          var logPath = Path.Combine(_directorioLogs, $"Validaciones_{DateTime.Now:yyyyMMdd}.txt");
+                var estado = exitoso ? "✅ OK" : "❌ ERROR";
+ var timestamp = DateTime.Now.ToString("HH:mm:ss");
+   var linea = $"[{timestamp}] {estado} | {clase}.{metodo} | {mensaje}\n";
+      
+   File.AppendAllText(logPath, linea);
+            }
+            catch
+     {
+        // Evitar que el logging falle la operación principal
+      }
+        }
+
+        private void GuardarEnContexto(string mensaje, bool exitoso)
+        {
+ try
+      {
+     if (_httpContextAccessor.HttpContext != null)
+         {
+                    _httpContextAccessor.HttpContext.Items["MensajeValidacion"] = mensaje;
+      _httpContextAccessor.HttpContext.Items["ValidacionExitosa"] = exitoso;
+           _httpContextAccessor.HttpContext.Items["TiempoValidacion"] = DateTime.Now;
+      }
+            }
+   catch
+            {
+                // Si falla, no detener el flujo
+        }
+        }
+    }
+}

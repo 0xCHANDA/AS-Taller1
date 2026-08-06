@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Inicio - HaciendaSoft";
+}
+
+<div class="container-fluid p-0">
+    <!-- Hero Section con imagen de fondo -->
+    <div class="aw-page-header text-center text-white" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1589995264948-8489b9893a69?q=80&w=2070&auto=format&fit=crop') no-repeat center center; background-size: cover; padding: 80px 20px; border-radius: 0;">
+        <h1 class="display-4 fw-bold mb-3 aw-reveal">
+            Bienvenido a HaciendaSoft
+        </h1>
+        <p class="lead fs-4 aw-reveal" style="transition-delay: .1s;">La solución integral para la gestión de tu hacienda ganadera.</p>
+    </div>
+
+    <!-- Módulos del Sistema -->
+    <div class="container mt-n5">
+        <div class="row g-4 mb-5">
+            <!-- Módulo Potreros -->
+            <div class="col-md-6 col-lg-4 aw-reveal" style="transition-delay: .2s;">
+                <a asp-controller="Potrero" asp-action="Index" class="text-decoration-none">
+                    <div class="aw-card h-100 text-center p-4">
+                        <span class="material-icons-outlined text-success" style="font-size: 3rem;">fence</span>
+                        <h3 class="card-title fw-bold mt-3 mb-2" style="color: var(--aw-text);">Potreros</h3>
+                        <p class="card-text text-muted">Gestiona y organiza los potreros por tipo de ganado.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Módulo Reses -->
+            <div class="col-md-6 col-lg-4 aw-reveal" style="transition-delay: .3s;">
+                <a asp-controller="Res" asp-action="Index" class="text-decoration-none">
+                    <div class="aw-card h-100 text-center p-4">
+                        <span class="material-icons-outlined" style="color: #8b4513; font-size: 3rem;">pets</span>
+                        <h3 class="card-title fw-bold mt-3 mb-2" style="color: var(--aw-text);">Reses</h3>
+                        <p class="card-text text-muted">Registra, alimenta y controla el desarrollo de tu ganado.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Módulo Vacunas -->
+            <div class="col-md-6 col-lg-4 aw-reveal" style="transition-delay: .4s;">
+                <a asp-controller="Vacuna" asp-action="Index" class="text-decoration-none">
+                    <div class="aw-card h-100 text-center p-4">
+                        <span class="material-icons-outlined text-primary" style="font-size: 3rem;">vaccines</span>
+                        <h3 class="card-title fw-bold mt-3 mb-2" style="color: var(--aw-text);">Vacunas</h3>
+                        <p class="card-text text-muted">Controla el esquema de vacunación de bacterianas y vivas.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Módulo Ventas -->
+            <div class="col-md-6 col-lg-4 aw-reveal" style="transition-delay: .5s;">
+                <a asp-controller="Venta" asp-action="Index" class="text-decoration-none">
+                    <div class="aw-card h-100 text-center p-4">
+                        <span class="material-icons-outlined text-info" style="font-size: 3rem;">paid</span>
+                        <h3 class="card-title fw-bold mt-3 mb-2" style="color: var(--aw-text);">Ventas</h3>
+                        <p class="card-text text-muted">Consulta el historial de ventas y estadísticas financieras.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Módulo Usuarios -->
+            <div class="col-md-6 col-lg-4 aw-reveal" style="transition-delay: .6s;">
+                <a asp-controller="Usuario" asp-action="Index" class="text-decoration-none">
+                    <div class="aw-card h-100 text-center p-4">
+                        <span class="material-icons-outlined text-secondary" style="font-size: 3rem;">group</span>
+                        <h3 class="card-title fw-bold mt-3 mb-2" style="color: var(--aw-text);">Usuarios</h3>
+                        <p class="card-text text-muted">Administra los usuarios con acceso al sistema.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Noticias y Consejos -->
+    <div class="container my-5">
+        <div class="aw-card p-4 aw-reveal" style="transition-delay: .7s;">
+            <h2 class="text-center mb-4 fw-bold" style="color: var(--aw-green);">Noticias y Consejos del Agro</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop" class="img-fluid rounded mb-3" alt="Campo">
+                    <h5 class="fw-bold">Optimización de Pasturas</h5>
+                    <p class="text-muted small">Aprende técnicas de rotación de potreros para maximizar el forraje y mantener la salud del suelo. Un buen manejo es clave para la rentabilidad.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://images.unsplash.com/photo-1444858291040-5c7f7fa3d264?q=80&w=2070&auto=format&fit=crop" class="img-fluid rounded mb-3" alt="Ganado">
+                    <h5 class="fw-bold">Bienestar Animal</h5>
+                    <p class="text-muted small">El estrés en el ganado puede afectar la producción. Asegura sombra, agua fresca y un manejo tranquilo para mejorar los resultados de tu hacienda.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://images.unsplash.com/photo-1590622329589-dec143803359?q=80&w=2070&auto=format&fit=crop" class="img-fluid rounded mb-3" alt="Tecnología">
+                    <h5 class="fw-bold">Tecnología en el Campo</h5>
+                    <p class="text-muted small">El uso de software como HaciendaSoft te permite tomar decisiones basadas en datos, optimizando recursos y mejorando la eficiencia de tu operación.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

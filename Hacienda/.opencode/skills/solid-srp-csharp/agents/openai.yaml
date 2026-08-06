@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRP para C#"
+  short_description: "Audita responsabilidades y actores de cambio"
+  default_prompt: "Usa $solid-srp-csharp para auditar SRP en este código C#."

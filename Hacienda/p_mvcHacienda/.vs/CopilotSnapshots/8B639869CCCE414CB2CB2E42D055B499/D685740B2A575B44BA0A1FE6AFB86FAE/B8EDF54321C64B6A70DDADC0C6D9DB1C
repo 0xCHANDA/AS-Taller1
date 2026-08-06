@@ -1,0 +1,52 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace p_mvcHacienda.Models
+{
+    public class Potrero
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "La identificación del potrero es requerida")]
+  [StringLength(50, ErrorMessage = "La identificación no puede exceder 50 caracteres")]
+        [Display(Name = "Identificación")]
+        public string Identificacion { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El tipo de potrero es requerido")]
+[Display(Name = "Tipo de Potrero")]
+        public TipoPotrero Tipo { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "La capacidad debe ser mayor o igual a 0")]
+ [Display(Name = "Capacidad Máxima")]
+        public int CapacidadMaxima { get; set; }
+
+        [Display(Name = "Cantidad de Reses")]
+        public int CantidadReses { get; set; } = 0;
+
+        [Display(Name = "Fecha de Creación")]
+        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+        public bool EstaLleno => CantidadReses >= CapacidadMaxima;
+        
+    public double PorcentajeOcupacion => CapacidadMaxima > 0 
+            ? (double)CantidadReses / CapacidadMaxima * 100 
+       : 0;
+    }
+
+ public enum TipoPotrero
+    {
+        [Display(Name = "Ternero")]
+        Ternero,
+    
+        [Display(Name = "Novillo")]
+        Novillo,
+        
+        [Display(Name = "Cebón")]
+     Cebon,
+
+ [Display(Name = "Vaca Lechera")]
+        VacaLechera,
+     
+        [Display(Name = "Reproductor")]
+   Reproductor
+    }
+}

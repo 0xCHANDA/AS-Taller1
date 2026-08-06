@@ -1,0 +1,44 @@
+﻿using Bib_Hacienda.Clases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Interfaces
+{
+    /// <summary>
+    /// Interfaz para validar información antes de guardar en base de datos
+    /// Define métodos para validar diferentes entidades del sistema
+    /// </summary>
+    public interface IValidarInformacion
+    {
+        /// <summary>
+        /// Valida si una res cumple con los requisitos para ser guardada en BD
+        /// </summary>
+        /// <param name="res">Res a validar</param>
+        /// <returns>True si es válida, False en caso contrario</returns>
+        bool ValidarRes(Res res);
+
+        /// <summary>
+        /// Valida si un potrero cumple con los requisitos para ser guardado en BD
+        /// </summary>
+        /// <param name="potrero">Potrero a validar</param>
+      /// <returns>True si es válido, False en caso contrario</returns>
+        bool ValidarPotrero(Potrero potrero);
+
+     /// <summary>
+   /// Valida si una vacuna cumple con los requisitos para ser guardada en BD
+  /// </summary>
+      /// <param name="vacuna">Vacuna a validar</param>
+        /// <returns>True si es válida, False en caso contrario</returns>
+ bool ValidarVacuna(Vacuna vacuna);
+
+        /// <summary>
+        /// Valida si una venta cumple con los requisitos para ser guardada en BD
+        /// </summary>
+      /// <param name="venta">Venta a validar</param>
+        /// <returns>True si es válida, False en caso contrario</returns>
+        bool ValidarVenta(Venta venta);
+}
+}

@@ -1,0 +1,173 @@
+﻿@{
+    ViewData["Title"] = "Inicio - Sistema Hacienda Ganadera";
+}
+
+<div class="container-fluid" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 50px 20px;">
+    <!-- Encabezado Principal -->
+    <div class="text-center text-white mb-5">
+        <h1 class="display-3 fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+  🐄 Sistema de Gestión Hacienda Ganadera
+  </h1>
+        <p class="lead fs-4">Administra tu hacienda de forma eficiente y profesional</p>
+ </div>
+
+    <!-- Módulos del Sistema -->
+    <div class="row g-4 mb-5">
+        <!-- Módulo Potreros -->
+        <div class="col-md-6 col-lg-4">
+   <div class="card h-100 shadow-lg border-0" style="background-color: #fdf5e6; transition: transform 0.3s;">
+    <div class="card-body text-center p-4">
+        <div class="mb-3">
+       <span style="font-size: 4rem;">🌿</span>
+    </div>
+      <h3 class="card-title fw-bold mb-3" style="color: #2e7d32;">Potreros</h3>
+      <p class="card-text text-muted mb-4">
+    Gestiona los potreros de tu hacienda. Organiza por tipos de ganado.
+ </p>
+       <a asp-controller="Potrero" asp-action="Index" class="btn btn-success btn-lg rounded-pill px-4 w-100">
+        Administrar Potreros
+      </a>
+ </div>
+   </div>
+  </div>
+
+        <!-- Módulo Reses -->
+   <div class="col-md-6 col-lg-4">
+  <div class="card h-100 shadow-lg border-0" style="background-color: #fff8e7; transition: transform 0.3s;">
+     <div class="card-body text-center p-4">
+  <div class="mb-3">
+       <span style="font-size: 4rem;">🐄</span>
+ </div>
+    <h3 class="card-title fw-bold mb-3" style="color: #8b4513;">Reses</h3>
+  <p class="card-text text-muted mb-4">
+     Registra y gestiona tu ganado. Alimenta y controla su desarrollo.
+     </p>
+      <a asp-controller="Res" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-4 w-100">
+     Administrar Reses
+   </a>
+ </div>
+      </div>
+ </div>
+
+        <!-- Módulo Vacunas -->
+        <div class="col-md-6 col-lg-4">
+       <div class="card h-100 shadow-lg border-0" style="background-color: #e3f2fd; transition: transform 0.3s;">
+      <div class="card-body text-center p-4">
+ <div class="mb-3">
+  <span style="font-size: 4rem;">💉</span>
+ </div>
+      <h3 class="card-title fw-bold mb-3" style="color: #1976d2;">Vacunas</h3>
+   <p class="card-text text-muted mb-4">
+        Controla el esquema de vacunación. Bacterianas y vivas.
+ </p>
+        <a asp-controller="Vacuna" asp-action="Index" class="btn btn-info btn-lg rounded-pill px-4 w-100 text-white">
+    Administrar Vacunas
+    </a>
+  </div>
+            </div>
+ </div>
+
+<!-- Módulo Ventas -->
+   <div class="col-md-6 col-lg-4">
+   <div class="card h-100 shadow-lg border-0" style="background-color: #e8f5e9; transition: transform 0.3s;">
+     <div class="card-body text-center p-4">
+    <div class="mb-3">
+   <span style="font-size: 4rem;">💰</span>
+      </div>
+  <h3 class="card-title fw-bold mb-3" style="color: #2e7d32;">Ventas</h3>
+      <p class="card-text text-muted mb-4">
+    Consulta el historial de ventas y estadísticas financieras.
+   </p>
+ <a asp-controller="Venta" asp-action="Index" class="btn btn-success btn-lg rounded-pill px-4 w-100">
+     Ver Ventas
+  </a>
+      </div>
+   </div>
+  </div>
+
+   <!-- Módulo Usuarios -->
+   <div class="col-md-6 col-lg-4">
+  <div class="card h-100 shadow-lg border-0" style="background-color: #f3e5f5; transition: transform 0.3s;">
+ <div class="card-body text-center p-4">
+ <div class="mb-3">
+  <span style="font-size: 4rem;">👤</span>
+  </div>
+    <h3 class="card-title fw-bold mb-3" style="color: #6a1b9a;">Usuarios</h3>
+       <p class="card-text text-muted mb-4">
+ Administra los usuarios con acceso al sistema.
+     </p>
+  <a asp-controller="Usuario" asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4 w-100">
+        Administrar Usuarios
+ </a>
+   </div>
+</div>
+ </div>
+
+   <!-- Información del Sistema -->
+        <div class="col-md-6 col-lg-4">
+   <div class="card h-100 shadow-lg border-0" style="background-color: #fff3e0; transition: transform 0.3s;">
+       <div class="card-body text-center p-4">
+  <div class="mb-3">
+    <span style="font-size: 4rem;">📊</span>
+     </div>
+      <h3 class="card-title fw-bold mb-3" style="color: #f57c00;">Sistema</h3>
+   <p class="card-text text-muted mb-4">
+   Información del sistema y accesos rápidos.
+      </p>
+    <div class="d-grid gap-2">
+      <a asp-controller="Potrero" asp-action="Create" class="btn btn-warning">+ Crear Potrero</a>
+    <a asp-controller="Res" asp-action="Create" class="btn btn-warning">+ Agregar Res</a>
+   </div>
+      </div>
+ </div>
+ </div>
+</div>
+
+    <!-- Características del Sistema -->
+    <div class="row mt-5">
+        <div class="col-12">
+     <div class="card shadow-lg border-0" style="background: rgba(255, 255, 255, 0.95);">
+  <div class="card-body p-5">
+       <h2 class="text-center mb-5 fw-bold" style="color: #333;">✨ Características del Sistema</h2>
+<div class="row">
+   <div class="col-md-3 text-center mb-4">
+    <div class="mb-3">
+ <span style="font-size: 3rem;">🔄</span>
+   </div>
+<h5 class="fw-bold">Persistencia</h5>
+    <p class="text-muted">Los datos se guardan automáticamente en archivos locales</p>
+     </div>
+         <div class="col-md-3 text-center mb-4">
+      <div class="mb-3">
+ <span style="font-size: 3rem;">📋</span>
+   </div>
+  <h5 class="fw-bold">Organización</h5>
+    <p class="text-muted">Controla potreros, reses y vacunas de forma estructurada</p>
+ </div>
+   <div class="col-md-3 text-center mb-4">
+       <div class="mb-3">
+        <span style="font-size: 3rem;">📈</span>
+  </div>
+       <h5 class="fw-bold">Estadísticas</h5>
+   <p class="text-muted">Visualiza datos importantes en tiempo real</p>
+ </div>
+      <div class="col-md-3 text-center mb-4">
+       <div class="mb-3">
+       <span style="font-size: 3rem;">🎨</span>
+  </div>
+        <h5 class="fw-bold">Interfaz</h5>
+ <p class="text-muted">Diseño intuitivo y fácil de usar</p>
+ </div>
+   </div>
+      </div>
+   </div>
+ </div>
+    </div>
+</div>
+
+<style>
+.card:hover {
+    transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+    }
+</style>

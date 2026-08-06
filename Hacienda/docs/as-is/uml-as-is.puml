@@ -1,0 +1,758 @@
+@startuml Hacienda_UML_AS_IS
+title Hacienda - UML AS-IS del codigo C# productivo
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+hide empty members
+
+' Inventario fuente: 50 .cs productivos; 49 declaran 57 tipos (incluidos tipos anidados).
+' Excluidos: bin, obj, packages, vendor, .opencode y graphify-out.
+
+package "Bib_Hacienda.Clases (Dominio)" {
+  class "Autenticacion" as BH_Autenticacion {
+    - usuarios_registrados : List<Usuario>
+    + Usuarios_registrados : List<Usuario> { get; set; }
+    + Autenticacion()
+    + crear_usuario(nombre : string, contrasena : string) : string
+    + listar_usuarios() : List<Usuario>
+    + ValidarCredenciales(nombre : string, contrasena : string) : bool
+    + buscar_usuario(nombre : string) : Usuario
+    + AutorizarOperacion(usuario : Usuario, operacion : string) : void
+  }
+
+  class "Hacienda" as BH_Hacienda {
+    - l_potreros : List<Potrero>
+    - l_ventas : List<Venta>
+    - l_vacunas : List<Vacuna>
+    - publisher_vacunacion_completa : PublisherVacunacionCompletada
+    - publisher_vacuna_vencida : PublisherVacunaVencida
+    - publisher_peso_min : PublisherPesoMin
+    - publisher_peso_ideal : PublisherPesoVenta
+    + L_potreros : List<Potrero> { get; private set; }
+    + L_ventas : List<Venta> { get; private set; }
+    + L_vacunas : List<Vacuna> { get; private set; }
+    ~ EventHandler() : void
+    + Hacienda()
+    + crear_potrero(indentificacion : string, tipo_potrero : l_tipos_potreros) : string
+    + buscar_potrero(nombre : string) : Potrero
+    + anadir_res_potrero(id_potrero : string, nombre : string, edad : ushort, peso : uint) : string
+    + vender_res(id_potrero : string, nombre : string, monto : uint) : string
+    + alimentar_res(id_potrero : string, nombre : string) : string
+    + alimentar_res(id_potrero : string, nombre : string, cantidadAlimento : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, grado_atenuacion : Viva.enum_l_atenuaciones) : string
+    + crear_vacuna(nombre : string, lote_base : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint, cantidad : uint) : string
+    + crear_vacuna(nombre : string, lote_base : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, grado_atenuacion : Viva.enum_l_atenuaciones, cantidad : uint) : string
+    + aplicar_vacuna(vacuna : Vacuna, nombre : string, id_potrero : string) : string
+  }
+
+  class "Potrero" as BH_Potrero {
+    - identificacion : string
+    - l_reses : List<Res>
+    - tipo_potrero : l_tipos_potreros
+    - publisher_potrero_mitad : PublisherPotreroMitad
+    - publisher_potrero_lleno : PublisherPotreroLleno
+    - publisher_peso_venta : PublisherPesoVenta
+    - publisher_peso_min : PublisherPesoMin
+    + L_reses : List<Res> { get; set; }
+    + Identificacion : string { get; set; }
+    + Tipo_potrero : l_tipos_potreros { get; set; }
+    ~ EventHandler() : void
+    + Potrero(identificacion : string, tipo_potrero : l_tipos_potreros)
+    + anadir_res(nombre : string, edad : ushort, peso : uint) : string
+    + buscar_res(nombre : string) : Res
+  }
+
+  enum "Potrero.l_tipos_potreros" as BH_TipoPotrero {
+    ternero
+    novillo
+    cebon
+  }
+
+  abstract class "Res" as BH_Res {
+    - nombre : string
+    - peso : uint
+    - edad : ushort
+    - l_vacunas_aplicadas : List<Vacuna>
+    + Edad : ushort { get; set; } <<virtual>>
+    + L_vacunas_aplicadas : List<Vacuna> { get; set; }
+    + Nombre : string { get; set; }
+    + Peso : uint { get; set; }
+    ~ EventHandler() : void
+    + Res(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Ternero" as BH_Ternero {
+    + Edad : ushort { get; set; } <<override>>
+    + Ternero(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Cebon" as BH_Cebon {
+    + Edad : ushort { get; set; } <<override>>
+    + Cebon(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Novillo" as BH_Novillo {
+    + Edad : ushort { get; set; } <<override>>
+    + Novillo(nombre : string, peso : uint, edad : ushort)
+  }
+
+  abstract class "Vacuna" as BH_Vacuna {
+    - nombre : string
+    - lote : string
+    - fecha_vencimiento : DateTime
+    - fecha_aplicacion : DateTime
+    + Nombre : string { get; set; }
+    + Lote : string { get; set; }
+    + Fecha_vencimiento : DateTime { get; set; }
+    + Fecha_aplicacion : DateTime { get; set; }
+    + Vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime)
+  }
+
+  class "Bacteriana" as BH_Bacteriana {
+    - periodo_aplicacion : uint
+    + Periodo_aplicacion : uint { get; set; }
+    + Bacteriana(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint)
+  }
+
+  class "Viva" as BH_Viva {
+    - periodo_atenuacion : enum_l_atenuaciones
+    + Viva(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_atenuacion : enum_l_atenuaciones)
+  }
+
+  enum "Viva.enum_l_atenuaciones" as BH_Atenuacion {
+    Atenuacion10 = 10
+    Atenuacion20 = 20
+    Atenuacion30 = 30
+  }
+
+  class "Venta" as BH_Venta {
+    - potrero : Potrero
+    - fecha : DateTime
+    - res : Res
+    - monto : uint
+    + Potrero : Potrero { get; set; }
+    + Fecha : DateTime { get; set; }
+    + Res : Res { get; set; }
+    + Monto : uint { get; set; }
+    + Venta(potrero : Potrero, fecha : DateTime, res : Res, monto : uint)
+  }
+
+  class "Usuario" as BH_Usuario {
+    - nombre : string
+    - contrasena : string
+    + Nombre : string { get; set; }
+    + Contrasena : string { get; set; }
+    + Usuario(nombre : string, contrasena : string)
+  }
+}
+
+package "Bib_Hacienda.Interfaces (Contratos de dominio)" {
+  interface "IAutenticacion" as BH_IAutenticacion {
+    + AutorizarOperacion(usuario : Usuario, operacion : string) : void
+  }
+  interface "ICreacionVacuna" as BH_ICreacionVacuna {
+    + crear_vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, grado_atenuacion : Viva.enum_l_atenuaciones) : string
+    + crear_vacuna(nombre : string, lote_base : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint, cantidad : uint) : string
+    + crear_vacuna(nombre : string, lote_base : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, grado_atenuacion : Viva.enum_l_atenuaciones, cantidad : uint) : string
+  }
+  interface "IVacunacion" as BH_IVacunacion {
+    + aplicar_vacuna(vacuna : Vacuna, nombre : string, id_potrero : string) : string
+  }
+  interface "IVentaRes" as BH_IVentaRes {
+    + vender_res(id_potrero : string, nombre : string, monto : uint) : string
+  }
+  interface "IValidarInformacion" as BH_IValidarInformacion {
+    + ValidarRes(res : Res) : bool
+    + ValidarPotrero(potrero : Potrero) : bool
+    + ValidarVacuna(vacuna : Vacuna) : bool
+    + ValidarVenta(venta : Venta) : bool
+  }
+}
+
+package "Bib_Hacienda.Clases.Validaciones (Validacion)" {
+  abstract class "Validacion" as BH_Validacion {
+    + {abstract} ValidarRes(res : Res) : bool
+    + {abstract} ValidarPotrero(potrero : Potrero) : bool
+    + {abstract} ValidarVacuna(vacuna : Vacuna) : bool
+    + {abstract} ValidarVenta(venta : Venta) : bool
+  }
+  class "ValidadorPotrero" as BH_ValidadorPotrero {
+    + {override} ValidarPotrero(potrero : Potrero) : bool
+    + {override} ValidarRes(res : Res) : bool
+    + {override} ValidarVacuna(vacuna : Vacuna) : bool
+    + {override} ValidarVenta(venta : Venta) : bool
+  }
+  class "ValidadorRes" as BH_ValidadorRes {
+    + {override} ValidarRes(res : Res) : bool
+    + {override} ValidarPotrero(potrero : Potrero) : bool
+    + {override} ValidarVacuna(vacuna : Vacuna) : bool
+    + {override} ValidarVenta(venta : Venta) : bool
+  }
+  class "ValidadorVacuna" as BH_ValidadorVacuna {
+    + {override} ValidarVacuna(vacuna : Vacuna) : bool
+    + {override} ValidarRes(res : Res) : bool
+    + {override} ValidarPotrero(potrero : Potrero) : bool
+    + {override} ValidarVenta(venta : Venta) : bool
+  }
+  class "ValidadorVenta" as BH_ValidadorVenta {
+    + {override} ValidarVenta(venta : Venta) : bool
+    + {override} ValidarRes(res : Res) : bool
+    + {override} ValidarPotrero(potrero : Potrero) : bool
+    + {override} ValidarVacuna(vacuna : Vacuna) : bool
+  }
+}
+
+package "Bib_Hacienda.Reglas (Reglas estaticas)" {
+  abstract class "ReglaPotrero" as BH_ReglaPotrero {
+    + {static} {readOnly} max_reses_potrero : ushort = 150
+  }
+  abstract class "ReglaRes" as BH_ReglaRes {
+    + {static} {readOnly} peso_min_ternero : ushort = 150
+    + {static} {readOnly} peso_min_cebon : ushort = 290
+    + {static} {readOnly} peso_min_novillo : ushort = 400
+    + {static} {readOnly} peso_recom_venta_ternero : ushort = 250
+    + {static} {readOnly} peso_recom_venta_cebon : ushort = 420
+    + {static} {readOnly} peso_recom_venta_novillo : ushort = 550
+    + {static} {readOnly} edad_max_ternero : byte = 12
+    + {static} {readOnly} edad_max_cebon : byte = 48
+  }
+  abstract class "ReglaVacuna" as BH_ReglaVacuna {
+    + {static} {readOnly} max_bac_ternero : byte = 3
+    + {static} {readOnly} max_bac_cebon : byte = 1
+    + {static} {readOnly} max_bac_novillo : byte = 2
+    + {static} {readOnly} max_viv_ternero : byte = 1
+    + {static} {readOnly} max_viv_cebon : byte = 4
+    + {static} {readOnly} max_viv_novillo : byte = 2
+    + {static} {readOnly} periodo_min_bac_aplic : byte = 2
+    + {static} {readOnly} periodo_max_bac_aplic : byte = 4
+  }
+}
+
+package "Bib_Hacienda.Eventos (Eventos de dominio)" {
+  class "PublisherPesoMin.dele_peso_min" as D_PesoMin <<delegate>> {
+    + dele_peso_min(peso_min : string) : void
+  }
+  class "PublisherPesoMin" as BH_PublisherPesoMin {
+    + evt_peso_min : dele_peso_min <<event>>
+    + Informar_Peso_Min(res : Res) : void
+    + {static} implicit operator PublisherPesoMin(v : PublisherPesoVenta) : PublisherPesoMin
+  }
+  class "PublisherPesoVenta.dele_peso_venta" as D_PesoVenta <<delegate>> {
+    + dele_peso_venta(peso_venta : string) : void
+  }
+  class "PublisherPesoVenta" as BH_PublisherPesoVenta {
+    + evt_peso_venta : dele_peso_venta <<event>>
+    + Informar_Peso_Venta(res : Res) : void
+  }
+  class "PublisherPotreroLleno.delegado_potrero_lleno" as D_PotreroLleno <<delegate>> {
+    + delegado_potrero_lleno(mensaje : string) : void
+  }
+  class "PublisherPotreroLleno" as BH_PublisherPotreroLleno {
+    + evt_potrero_lleno : delegado_potrero_lleno <<event>>
+    + Informar_Potrero_Lleno(cantidad_reses : ushort, potrero : Potrero) : void
+  }
+  class "PublisherPotreroMitad.delegado_potrero_mitad" as D_PotreroMitad <<delegate>> {
+    + delegado_potrero_mitad(mensaje : string) : void
+  }
+  class "PublisherPotreroMitad" as BH_PublisherPotreroMitad {
+    + evt_potrero_mitad : delegado_potrero_mitad <<event>>
+    + Informar_Potrero_Mitad(cantidad_reses : ushort, potrero : Potrero) : void
+  }
+  class "PublisherVacunaVencida.dele_vacuna_vencida" as D_VacunaVencida <<delegate>> {
+    + dele_vacuna_vencida(mensaje : string) : void
+  }
+  class "PublisherVacunaVencida" as BH_PublisherVacunaVencida {
+    + evt_vacuna_vencida : dele_vacuna_vencida <<event>>
+    + Informar_Vacuna_Vencida(vacuna : Vacuna) : bool
+  }
+  class "PublisherVacunacionCompletada.dele_vacunacion_completada" as D_VacunacionCompletada <<delegate>> {
+    + dele_vacunacion_completada(mensaje : string) : void
+  }
+  class "PublisherVacunacionCompletada" as BH_PublisherVacunacionCompletada {
+    + evt_vacunacion_completada : dele_vacunacion_completada <<event>>
+    + Informar_Vacunacion_Completada(res : Res, contador_bacterianas : ushort, contador_vivas : ushort) : bool
+  }
+}
+
+package "Bib_Hacienda.Aspectos (Aspectos)" {
+  class "InterceptorAutenticacion" as BH_InterceptorAutenticacion {
+    - {readOnly} _httpContextAccessor : IHttpContextAccessor
+    + InterceptorAutenticacion(httpContextAccessor : IHttpContextAccessor)
+    + Intercept(invocation : IInvocation) : void
+  }
+  class "InterceptorValidarInformacion" as BH_InterceptorValidarInformacion {
+    - {readOnly} _httpContextAccessor : IHttpContextAccessor
+    + InterceptorValidarInformacion(httpContextAccessor : IHttpContextAccessor)
+    + Intercept(invocation : IInvocation) : void
+  }
+}
+
+package "p_mvcHacienda.Models (Modelos MVC)" {
+  class "ErrorViewModel" as MVC_ErrorViewModel {
+    + RequestId : string? { get; set; }
+    + ShowRequestId : bool { get; }
+  }
+  class "LoginViewModel" as MVC_LoginViewModel {
+    + Username : string { get; set; } <<Required>>
+    + Password : string { get; set; } <<Required, DataType.Password>>
+  }
+}
+
+package "p_mvcHacienda.Servicios (Aplicacion e infraestructura)" {
+  class "PersistenciaService" as MVC_PersistenciaService {
+    - {readOnly} _directorioArchivos : string
+    - {readOnly} _httpContextAccessor : IHttpContextAccessor
+    - _interceptorValidacion : InterceptorValidarInformacion?
+    - _validadorVacunaProxy : ValidadorVacuna?
+    - _validadorPotreroProxy : ValidadorPotrero?
+    - _validadorResProxy : ValidadorRes?
+    - _validadorVentaProxy : ValidadorVenta?
+    + PersistenciaService(httpContextAccessor : IHttpContextAccessor, env : IWebHostEnvironment)
+    - InicializarProxies() : void
+    + GuardarPotreros(potreros : List<Potrero>) : string
+    + GuardarReses(potreros : List<Potrero>) : string
+    + GuardarVentas(ventas : List<Venta>) : string
+    + GuardarVacunas(vacunas : List<Vacuna>) : string
+    + GuardarVacunasAplicadas(potreros : List<Potrero>) : string
+    + GuardarUsuarios(usuarios : List<Usuario>) : string
+    + CargarPotreros() : List<Potrero>
+    + CargarReses(potreros : List<Potrero>) : void
+    + CargarVentas(potreros : List<Potrero>) : List<Venta>
+    + CargarVacunas() : List<Vacuna>
+    + CargarVacunasAplicadas(potreros : List<Potrero>) : void
+    + CargarUsuarios() : List<Usuario>
+  }
+  class "PotreroService" as MVC_PotreroService {
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + PotreroService(hacienda : Hacienda, persistencia : PersistenciaService)
+    + CrearPotrero(identificacion : string, tipo : l_tipos_potreros) : string
+    + ObtenerTodosLosPotreros() : List<Potrero>
+    + ObtenerPotreroPorIdentificacion(identificacion : string) : Potrero?
+    + AgregarRes(potreroId : string, nombreRes : string, edad : ushort, peso : uint) : string
+    + ObtenerEstadisticas() : Dictionary<string, object>
+  }
+  class "ResService" as MVC_ResService {
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + ResService(hacienda : Hacienda, persistencia : PersistenciaService)
+    + ObtenerTodasLasReses() : List<(Potrero Potrero, Res Res)>
+    + BuscarRes(potreroId : string, nombreRes : string) : Res?
+    + ObtenerEstadisticas() : Dictionary<string, object>
+  }
+  class "UsuarioService" as MVC_UsuarioService {
+    - {static} _usuarios : List<Usuario>
+    - {readOnly} _persistencia : PersistenciaService
+    + UsuarioService(persistencia : PersistenciaService)
+    + CargarUsuarios() : void
+    + CrearUsuario(nombre : string, contrasena : string) : string
+    + AutenticarUsuario(nombre : string, contrasena : string) : bool
+    + ObtenerTodosLosUsuarios() : List<Usuario>
+    + BuscarUsuario(nombre : string) : Usuario?
+    + ObtenerEstadisticas() : Dictionary<string, object>
+    + ValidateUserAsync(username : string, password : string) : Task<(bool, IEnumerable<Claim>)> <<async>>
+  }
+  class "VacunaService" as MVC_VacunaService {
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + VacunaService(hacienda : Hacienda, persistencia : PersistenciaService)
+    + CrearVacuna(nombre : string, lote : string, fechaVencimiento : DateTime, fechaAplicacion : DateTime, periodoAplicacion : uint?, atenuacion : enum_l_atenuaciones?) : string
+    + AplicarVacuna(potreroId : string, nombreRes : string, loteVacuna : string) : string
+    + ObtenerVacunasDisponibles() : List<Vacuna>
+    + ObtenerVacunasAplicadas(potreroId : string, nombreRes : string) : List<Vacuna>
+    + ObtenerEstadisticas() : Dictionary<string, object>
+    - ConsolidarValidaciones(a : string, b : string) : string
+    - AsegurarPuntoFinal(mensaje : string) : string
+  }
+  class "VentaService" as MVC_VentaService {
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + VentaService(hacienda : Hacienda, persistencia : PersistenciaService)
+    + ObtenerTodasLasVentas() : List<Venta>
+    + ObtenerVentasPorPotrero(potreroId : string) : List<Venta>
+    + ObtenerVentasPorFechas(fechaInicio : DateTime, fechaFin : DateTime) : List<Venta>
+    + ObtenerEstadisticas() : Dictionary<string, object>
+  }
+}
+
+package "p_mvcHacienda.Controllers (Presentacion MVC)" {
+  class "AccountController" as MVC_AccountController {
+    - {readOnly} _usuarioService : UsuarioService
+    + AccountController(usuarioService : UsuarioService)
+    + Login(returnUrl : string = null) : IActionResult <<HttpGet>>
+    + Login(model : LoginViewModel, returnUrl : string = null) : Task<IActionResult> <<HttpPost, async>>
+    + Logout() : Task<IActionResult> <<async>>
+    + AccessDenied() : IActionResult
+  }
+  class "HomeController" as MVC_HomeController <<Authorize>> {
+    - {readOnly} _logger : ILogger<HomeController>
+    + HomeController(logger : ILogger<HomeController>)
+    + Index() : IActionResult
+    + Privacy() : IActionResult
+    + Error() : IActionResult <<ResponseCache>>
+  }
+  class "PotreroController" as MVC_PotreroController {
+    - {readOnly} _potreroService : PotreroService
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + PotreroController(potreroService : PotreroService, hacienda : Hacienda, persistencia : PersistenciaService)
+    + Index() : ActionResult <<HttpGet>>
+    + Create() : ActionResult
+    + Details(id : string) : ActionResult
+    + Create(identificacion : string, tipo : l_tipos_potreros) : ActionResult <<HttpPost>>
+  }
+  class "ResController" as MVC_ResController {
+    - {readOnly} _resService : ResService
+    - {readOnly} _potreroService : PotreroService
+    - {readOnly} _hacienda : Hacienda
+    - {readOnly} _persistencia : PersistenciaService
+    + ResController(resService : ResService, potreroService : PotreroService, hacienda : Hacienda, persistencia : PersistenciaService)
+    + Index() : ActionResult <<HttpGet>>
+    + DetalleVacunas(potreroId : string, nombreRes : string) : ActionResult <<HttpGet>>
+    + Create() : ActionResult
+    + Create(potreroId : string, nombre : string, edad : ushort, peso : uint) : ActionResult <<HttpPost>>
+    + Alimentar(potreroId : string, nombreRes : string, cantidadAlimento : uint) : ActionResult
+    + Vender(potreroId : string, nombreRes : string, monto : string) : ActionResult
+  }
+  class "UsuarioController" as MVC_UsuarioController {
+    - {readOnly} _usuarioService : UsuarioService
+    + UsuarioController(usuarioService : UsuarioService)
+    + Index() : ActionResult <<HttpGet>>
+    + Create() : ActionResult <<HttpGet>>
+    + Create(nombre : string, contrasena : string) : ActionResult <<HttpPost, ValidateAntiForgeryToken>>
+  }
+  class "VacunaController" as MVC_VacunaController {
+    - {readOnly} _vacunaService : VacunaService
+    - {readOnly} _resService : ResService
+    - {readOnly} _potreroService : PotreroService
+    + VacunaController(vacunaService : VacunaService, resService : ResService, potreroService : PotreroService)
+    + Index() : ActionResult <<HttpGet>>
+    + Create() : ActionResult <<HttpGet>>
+    + Aplicar() : ActionResult <<HttpGet>>
+    + Create(tipoVacuna : string, nombre : string, lote : string, fechaVencimiento : string, fechaAplicacion : string, periodoAplicacion : uint?, atenuacion : enum_l_atenuaciones?) : ActionResult <<HttpPost, ValidateAntiForgeryToken>>
+    + Aplicar(potreroId : string, nombreRes : string, loteVacuna : string) : ActionResult <<HttpPost, ValidateAntiForgeryToken>>
+  }
+  class "VentaController" as MVC_VentaController {
+    - {readOnly} _ventaService : VentaService
+    + VentaController(ventaService : VentaService)
+    + Index() : ActionResult
+    + Details(id : int) : ActionResult
+    + Create() : ActionResult
+    + Edit(id : int) : ActionResult
+    + Delete(id : int) : ActionResult
+    + Create(collection : IFormCollection) : ActionResult <<HttpPost, ValidateAntiForgeryToken>>
+    + Edit(id : int, collection : IFormCollection) : ActionResult
+    + Delete(id : int, collection : IFormCollection) : ActionResult
+  }
+}
+
+package "p_mvcHacienda (Composition root)" {
+  class "Program" as MVC_Program {
+    + {static} Main(args : string[]) : void
+  }
+}
+
+package "Dependencias externas relevantes (no expandidas)" {
+  class "Controller" as EXT_Controller <<ASP.NET Core MVC>>
+  interface "ILogger<T>" as EXT_ILogger <<Microsoft.Extensions.Logging>>
+  interface "IHttpContextAccessor" as EXT_IHttpContextAccessor <<ASP.NET Core>>
+  interface "IWebHostEnvironment" as EXT_IWebHostEnvironment <<ASP.NET Core Hosting>>
+  interface "IInterceptor" as EXT_IInterceptor <<Castle.DynamicProxy>>
+  interface "IInvocation" as EXT_IInvocation <<Castle.DynamicProxy>>
+  class "ProxyGenerator" as EXT_ProxyGenerator <<Castle.DynamicProxy>>
+  class "ActionResult" as EXT_ActionResult <<ASP.NET Core MVC>>
+  interface "IActionResult" as EXT_IActionResult <<ASP.NET Core MVC>>
+  interface "IFormCollection" as EXT_IFormCollection <<ASP.NET Core HTTP>>
+  class "WebApplication" as EXT_WebApplication <<ASP.NET Core Hosting>>
+  class "ClaimsPrincipal" as EXT_ClaimsPrincipal <<System.Security.Claims>>
+  class "ClaimsIdentity" as EXT_ClaimsIdentity <<System.Security.Claims>>
+  class "Claim" as EXT_Claim <<System.Security.Claims>>
+  class "AuthorizeAttribute" as EXT_AuthorizeAttribute <<ASP.NET Core Authorization>>
+  class "RequiredAttribute" as EXT_RequiredAttribute <<System.ComponentModel.DataAnnotations>>
+  class "DataTypeAttribute" as EXT_DataTypeAttribute <<System.ComponentModel.DataAnnotations>>
+  class "Path" as EXT_Path <<System.IO>>
+  class "Directory" as EXT_Directory <<System.IO>>
+  class "File" as EXT_File <<System.IO>>
+}
+
+' Herencia y realizacion
+BH_Res <|-- BH_Ternero
+BH_Res <|-- BH_Cebon
+BH_Res <|-- BH_Novillo
+BH_Vacuna <|-- BH_Bacteriana
+BH_Vacuna <|-- BH_Viva
+BH_Validacion <|-- BH_ValidadorPotrero
+BH_Validacion <|-- BH_ValidadorRes
+BH_Validacion <|-- BH_ValidadorVacuna
+BH_Validacion <|-- BH_ValidadorVenta
+BH_IAutenticacion <|.. BH_Autenticacion
+BH_ICreacionVacuna <|.. BH_Hacienda
+BH_IVacunacion <|.. BH_Hacienda
+BH_IVentaRes <|.. BH_Hacienda
+BH_IValidarInformacion <|.. BH_Validacion
+EXT_IInterceptor <|.. BH_InterceptorAutenticacion
+EXT_IInterceptor <|.. BH_InterceptorValidarInformacion
+EXT_Controller <|-- MVC_AccountController
+EXT_Controller <|-- MVC_HomeController
+EXT_Controller <|-- MVC_PotreroController
+EXT_Controller <|-- MVC_ResController
+EXT_Controller <|-- MVC_UsuarioController
+EXT_Controller <|-- MVC_VacunaController
+EXT_Controller <|-- MVC_VentaController
+
+' Asociaciones estructurales. Las colecciones son asociaciones navegables:
+' sus setters y la rehidratacion permiten reemplazo y comparticion.
+BH_Autenticacion --> "0..*" BH_Usuario : usuarios_registrados [I]
+BH_Hacienda --> "0..*" BH_Potrero : l_potreros [I]
+BH_Hacienda --> "0..*" BH_Venta : l_ventas [I]
+BH_Hacienda --> "0..*" BH_Vacuna : l_vacunas [I]
+BH_Potrero --> "0..*" BH_Res : l_reses [I]
+BH_Res --> "0..*" BH_Vacuna : l_vacunas_aplicadas [I]
+BH_Venta --> "0..1" BH_Potrero : potrero [I]
+BH_Venta --> "0..1" BH_Res : res [I]
+BH_Potrero ..> BH_TipoPotrero : <<uses>>
+BH_Viva ..> BH_Atenuacion : <<uses>>
+
+' Publishers privados creados inline y no expuestos: ownership directo.
+BH_Hacienda *-- "1" BH_PublisherVacunacionCompletada : publisher_vacunacion_completa [D]
+BH_Hacienda *-- "1" BH_PublisherVacunaVencida : publisher_vacuna_vencida [D]
+BH_Hacienda *-- "1" BH_PublisherPesoMin : publisher_peso_min [D]
+BH_Hacienda *-- "1" BH_PublisherPesoVenta : publisher_peso_ideal [D]
+BH_Potrero *-- "1" BH_PublisherPotreroMitad : publisher_potrero_mitad [D]
+BH_Potrero *-- "1" BH_PublisherPotreroLleno : publisher_potrero_lleno [D]
+BH_Potrero *-- "1" BH_PublisherPesoVenta : publisher_peso_venta [D]
+BH_Potrero *-- "1" BH_PublisherPesoMin : publisher_peso_min [D]
+
+' Eventos y sus tipos delegate anidados.
+BH_PublisherPesoMin --> "0..*" D_PesoMin : evt_peso_min [I]
+BH_PublisherPesoVenta --> "0..*" D_PesoVenta : evt_peso_venta [I]
+BH_PublisherPotreroLleno --> "0..*" D_PotreroLleno : evt_potrero_lleno [I]
+BH_PublisherPotreroMitad --> "0..*" D_PotreroMitad : evt_potrero_mitad [I]
+BH_PublisherVacunaVencida --> "0..*" D_VacunaVencida : evt_vacuna_vencida [I]
+BH_PublisherVacunacionCompletada --> "0..*" D_VacunacionCompletada : evt_vacunacion_completada [I]
+
+' Campos inyectados / almacenados.
+BH_InterceptorAutenticacion --> "1" EXT_IHttpContextAccessor : _httpContextAccessor [D]
+BH_InterceptorValidarInformacion --> "1" EXT_IHttpContextAccessor : _httpContextAccessor [D]
+MVC_PersistenciaService --> "1" EXT_IHttpContextAccessor : _httpContextAccessor [D]
+MVC_PersistenciaService --> "0..1" BH_InterceptorValidarInformacion : _interceptorValidacion [I]
+MVC_PersistenciaService --> "0..1" BH_ValidadorVacuna : _validadorVacunaProxy [I]
+MVC_PersistenciaService --> "0..1" BH_ValidadorPotrero : _validadorPotreroProxy [I]
+MVC_PersistenciaService --> "0..1" BH_ValidadorRes : _validadorResProxy [I]
+MVC_PersistenciaService --> "0..1" BH_ValidadorVenta : _validadorVentaProxy [I]
+MVC_PotreroService --> "1" BH_Hacienda : _hacienda [D]
+MVC_PotreroService --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_ResService --> "1" BH_Hacienda : _hacienda [D]
+MVC_ResService --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_UsuarioService --> "0..*" BH_Usuario : _usuarios {static} [I]
+MVC_UsuarioService --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_VacunaService --> "1" BH_Hacienda : _hacienda [D]
+MVC_VacunaService --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_VentaService --> "1" BH_Hacienda : _hacienda [D]
+MVC_VentaService --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_AccountController --> "1" MVC_UsuarioService : _usuarioService [D]
+MVC_HomeController --> "1" EXT_ILogger : _logger [D]
+MVC_PotreroController --> "1" MVC_PotreroService : _potreroService [D]
+MVC_PotreroController --> "1" BH_Hacienda : _hacienda [D]
+MVC_PotreroController --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_ResController --> "1" MVC_ResService : _resService [D]
+MVC_ResController --> "1" MVC_PotreroService : _potreroService [D]
+MVC_ResController --> "1" BH_Hacienda : _hacienda [D]
+MVC_ResController --> "1" MVC_PersistenciaService : _persistencia [D]
+MVC_UsuarioController --> "1" MVC_UsuarioService : _usuarioService [D]
+MVC_VacunaController --> "1" MVC_VacunaService : _vacunaService [D]
+MVC_VacunaController --> "1" MVC_ResService : _resService [D]
+MVC_VacunaController --> "1" MVC_PotreroService : _potreroService [D]
+MVC_VentaController --> "1" MVC_VentaService : _ventaService [D]
+
+' Dependencias de uso por firmas, reglas o atributos.
+BH_Bacteriana ..> BH_ReglaVacuna : <<uses>>
+BH_Ternero ..> BH_ReglaRes : <<uses>>
+BH_Cebon ..> BH_ReglaRes : <<uses>>
+BH_Novillo ..> BH_ReglaRes : <<uses>>
+BH_Potrero ..> BH_ReglaPotrero : <<uses>>
+BH_Potrero ..> BH_ReglaRes : <<uses>>
+BH_Hacienda ..> BH_ReglaVacuna : <<uses>>
+BH_PublisherPesoMin ..> BH_ReglaRes : <<uses>>
+BH_PublisherPesoVenta ..> BH_ReglaRes : <<uses>>
+BH_PublisherPotreroLleno ..> BH_ReglaPotrero : <<uses>>
+BH_PublisherPotreroMitad ..> BH_ReglaPotrero : <<uses>>
+BH_PublisherVacunacionCompletada ..> BH_ReglaVacuna : <<uses>>
+BH_Hacienda ..> BH_TipoPotrero : <<uses>>
+BH_Hacienda ..> BH_Atenuacion : <<uses>>
+BH_IAutenticacion ..> BH_Usuario : <<uses>>
+BH_ICreacionVacuna ..> BH_Atenuacion : <<uses>>
+BH_IVacunacion ..> BH_Vacuna : <<uses>>
+BH_IValidarInformacion ..> BH_Res : <<uses>>
+BH_IValidarInformacion ..> BH_Potrero : <<uses>>
+BH_IValidarInformacion ..> BH_Vacuna : <<uses>>
+BH_IValidarInformacion ..> BH_Venta : <<uses>>
+BH_Validacion ..> BH_Res : <<uses>>
+BH_Validacion ..> BH_Potrero : <<uses>>
+BH_Validacion ..> BH_Vacuna : <<uses>>
+BH_Validacion ..> BH_Venta : <<uses>>
+BH_PublisherPesoMin ..> BH_Res : <<uses>>
+BH_PublisherPesoVenta ..> BH_Res : <<uses>>
+BH_PublisherPotreroLleno ..> BH_Potrero : <<uses>>
+BH_PublisherPotreroMitad ..> BH_Potrero : <<uses>>
+BH_PublisherVacunaVencida ..> BH_Vacuna : <<uses>>
+BH_PublisherVacunacionCompletada ..> BH_Res : <<uses>>
+BH_InterceptorAutenticacion ..> EXT_IInvocation : <<uses>>
+BH_InterceptorAutenticacion ..> BH_Usuario : <<uses>>
+BH_InterceptorValidarInformacion ..> EXT_IInvocation : <<uses>>
+BH_PublisherPesoMin ..> BH_PublisherPesoVenta : <<uses>>
+MVC_PersistenciaService ..> EXT_IWebHostEnvironment : <<uses>>
+MVC_PotreroService ..> BH_Potrero : <<uses>>
+MVC_PotreroService ..> BH_TipoPotrero : <<uses>>
+MVC_ResService ..> BH_Potrero : <<uses>>
+MVC_ResService ..> BH_Ternero : <<uses>>
+MVC_ResService ..> BH_Cebon : <<uses>>
+MVC_ResService ..> BH_Novillo : <<uses>>
+MVC_VacunaService ..> BH_Vacuna : <<uses>>
+MVC_VacunaService ..> BH_Bacteriana : <<uses>>
+MVC_VacunaService ..> BH_Viva : <<uses>>
+MVC_VacunaService ..> BH_Atenuacion : <<uses>>
+MVC_VentaService ..> BH_Venta : <<uses>>
+MVC_PotreroController ..> BH_TipoPotrero : <<uses>>
+MVC_VacunaController ..> BH_Atenuacion : <<uses>>
+MVC_VentaController ..> EXT_IFormCollection : <<uses>>
+MVC_AccountController ..> MVC_LoginViewModel : <<uses>>
+MVC_AccountController ..> EXT_IActionResult : <<uses>>
+MVC_HomeController ..> MVC_ErrorViewModel : <<uses>>
+MVC_HomeController ..> EXT_IActionResult : <<uses>>
+MVC_HomeController ..> EXT_AuthorizeAttribute : <<uses>>
+MVC_PotreroController ..> EXT_ActionResult : <<uses>>
+MVC_ResController ..> EXT_ActionResult : <<uses>>
+MVC_UsuarioController ..> EXT_ActionResult : <<uses>>
+MVC_VacunaController ..> EXT_ActionResult : <<uses>>
+MVC_VentaController ..> EXT_ActionResult : <<uses>>
+MVC_LoginViewModel ..> EXT_RequiredAttribute : <<uses>>
+MVC_LoginViewModel ..> EXT_DataTypeAttribute : <<uses>>
+MVC_UsuarioService ..> EXT_Claim : <<uses>>
+MVC_Program ..> MVC_PotreroService : <<configures>>
+MVC_Program ..> MVC_ResService : <<configures>>
+MVC_Program ..> MVC_VacunaService : <<configures>>
+MVC_Program ..> MVC_VentaService : <<configures>>
+
+' Creaciones observadas con new / factories.
+BH_Autenticacion ..> BH_Usuario : <<creates>>
+BH_Hacienda ..> BH_Potrero : <<creates>>
+BH_Hacienda ..> BH_Venta : <<creates>>
+BH_Hacienda ..> BH_Bacteriana : <<creates>>
+BH_Hacienda ..> BH_Viva : <<creates>>
+BH_Potrero ..> BH_Ternero : <<creates>>
+BH_Potrero ..> BH_Cebon : <<creates>>
+BH_Potrero ..> BH_Novillo : <<creates>>
+MVC_PersistenciaService ..> BH_InterceptorValidarInformacion : <<creates>>
+MVC_PersistenciaService ..> EXT_ProxyGenerator : <<creates>>
+MVC_PersistenciaService ..> BH_ValidadorVacuna : <<creates>>
+MVC_PersistenciaService ..> BH_ValidadorPotrero : <<creates>>
+MVC_PersistenciaService ..> BH_ValidadorRes : <<creates>>
+MVC_PersistenciaService ..> BH_ValidadorVenta : <<creates>>
+MVC_PersistenciaService ..> BH_Potrero : <<creates>>
+MVC_PersistenciaService ..> BH_Ternero : <<creates>>
+MVC_PersistenciaService ..> BH_Cebon : <<creates>>
+MVC_PersistenciaService ..> BH_Novillo : <<creates>>
+MVC_PersistenciaService ..> BH_Venta : <<creates>>
+MVC_PersistenciaService ..> BH_Bacteriana : <<creates>>
+MVC_PersistenciaService ..> BH_Viva : <<creates>>
+MVC_PersistenciaService ..> BH_Usuario : <<creates>>
+MVC_UsuarioService ..> BH_Usuario : <<creates>>
+MVC_UsuarioService ..> EXT_Claim : <<creates>>
+MVC_AccountController ..> EXT_ClaimsPrincipal : <<creates>>
+MVC_AccountController ..> EXT_ClaimsIdentity : <<creates>>
+MVC_HomeController ..> MVC_ErrorViewModel : <<creates>>
+MVC_Program ..> EXT_WebApplication : <<creates>>
+MVC_Program ..> BH_Hacienda : <<creates>>
+MVC_Program ..> MVC_UsuarioService : <<creates>>
+
+' Llamadas entre tipos internos y hacia detalles externos relevantes.
+BH_Hacienda ..> BH_Potrero : <<calls>>
+BH_Hacienda ..> BH_PublisherPesoMin : <<calls>>
+BH_Hacienda ..> BH_PublisherPesoVenta : <<calls>>
+BH_Hacienda ..> BH_PublisherVacunaVencida : <<calls>>
+BH_Hacienda ..> BH_PublisherVacunacionCompletada : <<calls>>
+BH_Potrero ..> BH_PublisherPotreroMitad : <<calls>>
+BH_Potrero ..> BH_PublisherPotreroLleno : <<calls>>
+BH_Potrero ..> BH_PublisherPesoMin : <<calls>>
+BH_Potrero ..> BH_PublisherPesoVenta : <<calls>>
+BH_InterceptorAutenticacion ..> EXT_IInvocation : <<calls>>
+BH_InterceptorValidarInformacion ..> EXT_IInvocation : <<calls>>
+MVC_PersistenciaService ..> BH_ValidadorPotrero : <<calls>>
+MVC_PersistenciaService ..> BH_ValidadorRes : <<calls>>
+MVC_PersistenciaService ..> BH_ValidadorVacuna : <<calls>>
+MVC_PersistenciaService ..> BH_ValidadorVenta : <<calls>>
+MVC_PersistenciaService ..> BH_Potrero : <<calls>>
+MVC_PersistenciaService ..> EXT_Path : <<calls>>
+MVC_PersistenciaService ..> EXT_Directory : <<calls>>
+MVC_PersistenciaService ..> EXT_File : <<calls>>
+MVC_PotreroService ..> BH_Hacienda : <<calls>>
+MVC_PotreroService ..> MVC_PersistenciaService : <<calls>>
+MVC_ResService ..> BH_Hacienda : <<calls>>
+MVC_UsuarioService ..> MVC_PersistenciaService : <<calls>>
+MVC_VacunaService ..> BH_Hacienda : <<calls>>
+MVC_VacunaService ..> MVC_PersistenciaService : <<calls>>
+MVC_VentaService ..> BH_Hacienda : <<calls>>
+MVC_AccountController ..> MVC_UsuarioService : <<calls>>
+MVC_HomeController ..> EXT_Controller : <<calls>>
+MVC_PotreroController ..> MVC_PotreroService : <<calls>>
+MVC_PotreroController ..> MVC_PersistenciaService : <<calls>>
+MVC_ResController ..> MVC_ResService : <<calls>>
+MVC_ResController ..> MVC_PotreroService : <<calls>>
+MVC_ResController ..> BH_Hacienda : <<calls>>
+MVC_ResController ..> MVC_PersistenciaService : <<calls>>
+MVC_UsuarioController ..> MVC_UsuarioService : <<calls>>
+MVC_VacunaController ..> MVC_VacunaService : <<calls>>
+MVC_VacunaController ..> MVC_ResService : <<calls>>
+MVC_VacunaController ..> MVC_PotreroService : <<calls>>
+MVC_VentaController ..> MVC_VentaService : <<calls>>
+MVC_Program ..> MVC_PersistenciaService : <<calls>>
+MVC_Program ..> MVC_UsuarioService : <<calls>>
+
+note right of BH_Hacienda
+  Relaciones Hacienda -> Potrero/Venta/Vacuna:
+  Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs:19-40,53-57
+  Colecciones creadas por Hacienda y mutables por acceso; Program rehidrata sus elementos
+  en p_mvcHacienda/Program.cs:41-63.
+end note
+note right of BH_Potrero
+  Relacion Potrero -> Res:
+  Bib_Hacienda/Bib_Hacienda/Clases/Potrero.cs:17,38-102,201
+  Potrero crea subtipos de Res y los conserva; el setter permite reemplazar la lista.
+end note
+note right of MVC_PersistenciaService
+  Relacion PersistenciaService -> Path/Directory/File:
+  p_mvcHacienda/Servicios/PersistenciaService.cs:15-33,62-289,304-638
+  Persistencia basada en System.IO: seis archivos .txt bajo Datos.
+
+  Relaciones PersistenciaService -> validadores/interceptor:
+  p_mvcHacienda/Servicios/PersistenciaService.cs:40-55
+  Los validadores nullable se materializan como proxies de Castle en forma lazy.
+end note
+note right of MVC_Program
+  Relaciones Program -> Hacienda/PersistenciaService/UsuarioService:
+  p_mvcHacienda/Program.cs:29-87
+  Composition root: singletons, carga inicial y fabricacion de Hacienda/UsuarioService.
+end note
+note right of BH_InterceptorValidarInformacion
+  Relaciones InterceptorValidarInformacion -> IInvocation/IHttpContextAccessor:
+  Bib_Hacienda/Bib_Hacienda/Aspectos/InterceptorValidarInformacion.cs:22-80
+  Intercept llama Proceed y publica el resultado mediante HttpContext.Items.
+end note
+
+legend left
+  |= Marca |= Significado |
+  | [D] | Campo/propiedad de referencia declarado no nullable; no garantiza no-null en runtime |
+  | [I] | Multiplicidad inferida por List<T>, anotacion nullable (?) o referencia legacy que admite null |
+  | *-- | Composicion: instancia privada creada inline y poseida por el contenedor |
+  | --> | Asociacion por campo, propiedad o evento |
+  | ..> <<uses>> | Tipo usado en firma, regla, atributo o acceso |
+  | ..> <<creates>> | Construccion observada mediante new o factory |
+  | ..> <<calls>> | Invocacion observada entre tipos |
+endlegend
+
+@enduml
