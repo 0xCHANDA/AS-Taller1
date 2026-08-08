@@ -1,4 +1,0 @@
-interface:
-  display_name: "DIP para C#"
-  short_description: "Audita dirección de dependencias y políticas"
-  default_prompt: "Usa $solid-dip-csharp para auditar DIP en esta solución C#."

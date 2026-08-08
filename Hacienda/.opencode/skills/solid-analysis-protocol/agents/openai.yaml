@@ -1,4 +1,0 @@
-interface:
-  display_name: "Protocolo SOLID C#"
-  short_description: "Auditoría SOLID basada en evidencia"
-  default_prompt: "Usa $solid-analysis-protocol para auditar este código C# con evidencia concreta."

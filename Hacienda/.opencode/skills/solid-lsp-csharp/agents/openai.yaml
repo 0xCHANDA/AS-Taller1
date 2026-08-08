@@ -1,4 +1,0 @@
-interface:
-  display_name: "LSP para C#"
-  short_description: "Audita sustitución y contratos de subtipos"
-  default_prompt: "Usa $solid-lsp-csharp para auditar LSP en esta jerarquía C#."

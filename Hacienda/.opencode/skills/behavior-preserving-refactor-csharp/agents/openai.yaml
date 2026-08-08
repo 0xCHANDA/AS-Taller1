@@ -1,4 +1,0 @@
-interface:
-  display_name: "Refactorización segura C#"
-  short_description: "Refactoriza por slices sin alterar conducta"
-  default_prompt: "Usa $behavior-preserving-refactor-csharp para diseñar un refactor C# reversible."
