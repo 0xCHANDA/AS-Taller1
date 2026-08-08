@@ -40,5 +40,3 @@ docs/solid/report-template.md
 docs/solid/source-alignment.md
 docs/solid/workflow.md
 opencode.jsonc
-scripts/install.sh
-scripts/validate-pack.py
