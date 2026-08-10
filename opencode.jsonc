@@ -23,42 +23,25 @@
     ]
   },
   "permission": {
+    "*": "deny",
     "read": {
       "*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
       "*.env.example": "allow",
       "**/secrets.json": "deny",
-      "**/appsettings.*.json": "ask"
+      "**/appsettings.*.json": "deny"
     },
-    "edit": "ask",
+    "edit": "deny",
     "bash": {
-      "*": "ask",
-      "git *": "deny",
-      "dotnet --info*": "allow",
-      "dotnet sln * list*": "allow",
-      "dotnet build*": "allow",
-      "dotnet test*": "allow",
-      "dotnet format*--verify-no-changes*": "allow",
-      "git status*": "allow",
-      "git diff*": "allow",
-      "git log*": "allow",
-      "git branch --show-current*": "allow",
-      "rg *": "allow",
-      "find *": "allow",
-      "ls *": "allow",
-      "rm *": "deny",
-      "git commit*": "deny",
-      "git push*": "deny",
-      "git reset --hard*": "deny",
-      "git clean*": "deny",
-      "git checkout -- *": "deny",
-      "git restore*": "deny"
+      "*": "deny"
     },
+    "task": "deny",
+    "question": "deny",
     "external_directory": "deny",
-    "webfetch": "ask",
-    "websearch": "ask",
-    "doom_loop": "ask",
+    "webfetch": "deny",
+    "websearch": "deny",
+    "doom_loop": "deny",
     "skill": "allow"
   },
   "agent": {

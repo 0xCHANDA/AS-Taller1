@@ -1,9 +1,9 @@
 ---
-description: Independently verifies C# refactors through baseline comparison, tests, build diagnostics and behavioral-risk analysis. Read-only.
+description: Independently verifies Phase 4 slices through baseline comparison, safe builds and behavioral-risk analysis. Read-only.
 mode: subagent
-model: openai/gpt-5.6-sol
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
-steps: 140
+steps: 45
 permission:
   edit: deny
   task: deny
@@ -13,18 +13,13 @@ permission:
     "solid-reporting": allow
   bash:
     "*": deny
-    "dotnet --info*": allow
-    "dotnet restore*": allow
-    "dotnet build*": allow
-    "dotnet test*": allow
-    "dotnet format*--verify-no-changes*": allow
-    "git status*": allow
-    "git diff*": allow
-    "rg *": allow
-    "find *": allow
-    "ls *": allow
+    "scripts/phase4-safe-dotnet.sh *": allow
+    "scripts/phase4-git-readonly.sh *": allow
+  question: deny
+  external_directory: deny
+  doom_loop: deny
   webfetch: deny
   websearch: deny
 ---
 
-Load `dotnet-refactor-verification` and `solid-reporting`. Compare current results against the recorded baseline. Separate pre-existing failures from regressions. Inspect tests for meaningful behavioral coverage rather than merely green execution. Return exact commands, exit status, failures, skipped verification and residual risk.
+Load `dotnet-refactor-verification` and `solid-reporting`. Independently compare current results with the recorded baseline. Separate pre-existing failures from regressions. Require meaningful OLD/NEW characterization evidence, not merely green execution. Return exact safe commands, exit status, failures, skipped verification and residual risk. Never edit or delegate.

@@ -3,7 +3,7 @@ description: Audits C# code exclusively for Single Responsibility Principle viol
 mode: subagent
 model: opencode-go/minimax-m3
 temperature: 0.1
-steps: 120
+steps: 35
 permission:
   edit: deny
   task: deny
@@ -14,12 +14,11 @@ permission:
     "solid-reporting": allow
   bash:
     "*": deny
-    "dotnet build*": allow
-    "dotnet test*": allow
-    "git diff*": allow
-    "rg *": allow
-    "find *": allow
-    "ls *": allow
+    "scripts/phase4-safe-dotnet.sh *": allow
+    "scripts/phase4-git-readonly.sh *": allow
+  question: deny
+  external_directory: deny
+  doom_loop: deny
   webfetch: deny
   websearch: deny
 ---

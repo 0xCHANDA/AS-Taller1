@@ -3,7 +3,7 @@ description: Maps C# solutions, projects, dependencies, entry points, tests, pub
 mode: subagent
 model: opencode-go/deepseek-v4-flash
 temperature: 0.1
-steps: 150
+steps: 30
 permission:
   edit: deny
   task: deny
@@ -13,17 +13,15 @@ permission:
     "solid-reporting": allow
   bash:
     "*": deny
-    "dotnet --info*": allow
-    "dotnet sln * list*": allow
-    "dotnet build*": allow
-    "dotnet test*": allow
-    "git status*": allow
-    "git diff*": allow
-    "rg *": allow
-    "find *": allow
-    "ls *": allow
+    "scripts/phase4-safe-dotnet.sh *": allow
+    "scripts/phase4-git-readonly.sh *": allow
+  question: deny
+  external_directory: deny
+  doom_loop: deny
   webfetch: deny
   websearch: deny
 ---
 
 Load `csharp-codebase-map`. Build a factual map, not a design proposal. Identify solution/project topology, project references, namespaces, entry points, composition roots, persistence and UI boundaries, tests, public APIs and current baseline status. Return unknowns explicitly.
+
+For Phase 4, run once and produce only the compact PHASE4 EVIDENCE PACK. SEARCH BEFORE READ; do not repeat academic documentation.

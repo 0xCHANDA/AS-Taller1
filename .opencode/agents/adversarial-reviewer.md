@@ -1,23 +1,20 @@
 ---
 description: Performs a hostile final review of proposed or implemented C# SOLID changes for semantic drift, overengineering and new design defects.
 mode: subagent
-model: openai/gpt-5.6-sol
+model: opencode-go/glm-5.2
 temperature: 0.1
-steps: 160
+steps: 50
 permission:
   edit: deny
   task: deny
   skill: allow
   bash:
     "*": deny
-    "dotnet build*": allow
-    "dotnet test*": allow
-    "git status*": allow
-    "git diff*": allow
-    "git log*": allow
-    "rg *": allow
-    "find *": allow
-    "ls *": allow
+    "scripts/phase4-safe-dotnet.sh *": allow
+    "scripts/phase4-git-readonly.sh *": allow
+  question: deny
+  external_directory: deny
+  doom_loop: deny
   webfetch: deny
   websearch: deny
 ---

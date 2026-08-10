@@ -1,4 +1,4 @@
-# OpenCode SOLID C# Multi-Model Workbench
+# OpenCode SOLID C# + Phase 4 Workbench
 
 Entorno multiagente para analizar principios SOLID, diseñar refactorizaciones y mejorar código C# existente sin alterar comportamiento de forma accidental.
 
@@ -9,7 +9,7 @@ El sistema separa descubrimiento, auditoría, planificación, implementación y 
 ## Componentes
 
 - **1 agente principal:** `solid-orchestrator`.
-- **11 subagentes:** cartografía, cinco auditores SOLID, arquitectura, planificación, implementación, pruebas y revisión adversarial.
+- **12 subagentes:** cartografía, cinco auditores SOLID, arquitectura, planificación, implementación, evidencia de Fase 4, pruebas y revisión adversarial.
 - **11 skills:** protocolo común, una skill independiente por principio, arquitectura, refactorización, pruebas y reporte.
 - **11 comandos:** auditoría integral, auditorías individuales, planificación, aplicación y verificación.
 
@@ -37,6 +37,21 @@ En OpenCode:
 ```
 
 El paquete usa routing multimodelo explícito en cada agente, con `openai/gpt-5.6-sol` como modelo principal y `opencode-go/deepseek-v4-flash` para tareas ligeras. Conecte los proveedores requeridos mediante `/connect` y confirme los identificadores configurados con `/models`; no sustituya silenciosamente un modelo si todavía no está disponible en la sesión.
+
+## Fase 4 autónoma
+
+La configuración nocturna congela la arquitectura de Fase 3 y separa dos writers: `refactor-implementer` para producción NEW y `phase4-evidence-engineer` para caracterización/evidencia. Todos los demás agentes son read-only; no hay preguntas, web, acceso externo, delegación de subagentes ni comandos Bash libres.
+
+La guía operativa y los comandos exactos están en [docs/solid/PHASE4-OVERNIGHT.md](docs/solid/PHASE4-OVERNIGHT.md). Antes de dormir, el flujo esperado es:
+
+```bash
+scripts/validate-phase4-workbench.sh
+scripts/prepare-phase4-worktree.sh
+# cambiar al WORKTREE_PATH impreso
+scripts/start-phase4-tmux.sh
+```
+
+El runner nunca hace push. Los builds se aíslan en una copia temporal para que los `bin/obj` rastreados no contaminen diffs ni métricas.
 
 ## Flujo recomendado
 

@@ -1,7 +1,7 @@
 ---
-description: Sole writer for approved behavior-preserving production slices in HaciendaNEW.
+description: OpenAI fallback for the surgical HaciendaNEW production writer.
 mode: subagent
-model: opencode-go/kimi-k2.7-code
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 60
 permission:
