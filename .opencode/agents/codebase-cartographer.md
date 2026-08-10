@@ -3,7 +3,7 @@ description: Maps C# solutions, projects, dependencies, entry points, tests, pub
 mode: subagent
 model: opencode-go/deepseek-v4-flash
 temperature: 0.1
-steps: 20
+steps: 150
 permission:
   edit: deny
   task: deny

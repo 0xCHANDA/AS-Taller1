@@ -27,11 +27,7 @@ namespace Bib_Hacienda.Clases
             private set => l_potreros = value; 
         }
 
-        //public List<Venta> L_ventas 
-        //{ 
-        //    get => l_ventas; 
-        //    private set => l_ventas = value; 
-        //}
+        public List<Venta> L_ventas => registroVentas.Ventas.ToList();
 
         public List<Vacuna> L_vacunas 
         { 
@@ -139,8 +135,14 @@ namespace Bib_Hacienda.Clases
             }
         }
 
+        //Sobrecarga conservada para compatibilidad con consumidores existentes.
+        public string vender<T>(IInventario<T> inventario, T producto, uint monto) where T : Producto
+        {
+            return vender((IInventarioVendible<T>)inventario, producto, monto);
+        }
+
         //metodo para vender
-        public string vender<T>(IInventario<T> inventario,T producto,uint monto) where T : Producto
+        public string vender<T>(IInventarioVendible<T> inventario, T producto, uint monto) where T : Producto
         {
             if (inventario == null)
                 throw new ArgumentNullException(nameof(inventario));
@@ -164,6 +166,39 @@ namespace Bib_Hacienda.Clases
             inventario.retirar(producto);
 
             return $"Venta de '{producto.Nombre}' realizada con éxito.";
+        }
+
+        //Metodo para registrar una venta ya creada (por ejemplo, restaurada desde persistencia)
+        //sin exponer la coleccion interna de registroVentas.
+        public void registrar_venta_cargada(Venta venta)
+        {
+            if (venta == null)
+                throw new ArgumentNullException(nameof(venta));
+
+            registroVentas.registrar(venta);
+        }
+
+        //Metodo para vender res (legacy)
+        public string vender_res(string id_potrero, string nombre, uint monto)
+        {
+            try
+            {
+                Potrero potrero = buscar_potrero(id_potrero);
+                Res res = potrero.buscar_res(nombre);
+
+                if (potrero == null) throw new ArgumentNullException(nameof(potrero));
+                if (res == null) throw new ArgumentNullException(nameof(res));
+
+                Venta venta = new Venta(potrero, DateTime.Now, res, monto);
+                registroVentas.registrar(venta);
+                potrero.L_reses.Remove(res);
+
+                return $"Venta de la res {res.Nombre} realizada con exito";
+            }
+            catch (Exception er)
+            {
+                throw new Exception("Error inesperado en el metodo vender_res: " + er.Message);
+            }
         }
 
         //Metodo para alimentar una res

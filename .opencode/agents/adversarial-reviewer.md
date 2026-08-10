@@ -1,9 +1,9 @@
 ---
 description: Performs a hostile final review of proposed or implemented C# SOLID changes for semantic drift, overengineering and new design defects.
 mode: subagent
-model: opencode-go/glm-5.2
+model: openai/gpt-5.6-sol
 temperature: 0.1
-steps: 28
+steps: 160
 permission:
   edit: deny
   task: deny

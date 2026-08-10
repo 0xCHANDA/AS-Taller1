@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bib_Hacienda\Bib_Hacienda\Bib_Hacienda.csproj" />
+    <ProjectReference Include="..\p_mvcHacienda\p_mvcHacienda.csproj" />
+  </ItemGroup>
+
+</Project>

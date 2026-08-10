@@ -12,18 +12,21 @@ namespace Bib_Hacienda.Clases
 
         protected Producto(string nombre)
         {
-            if (string.IsNullOrWhiteSpace(nombre))
-                throw new ArgumentException(
-                    "El nombre del producto no puede estar vacío.",
-                    nameof(nombre));
-
             Nombre = nombre;
         }
 
         public string Nombre
         {
             get => nombre;
-            protected set => nombre = value;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException(
+                        "El nombre del producto no puede estar vacío.",
+                        nameof(value));
+
+                nombre = value;
+            }
         }
     }
 }

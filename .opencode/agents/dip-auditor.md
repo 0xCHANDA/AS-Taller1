@@ -3,7 +3,7 @@ description: Audits C# dependency direction between business policy and technica
 mode: subagent
 model: openai/gpt-5.6-sol
 temperature: 0.1
-steps: 18
+steps: 160
 permission:
   edit: deny
   task: deny

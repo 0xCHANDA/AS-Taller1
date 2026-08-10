@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bib_Hacienda.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,30 +8,28 @@ using System.Threading.Tasks;
 namespace Bib_Hacienda.Clases.Validaciones
 {
     // Valida objetos de tipo Venta
-    public class ValidadorVenta : Validacion
+    public class ValidadorVenta : IValidadorVenta
     {
-        public override bool ValidarVenta(Venta venta)
+        public virtual bool ValidarVenta(Venta venta)
         {
-            if (venta == null || venta.Potrero == null || venta.Res == null || venta.Monto <= 0)
+            if (venta == null || venta.Monto <= 0)
             {
                 return false;
             }
-            return true;
-        }
 
-        public override bool ValidarRes(Res res)
-        {
-            throw new NotImplementedException("Use ValidadorRes");
-        }
+            // Formato legacy: venta de una Res en un Potrero
+            if (venta.Potrero != null && venta.Res != null)
+            {
+                return true;
+            }
 
-        public override bool ValidarPotrero(Potrero potrero)
-        {
-            throw new NotImplementedException("Use ValidadorPotrero");
-        }
+            // Formato TO-BE: venta de cualquier Producto
+            if (venta.Producto != null)
+            {
+                return true;
+            }
 
-        public override bool ValidarVacuna(Vacuna vacuna)
-        {
-            throw new NotImplementedException("Use ValidadorVacuna");
+            return false;
         }
     }
 }

@@ -315,3 +315,330 @@ Pero esto es aceptable porque **una vacuna aplicada forma parte del estado y com
 - **SRP**
 - **OCP**
 - **LSP**
+
+---
+
+## 1. SRP
+
+### Problema 1: `Hacienda` hacía demasiadas cosas
+
+`Hacienda` inicialmente se encargaba de:
+
+- Crear y buscar potreros.
+- Agregar y eliminar reses.
+- Alimentar reses.
+- Crear vacunas.
+- Aplicar vacunas.
+- Administrar el inventario de vacunas.
+- Registrar ventas.
+
+**Cambio:** se trasladaron responsabilidades a las clases que corresponden al dominio:
+
+- `Potrero` → administra sus reses.
+- `Res` → administra su estado y vacunas aplicadas.
+- `Venta` → representa una venta.
+- `RegistroVentas` → administra el historial de ventas.
+- `InventarioLacteos` → administra lácteos.
+- `InventarioPieles` → administra pieles.
+
+**Ganancia:** `Hacienda` deja de ser una clase que conoce y controla toda la lógica interna del sistema.
+
+---
+
+### Problema 2: `Hacienda` tenía la lógica de aplicación de vacunas
+
+Antes `Hacienda.aplicar_vacuna()` hacía prácticamente todo:
+
+- Buscar la res.
+- Validar la vacuna.
+- Comprobar si ya estaba aplicada.
+- Contar vacunas.
+- Determinar límites según el tipo de res.
+- Validar vencimiento.
+- Agregar la vacuna.
+
+**Cambio:** la responsabilidad propia de la res pasó a `Res.aplicar_vacuna()`.
+
+Así:
+
+```
+Hacienda
+   ↓ busca
+Potrero
+   ↓ busca
+Res
+   ↓ aplica
+Vacuna
+```
+
+**Ganancia:** la lógica relacionada con el estado de una res queda dentro de `Res` y no dentro de `Hacienda`.
+
+---
+
+### Problema 3: `Venta` estaba acoplada a `Res`
+
+Antes:
+
+```
+privateResres;
+```
+
+Eso hacía que `Venta` solo pudiera representar ventas de reses.
+
+**Cambio:** se generalizó el concepto de producto vendido.
+
+**Ganancia:** `Venta` puede representar ventas de diferentes productos y no tiene que cambiar cuando aparezcan nuevos productos.
+
+---
+
+## 2. OCP — Open/Closed Principle
+
+### Problema 1: `vender_res()`
+
+Antes existía:
+
+```
+vender_res(...)
+```
+
+Si aparecían:
+
+```
+vender_lacteo()
+vender_piel()
+vender_carne()
+```
+
+habría que modificar `Hacienda` cada vez.
+
+**Cambio:** se creó una abstracción común para los productos y los inventarios.
+
+**Ganancia:** agregar un nuevo producto no obliga a modificar la lógica general de venta.
+
+---
+
+### Problema 2: `aplicar_vacuna()` tenía muchos `if/else`
+
+Antes:
+
+```
+if (resisTernero)
+{
+    ...
+}elseif (resisNovillo)
+{
+    ...
+}elseif (resisCebon)
+{
+    ...
+}
+```
+
+Cada nuevo tipo de res obligaría a modificar este método.
+
+**Cambio:** las reglas relacionadas con cada tipo de res se trasladaron a la propia jerarquía de `Res`.
+
+**Ganancia:** si aparece otro tipo de res, se puede extender la jerarquía sin modificar constantemente la lógica existente.
+
+---
+
+### Problema 3: identificación del tipo de vacuna
+
+Antes se hacía:
+
+```
+if (vacunaisBacteriana)
+{
+    ...
+}elseif (vacunaisViva)
+{
+    ...
+}
+```
+
+**Cambio:** se introdujo `TipoVacuna` y la lógica de límites se relacionó con esa abstracción.
+
+**Ganancia:** la lógica de `Res` deja de depender constantemente de comprobaciones concretas de tipos.
+
+---
+
+## 3. LSP — Liskov Substitution Principle
+
+Aquí no basta con decir "`Ternero` hereda de `Res`". Hay que demostrar que **puede sustituirla**.
+
+### Problema 1: jerarquía `Res → Ternero/Cebon/Novillo`
+
+Se verificó que:
+
+```
+Resres=newTernero(...);
+```
+
+sea válido y que las operaciones definidas para `Res` sigan funcionando.
+
+Un `Ternero` continúa siendo una `Res`.
+
+**Ganancia:** `Potrero` puede trabajar con:
+
+```
+List<Res>
+```
+
+sin tener que conocer cada subtipo.
+
+---
+
+### Problema 2: restricciones de edad
+
+Las subclases tienen reglas diferentes de edad.
+
+Por ejemplo, `Novillo` puede restringir determinados valores.
+
+Pero esa restricción **no debe romper el contrato de `Res`**.
+
+La subclase puede agregar reglas propias del dominio, siempre que los valores aceptados por el contrato de `Res` sigan siendo válidos.
+
+**Ganancia:** las especializaciones representan diferencias reales del dominio sin hacer que el polimorfismo deje de funcionar.
+
+---
+
+### Problema 3: evitar herencias artificiales
+
+Se evaluó crear:
+
+```
+Animal
+  ↓
+Res
+  ↓
+Ternero
+Cebon
+Novillo
+```
+
+pero se rechazó.
+
+**Razón:** actualmente el sistema solo maneja reses. Crear `Animal` no aportaría un comportamiento común necesario y produciría una abstracción innecesaria.
+
+Esto también evita crear una jerarquía que después no pueda justificarse mediante sustitución real.
+
+---
+
+## 4. ISP — Interface Segregation Principle
+
+### Problema 1: necesidad de un contrato común de inventario
+
+`Potrero`, `InventarioLacteos` e `InventarioPieles` necesitan operaciones de inventario.
+
+Se creó:
+
+```
+publicinterfaceIInventario<T>whereT :Producto
+{voidagregar(Tproducto);Tretirar(Tproducto);boolcontiene(Tproducto);
+}
+```
+
+**Ganancia:** cada inventario tiene únicamente las operaciones que realmente necesita para cumplir su responsabilidad.
+
+---
+
+### Problema 2: evitar una interfaz gigante
+
+Una alternativa habría sido:
+
+```
+interfaceIHacienda
+{agregarRes();retirarRes();venderRes();agregarLacteo();retirarLacteo();venderLacteo();agregarPiel();retirarPiel();venderPiel();aplicarVacuna();alimentarRes();
+    ...
+}
+```
+
+Esto obligaría a las clases a depender de operaciones que no les corresponden.
+
+**Cambio:** se utilizan interfaces más específicas, como `IInventario<T>`.
+
+**Ganancia:** las clases dependen de contratos pequeños y relacionados con su responsabilidad.
+
+---
+
+### Problema 3: `Venta` no debe conocer las operaciones del inventario
+
+`Venta` solamente representa información de una venta.
+
+No necesita saber:
+
+```
+cómo agregar productos
+cómo retirar productos
+cómo buscar productos
+```
+
+Eso corresponde al inventario.
+
+**Ganancia:** evitamos colocar operaciones innecesarias en `Venta` y mantenemos cada contrato enfocado.
+
+---
+
+## 5. DIP — Dependency Inversion Principle
+
+### Problema 1: `Hacienda` dependía directamente de `Potrero`
+
+Antes:
+
+```
+Hacienda → Potrero
+```
+
+Esto hacía que la lógica de alto nivel estuviera directamente ligada a una implementación concreta.
+
+**Cambio:**
+
+```
+Hacienda → IInventario
+             ↑
+       ┌─────┼──────┐
+       │     │      │
+   Potrero  Lácteos  Pieles
+```
+
+**Ganancia:** Hacienda puede trabajar con diferentes inventarios sin conocer sus implementaciones internas.
+
+---
+
+### Problema 2: la venta dependía directamente de `Res`
+
+Antes:
+
+```
+Venta → Res
+```
+
+Eso impedía representar fácilmente otros productos.
+
+**Cambio:** se introdujo `Producto` como abstracción.
+
+```
+Producto
+   ↑
+ ┌─┴───────┐
+Res      Lacteo
+           │
+          Piel
+```
+
+**Ganancia:** la lógica de venta deja de depender exclusivamente de `Res`.
+
+---
+
+### Problema 3: los eventos y lógica específica no deben estar concentrados en `Hacienda`
+
+Antes `Hacienda` disparaba y procesaba directamente varios eventos relacionados con:
+
+- peso mínimo;
+- peso de venta;
+- vacunación;
+- vencimiento.
+
+**Cambio:** parte de la lógica se trasladó a las entidades responsables, mientras `Hacienda` coordina las operaciones.
+
+**Ganancia:** se reduce el acoplamiento entre `Hacienda` y los detalles internos de cada operación.

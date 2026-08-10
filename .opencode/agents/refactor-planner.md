@@ -3,7 +3,7 @@ description: Converts confirmed SOLID findings into minimal, ordered, reversible
 mode: subagent
 model: openai/gpt-5.6-sol
 temperature: 0.1
-steps: 24
+steps: 140
 permission:
   edit: deny
   task: deny

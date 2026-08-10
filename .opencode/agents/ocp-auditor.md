@@ -3,7 +3,7 @@ description: Audits C# variation points for Open/Closed Principle violations and
 mode: subagent
 model: opencode-go/deepseek-v4-pro
 temperature: 0.1
-steps: 18
+steps: 120
 permission:
   edit: deny
   task: deny

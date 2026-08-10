@@ -201,28 +201,55 @@ namespace Bib_Hacienda.Clases
 
         public void agregar(Res producto)
         {
-          
+            if (producto == null)
+                throw new ArgumentNullException(nameof(producto));
+
+            if (l_reses.Count >= ReglaPotrero.max_reses_potrero)
+                throw new InvalidOperationException($"El potrero {this.identificacion} está lleno.");
+
+            if (l_reses.Any(r => r.Nombre.Equals(producto.Nombre, StringComparison.OrdinalIgnoreCase)))
+                throw new InvalidOperationException($"Ya existe una res con el nombre '{producto.Nombre}' en el potrero.");
+
+            bool edadValida = false;
+            switch (tipo_potrero)
+            {
+                case l_tipos_potreros.ternero:
+                    edadValida = producto.Edad <= ReglaRes.edad_max_ternero;
+                    break;
+                case l_tipos_potreros.cebon:
+                    edadValida = producto.Edad > ReglaRes.edad_max_ternero && producto.Edad <= ReglaRes.edad_max_cebon;
+                    break;
+                case l_tipos_potreros.novillo:
+                    edadValida = producto.Edad > ReglaRes.edad_max_cebon;
+                    break;
+            }
+
+            if (!edadValida)
+                throw new InvalidOperationException($"La edad de la res no corresponde al tipo de potrero {this.tipo_potrero}.");
+
+            l_reses.Add(producto);
         }
 
         public Res retirar(Res res)
         {
             try
             {
-                if (res != null)
-                {
-                    l_reses.Remove(res);
-                    return res;
-                }
-                else
-                {
-                    throw new Exception($"No se encontró ninguna res con el nombre '{res.Nombre}' para eliminar.");
-                }
+                if (res == null)
+                    throw new ArgumentNullException(nameof(res));
+
+                var existente = l_reses
+                    .FirstOrDefault(r => r.Nombre.Equals(res.Nombre, StringComparison.OrdinalIgnoreCase));
+
+                if (existente == null)
+                    throw new InvalidOperationException($"No se encontró ninguna res con el nombre '{res.Nombre}' para eliminar.");
+
+                l_reses.Remove(existente);
+                return existente;
             }
             catch (Exception er)
             {
-                throw new Exception("Error inesperado en el método Retirr: " + er.Message);
+                throw new Exception("Error inesperado en el método retirar: " + er.Message);
             }
-
         }
 
         public bool contiene(Res res)
@@ -232,11 +259,11 @@ namespace Bib_Hacienda.Clases
                 if (res == null)
                     return false;
 
-                return l_reses.Contains(res);
+                return l_reses.Any(r => r.Nombre.Equals(res.Nombre, StringComparison.OrdinalIgnoreCase));
             }
             catch (Exception ex)
             {
-                throw new Exception("Error inesperado en el metodo Contiene: " + ex.Message);
+                throw new Exception("Error inesperado en el metodo contiene: " + ex.Message);
             }
         }
 

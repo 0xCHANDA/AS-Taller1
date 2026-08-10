@@ -3,7 +3,7 @@ description: Audits C# code exclusively for Single Responsibility Principle viol
 mode: subagent
 model: opencode-go/minimax-m3
 temperature: 0.1
-steps: 18
+steps: 120
 permission:
   edit: deny
   task: deny

@@ -92,39 +92,62 @@
  </tr>
  </thead>
  <tbody>
- @foreach (var venta in Model)
- {
- var precioKg = venta.Res.Peso >0 ? (double)venta.Monto / venta.Res.Peso :0;
- <tr>
- <td>
- <strong>@venta.Fecha.ToString("dd/MM/yyyy")</strong><br/>
- <small class="text-muted">@venta.Fecha.ToString("HH:mm")</small>
- </td>
- <td class="fw-semibold">@venta.Res.Nombre</td>
- <td>
- @if (venta.Res is Ternero)
- {
- <span class="aw-badge aw-badge-info">Ternero</span>
- }
- else if (venta.Res is Novillo)
- {
- <span class="aw-badge aw-badge-warning">Novillo</span>
- }
- else if (venta.Res is Cebon)
- {
- <span class="aw-badge aw-badge-danger">Cebón</span>
- }
- </td>
- <td>@venta.Res.Peso kg</td>
- <td>
- <span class="aw-badge aw-badge-success">@venta.Potrero.Identificacion</span>
- </td>
- <td class="fw-bold text-success">$@string.Format("{0:N0}", venta.Monto)</td>
- <td>
- <small class="text-muted">$@string.Format("{0:N0}", precioKg)/kg</small>
- </td>
- </tr>
- }
+  @foreach (var venta in Model)
+  {
+  <tr>
+  @if (venta.Res != null)
+  {
+  var precioKg = venta.Res.Peso > 0 ? (double)venta.Monto / venta.Res.Peso : 0;
+  <td>
+  <strong>@venta.Fecha.ToString("dd/MM/yyyy")</strong><br/>
+  <small class="text-muted">@venta.Fecha.ToString("HH:mm")</small>
+  </td>
+  <td class="fw-semibold">@venta.Res.Nombre</td>
+  <td>
+  @if (venta.Res is Ternero)
+  {
+  <span class="aw-badge aw-badge-info">Ternero</span>
+  }
+  else if (venta.Res is Novillo)
+  {
+  <span class="aw-badge aw-badge-warning">Novillo</span>
+  }
+  else if (venta.Res is Cebon)
+  {
+  <span class="aw-badge aw-badge-danger">Cebón</span>
+  }
+  </td>
+  <td>@venta.Res.Peso kg</td>
+  <td>
+  <span class="aw-badge aw-badge-success">@venta.Potrero.Identificacion</span>
+  </td>
+  <td class="fw-bold text-success">$@string.Format("{0:N0}", venta.Monto)</td>
+  <td>
+  <small class="text-muted">$@string.Format("{0:N0}", precioKg)/kg</small>
+  </td>
+  }
+  else
+  {
+  var producto = venta.Producto;
+  <td>
+  <strong>@venta.Fecha.ToString("dd/MM/yyyy")</strong><br/>
+  <small class="text-muted">@venta.Fecha.ToString("HH:mm")</small>
+  </td>
+  <td class="fw-semibold">@(producto?.Nombre ?? "N/D")</td>
+  <td>
+  <span class="aw-badge">@(producto?.GetType().Name ?? "Producto")</span>
+  </td>
+  <td>N/A</td>
+  <td>
+  <span class="aw-badge aw-badge-success">N/A</span>
+  </td>
+  <td class="fw-bold text-success">$@string.Format("{0:N0}", venta.Monto)</td>
+  <td>
+  <small class="text-muted">N/A</small>
+  </td>
+  }
+  </tr>
+  }
  </tbody>
  <tfoot>
  <tr>

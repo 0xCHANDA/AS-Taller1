@@ -1,5 +1,8 @@
-using Bib_Hacienda.Aspectos;
 using Bib_Hacienda.Clases;
+using Bib_Hacienda.Clases.Validaciones;
+using Bib_Hacienda.Interfaces;
+using Castle.DynamicProxy;
+using p_mvcHacienda.Infrastructure;
 using p_mvcHacienda.Servicios;
 
 namespace p_mvcHacienda
@@ -10,32 +13,75 @@ namespace p_mvcHacienda
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // --- Configuración de Autenticación por Cookies ---
             builder.Services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", options =>
                 {
                     options.Cookie.Name = "HaciendaSoft.Auth";
-                    options.LoginPath = "/Account/Login"; // Página de login
+                    options.LoginPath = "/Account/Login";
                     options.AccessDeniedPath = "/Account/AccessDenied";
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Duración de la sesión
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                 });
 
-            // Agregar HttpContextAccessor
             builder.Services.AddHttpContextAccessor();
-            
-            // Registrar como Singleton (sin InterceptorValidarInformacion)
+
+            // Validadores concretos (no dependen de ASP.NET ni Castle)
+            builder.Services.AddSingleton<ValidadorPotrero>();
+            builder.Services.AddSingleton<ValidadorRes>();
+            builder.Services.AddSingleton<ValidadorVacuna>();
+            builder.Services.AddSingleton<ValidadorVenta>();
+
+            // Interceptor de validaciÃ³n (infraestructura MVC)
+            builder.Services.AddSingleton<IInterceptor, InterceptorValidarInformacion>();
+
+            // Validadores expuestos como interfaces, decorados con el interceptor
+            builder.Services.AddSingleton<IValidadorPotrero>(sp =>
+            {
+                var proxyGenerator = new ProxyGenerator();
+                return proxyGenerator.CreateInterfaceProxyWithTarget<IValidadorPotrero>(
+                    sp.GetRequiredService<ValidadorPotrero>(),
+                    sp.GetRequiredService<IInterceptor>());
+            });
+
+            builder.Services.AddSingleton<IValidadorRes>(sp =>
+            {
+                var proxyGenerator = new ProxyGenerator();
+                return proxyGenerator.CreateInterfaceProxyWithTarget<IValidadorRes>(
+                    sp.GetRequiredService<ValidadorRes>(),
+                    sp.GetRequiredService<IInterceptor>());
+            });
+
+            builder.Services.AddSingleton<IValidadorVacuna>(sp =>
+            {
+                var proxyGenerator = new ProxyGenerator();
+                return proxyGenerator.CreateInterfaceProxyWithTarget<IValidadorVacuna>(
+                    sp.GetRequiredService<ValidadorVacuna>(),
+                    sp.GetRequiredService<IInterceptor>());
+            });
+
+            builder.Services.AddSingleton<IValidadorVenta>(sp =>
+            {
+                var proxyGenerator = new ProxyGenerator();
+                return proxyGenerator.CreateInterfaceProxyWithTarget<IValidadorVenta>(
+                    sp.GetRequiredService<ValidadorVenta>(),
+                    sp.GetRequiredService<IInterceptor>());
+            });
+
+            // Persistencia: un Ãºnico servicio que implementa todos los puertos
             builder.Services.AddSingleton<PersistenciaService>();
-            
-            // Hacienda como Singleton - datos compartidos globalmente
+            builder.Services.AddSingleton<IPersistenciaPotreros>(sp => sp.GetRequiredService<PersistenciaService>());
+            builder.Services.AddSingleton<IPersistenciaReses>(sp => sp.GetRequiredService<PersistenciaService>());
+            builder.Services.AddSingleton<IPersistenciaVacunas>(sp => sp.GetRequiredService<PersistenciaService>());
+            builder.Services.AddSingleton<IPersistenciaVentas>(sp => sp.GetRequiredService<PersistenciaService>());
+            builder.Services.AddSingleton<IPersistenciaUsuarios>(sp => sp.GetRequiredService<PersistenciaService>());
+
+            // Hacienda como modelo de dominio (fuente Ãºnica de estado en memoria)
             builder.Services.AddSingleton<Hacienda>(sp =>
             {
                 var hacienda = new Hacienda();
                 var persistencia = sp.GetRequiredService<PersistenciaService>();
 
-                // Cargar datos al iniciar
                 try
                 {
                     var potreros = persistencia.CargarPotreros();
@@ -44,16 +90,13 @@ namespace p_mvcHacienda
                         hacienda.L_potreros.Add(potrero);
                     }
 
-                    // Cargar reses en los potreros
                     persistencia.CargarReses(hacienda.L_potreros);
-
-                    // Cargar vacunas aplicadas a las reses
                     persistencia.CargarVacunasAplicadas(hacienda.L_potreros);
 
                     var ventas = persistencia.CargarVentas(hacienda.L_potreros);
                     foreach (var venta in ventas)
                     {
-                        hacienda.L_ventas.Add(venta);
+                        hacienda.registrar_venta_cargada(venta);
                     }
 
                     var vacunas = persistencia.CargarVacunas();
@@ -63,7 +106,6 @@ namespace p_mvcHacienda
                     }
 
                     Console.WriteLine($"Datos cargados: {potreros.Count} potreros, {ventas.Count} ventas, {vacunas.Count} vacunas");
-
                 }
                 catch (Exception ex)
                 {
@@ -73,26 +115,24 @@ namespace p_mvcHacienda
                 return hacienda;
             });
 
-            // Servicios como Singleton
+            // Servicios de aplicaciÃ³n
             builder.Services.AddSingleton<PotreroService>();
             builder.Services.AddSingleton<ResService>();
             builder.Services.AddSingleton<VacunaService>();
             builder.Services.AddSingleton<VentaService>();
             builder.Services.AddSingleton<UsuarioService>(sp =>
             {
-                var persistencia = sp.GetRequiredService<PersistenciaService>();
-                var usuarioService = new UsuarioService(persistencia);
+                var persistenciaUsuarios = sp.GetRequiredService<IPersistenciaUsuarios>();
+                var usuarioService = new UsuarioService(persistenciaUsuarios);
                 usuarioService.CargarUsuarios();
                 return usuarioService;
             });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -101,7 +141,6 @@ namespace p_mvcHacienda
 
             app.UseRouting();
 
-            // --- Habilitar Autenticación y Autorización ---
             app.UseAuthentication();
             app.UseAuthorization();
 

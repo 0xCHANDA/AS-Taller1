@@ -1,18 +1,12 @@
 ﻿using Bib_Hacienda.Clases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bib_Hacienda.Interfaces
 {
-    public interface IInventario<T> where T : Producto
+    // Contrato completo de inventario: hereda el contrato de venta y añade
+    // la capacidad de agregar productos. Los inventarios concretos implementan
+    // esta interfaz; los clientes de venta dependen solo de IInventarioVendible<T>.
+    public interface IInventario<T> : IInventarioVendible<T> where T : Producto
     {
         void agregar(T producto);
-        T retirar(T producto);
-        bool contiene(T producto);
     }
 }
-
-

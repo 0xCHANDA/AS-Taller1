@@ -1,9 +1,9 @@
 ---
 description: Sole writer for approved behavior-preserving C# SOLID refactors. Applies small slices and verifies each one.
 mode: subagent
-model: opencode-go/kimi-k2.7-code
+model: openai/gpt-5.6-terra
 temperature: 0.1
-steps: 45
+steps: 180
 permission:
   edit: allow
   task: deny

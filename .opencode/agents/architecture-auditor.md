@@ -3,7 +3,7 @@ description: Audits C# component boundaries, layer responsibilities and dependen
 mode: subagent
 model: openai/gpt-5.6-sol
 temperature: 0.1
-steps: 18
+steps: 180
 permission:
   edit: deny
   task: deny

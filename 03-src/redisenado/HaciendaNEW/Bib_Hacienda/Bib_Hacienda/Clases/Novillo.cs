@@ -1,26 +1,21 @@
 ﻿using Bib_Hacienda.Reglas;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bib_Hacienda.Clases
 {
     public class Novillo : Res //Hereda de Res
     {
-
-        //Constructor
-        public Novillo(string nombre, uint peso, ushort edad) : base(nombre, peso, edad)
+        //Constructor: valida el rango propio antes de delegar al constructor base.
+        public Novillo(string nombre, uint peso, ushort edad) : base(nombre, peso, ValidarEdad(edad))
         {
         }
 
-        //Accesor sobrescrito para diferenciar la edad del novillo
-        public override ushort Edad
+        private static ushort ValidarEdad(ushort edad)
         {
-            get => base.Edad;
-            set => base.Edad = value > ReglaRes.edad_max_cebon ? value :
-                throw new Exception("El ternero excedió la edad maxima");
+            if (edad <= ReglaRes.edad_max_cebon)
+                throw new Exception("El novillo excedió la edad máxima");
+
+            return edad;
         }
 
         public override byte MaxVacunasBacterianas =>
@@ -28,7 +23,5 @@ namespace Bib_Hacienda.Clases
 
         public override byte MaxVacunasVivas =>
             ReglaVacuna.max_viv_novillo;
-
-
     }
 }

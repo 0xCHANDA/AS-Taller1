@@ -1,30 +1,27 @@
 ﻿using Bib_Hacienda.Clases;
+using Bib_Hacienda.Interfaces;
 
 namespace p_mvcHacienda.Servicios
 {
     public class ResService
     {
-        // Atributos
         private readonly Hacienda _hacienda;
-        private readonly PersistenciaService _persistencia;
+        private readonly IPersistenciaReses _persistenciaReses;
+        private readonly IPersistenciaVentas _persistenciaVentas;
 
-        // Constructor
-        public ResService(Hacienda hacienda, PersistenciaService persistencia)
+        public ResService(Hacienda hacienda, IPersistenciaReses persistenciaReses, IPersistenciaVentas persistenciaVentas)
         {
             _hacienda = hacienda;
-            _persistencia = persistencia;
+            _persistenciaReses = persistenciaReses;
+            _persistenciaVentas = persistenciaVentas;
         }
 
-        // Obtener todas las reses de todos los potreros
         public List<(Potrero Potrero, Res Res)> ObtenerTodasLasReses()
         {
-            // Lista para almacenar las reses junto con su potrero
             var resesConPotrero = new List<(Potrero, Res)>();
 
-            // Recorrer cada potrero y sus reses
             foreach (var potrero in _hacienda.L_potreros)
             {
-                // Agregar cada res junto con su potrero a la lista
                 foreach (var res in potrero.L_reses)
                 {
                     resesConPotrero.Add((potrero, res));
@@ -34,13 +31,10 @@ namespace p_mvcHacienda.Servicios
             return resesConPotrero;
         }
 
-        // Buscar res en un potrero
-        public Res? BuscarRes(string potreroId, string nombreRes) //signo de pregunta porque es nulleable o sea que
-                                                                 //busca una res y si no la encuentra devuelve null
+        public Res? BuscarRes(string potreroId, string nombreRes)
         {
             try
             {
-                // Buscar el potrero por su identificación
                 var potrero = _hacienda.buscar_potrero(potreroId);
                 return potrero.buscar_res(nombreRes);
             }
@@ -50,22 +44,59 @@ namespace p_mvcHacienda.Servicios
             }
         }
 
-        // Obtener estadísticas de reses
+        public List<Vacuna> ObtenerVacunasAplicadas(string potreroId, string nombreRes)
+        {
+            try
+            {
+                var potrero = _hacienda.buscar_potrero(potreroId);
+                var res = potrero.buscar_res(nombreRes);
+                return res?.L_vacunas_aplicadas ?? new List<Vacuna>();
+            }
+            catch
+            {
+                return new List<Vacuna>();
+            }
+        }
+
+        public string Alimentar(string potreroId, string nombreRes, uint cantidadAlimento)
+        {
+            try
+            {
+                string mensaje = _hacienda.alimentar_res(potreroId, nombreRes, cantidadAlimento);
+                _persistenciaReses.GuardarReses(_hacienda.L_potreros);
+                return mensaje;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public string Vender(string potreroId, string nombreRes, uint monto)
+        {
+            try
+            {
+                string mensaje = _hacienda.vender_res(potreroId, nombreRes, monto);
+                _persistenciaVentas.GuardarVentas(_hacienda.L_ventas);
+                _persistenciaReses.GuardarReses(_hacienda.L_potreros);
+                return mensaje;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Dictionary<string, object> ObtenerEstadisticas()
         {
-            // Obtener todas las reses
             var todasLasReses = ObtenerTodasLasReses();
 
-            // Estadísticas con orden correcto:
-            // Terneros (0-12 meses) = jóvenes
-            // Cebones (13-48 meses) = medios 
-            // Novillos (49+ meses) = viejos
             return new Dictionary<string, object>
             {
                 { "TotalReses", todasLasReses.Count },
-                { "Terneros", todasLasReses.Count(r => r.Res is Ternero) }, // Jóvenes (0-12 meses)
-                { "Cebones", todasLasReses.Count(r => r.Res is Cebon) },   // Medios (13-48 meses)
-                { "Novillos", todasLasReses.Count(r => r.Res is Novillo) }, // Viejos (49+ meses)
+                { "Terneros", todasLasReses.Count(r => r.Res is Ternero) },
+                { "Cebones", todasLasReses.Count(r => r.Res is Cebon) },
+                { "Novillos", todasLasReses.Count(r => r.Res is Novillo) },
                 { "PesoPromedio", todasLasReses.Any() ? todasLasReses.Average(r => r.Res.Peso) : 0 }
             };
         }

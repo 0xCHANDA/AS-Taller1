@@ -15,14 +15,14 @@ namespace p_mvcHacienda.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -39,7 +39,7 @@ namespace p_mvcHacienda.Controllers
                     }
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError(string.Empty, "Usuario o contraseña inválidos.");
+                ModelState.AddModelError(string.Empty, "Usuario o contraseï¿½a invï¿½lidos.");
             }
             return View(model);
         }

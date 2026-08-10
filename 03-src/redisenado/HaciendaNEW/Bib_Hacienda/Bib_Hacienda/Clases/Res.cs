@@ -13,7 +13,6 @@ namespace Bib_Hacienda.Clases
     {
 
         //Atributos
-        private string nombre;
         private uint peso;
         private ushort edad;
         private List<Vacuna> l_vacunas_aplicadas;
@@ -21,22 +20,19 @@ namespace Bib_Hacienda.Clases
         internal void EventHandler() { }
 
         //Constructor
-        public Res(string nombre, uint peso, ushort edad)
+        public Res(string nombre, uint peso, ushort edad) : base(nombre)
         {
-            this.Nombre = nombre;
             this.Peso = peso;
-            this.Edad = edad;
+            this.edad = edad;
             this.l_vacunas_aplicadas = new List<Vacuna>();
         }
 
         //Accesores
-        public virtual ushort Edad 
-        { 
-            get => edad;
-            set => edad = value; 
-        }
+        // Edad es inmutable tras la construcción: cada subtipo valida su rango
+        // en su propio constructor. Esto elimina el setter virtual fortalecible
+        // y evita llamar a miembros virtuales desde el constructor base.
+        public ushort Edad => edad;
         public List<Vacuna> L_vacunas_aplicadas { get => l_vacunas_aplicadas;  }
-        public string Nombre { get => nombre; set => nombre = value; }
         public uint Peso { get => peso; set => peso = value; }
 
         //metodo desde Res
