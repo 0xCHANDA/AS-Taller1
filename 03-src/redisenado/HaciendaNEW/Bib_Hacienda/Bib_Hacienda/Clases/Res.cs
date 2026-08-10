@@ -44,10 +44,6 @@ namespace Bib_Hacienda.Clases
                     if (vacuna == null)
                         throw new ArgumentNullException(nameof(vacuna));
 
-                    if (vacuna.EstaVencida())
-                        throw new InvalidOperationException(
-                            $"La vacuna '{vacuna.Nombre}' está vencida.");
-
                     if (l_vacunas_aplicadas.Any(v =>
                         v.Nombre.Equals(vacuna.Nombre) ||
                         v.Lote.Equals(vacuna.Lote)))
@@ -58,9 +54,30 @@ namespace Bib_Hacienda.Clases
 
                     if (!vacuna.PuedeAplicarseA(this))
                     {
+                        string tipoPlural;
+                        byte max;
+                        switch (vacuna.Tipo)
+                        {
+                            case TipoVacuna.Bacteriana:
+                                tipoPlural = "bacterianas";
+                                max = MaxVacunasBacterianas;
+                                break;
+                            case TipoVacuna.Viva:
+                                tipoPlural = "vivas";
+                                max = MaxVacunasVivas;
+                                break;
+                            default:
+                                throw new InvalidOperationException(
+                                    $"La res '{Nombre}' no puede recibir más vacunas de este tipo.");
+                        }
+
                         throw new InvalidOperationException(
-                            $"La res '{Nombre}' no puede recibir más vacunas de este tipo.");
+                            $"No se puede aplicar más vacunas {tipoPlural} a la res '{Nombre}'. Ya tiene las {max} permitidas.");
                     }
+
+                    if (vacuna.EstaVencida())
+                        throw new InvalidOperationException(
+                            $"[Evento] La vacuna '{vacuna.Nombre}' del lote '{vacuna.Lote}' está vencida desde {vacuna.Fecha_vencimiento.ToShortDateString()}");
 
 
                     l_vacunas_aplicadas.Add(vacuna);

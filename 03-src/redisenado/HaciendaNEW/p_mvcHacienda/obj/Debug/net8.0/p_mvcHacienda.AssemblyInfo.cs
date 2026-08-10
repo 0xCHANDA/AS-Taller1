@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("p_mvcHacienda")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca60a68770e50347bab49f97cebc38556d04e0a6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03cf79e1c45d204ff38b8dd860266def99ac2d80")]
 [assembly: System.Reflection.AssemblyProductAttribute("p_mvcHacienda")]
 [assembly: System.Reflection.AssemblyTitleAttribute("p_mvcHacienda")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

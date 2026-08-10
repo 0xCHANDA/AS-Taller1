@@ -2,55 +2,65 @@
 using Bib_Hacienda.Interfaces;
 using Bib_Hacienda.Reglas;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using static Bib_Hacienda.Clases.Potrero;
 
 namespace Bib_Hacienda.Clases
 {
+    // Fachada principal de coordinación. SRP: delega, no implementa.
+    // - Crear potreros / buscar potreros / mover reses -> se hace via Potrero
+    // - Vender -> se hace via RegistroVenta
+    // - Crear vacunas -> se hace via FabricadorVacunas
+    // - Aplicar vacunas -> sigue aquí (orquesta Potrero + Res + eventos)
     public class Hacienda : IVacunacion, IVentaRes, ICreacionVacuna
     {
         //Atributos
         private List<Potrero> l_potreros;
-        private RegistroVenta registroVentas;
+        private readonly RegistroVenta registroVentas;
         private List<Vacuna> l_vacunas;
+        private readonly FabricadorVacunas fabricadorVacunas;
 
         //Accesores públicos para los servicios (get público, set privado)
-        public List<Potrero> L_potreros 
-        { 
-            get => l_potreros; 
-            private set => l_potreros = value; 
+        public List<Potrero> L_potreros
+        {
+            get => l_potreros;
+            private set => l_potreros = value;
         }
 
         public List<Venta> L_ventas => registroVentas.Ventas.ToList();
 
-        public List<Vacuna> L_vacunas 
-        { 
-            get => l_vacunas; 
-            private set => l_vacunas = value; 
+        public List<Vacuna> L_vacunas
+        {
+            get => l_vacunas;
+            private set => l_vacunas = value;
         }
 
         //Eventos
-        private PublisherVacunacionCompletada publisher_vacunacion_completa = new PublisherVacunacionCompletada();
-        private PublisherVacunaVencida publisher_vacuna_vencida = new PublisherVacunaVencida();
-        private PublisherPesoMin publisher_peso_min = new PublisherPesoMin();
-        private PublisherPesoVenta publisher_peso_ideal = new PublisherPesoVenta();
+        private readonly PublisherVacunacionCompletada publisher_vacunacion_completa = new PublisherVacunacionCompletada();
+        private readonly PublisherVacunaVencida publisher_vacuna_vencida = new PublisherVacunaVencida();
+        private readonly PublisherPesoMin publisher_peso_min = new PublisherPesoMin();
+        private readonly PublisherPesoVenta publisher_peso_ideal = new PublisherPesoVenta();
 
 
         //EventHandler
         internal void EventHandler() { }
 
-        //Constructor vacío
+        //Constructor por defecto (composition root sin DI externo):
+        //crea las dependencias mínimas para conservar la API observable.
         public Hacienda()
+            : this(registroVentas: null, fabricadorVacunas: null)
+        {
+        }
+
+        // Constructor con inyección opcional de dependencias (DIP pedagógico).
+        // Si recibe null, crea instáncias por defecto para no romper consumidores.
+        public Hacienda(RegistroVenta registroVentas, FabricadorVacunas fabricadorVacunas)
         {
             l_potreros = new List<Potrero>();
-            registroVentas = new RegistroVenta();
+            this.registroVentas = registroVentas ?? new RegistroVenta();
             l_vacunas = new List<Vacuna>();
+            this.fabricadorVacunas = fabricadorVacunas ?? new FabricadorVacunas(l_vacunas);
         }
 
         //Metodo para crear potreros
@@ -58,7 +68,6 @@ namespace Bib_Hacienda.Clases
         {
             try
             {
-                //Validar que el nombre no este vacio o nulo
                 if (string.IsNullOrWhiteSpace(indentificacion))
                 {
                     throw new ArgumentException("El nombre de la res no puede estar vacío", nameof(indentificacion));
@@ -68,10 +77,7 @@ namespace Bib_Hacienda.Clases
                     throw new InvalidOperationException($"Ya existe un potrero con el nombre '{indentificacion}'.");
                 }
 
-                //Crear nuevo potrero
-
                 Potrero nuevo_potrero = new Potrero(indentificacion, tipo_potrero);
-
                 l_potreros.Add(nuevo_potrero);
 
                 return ($"El potrero {indentificacion} se a añadido a la hacienda. ");
@@ -88,30 +94,25 @@ namespace Bib_Hacienda.Clases
         {
             try
             {
-                // Validar nombre
                 if (string.IsNullOrWhiteSpace(nombre))
                 {
                     throw new ArgumentException("El nombre de búsqueda no puede estar vacío.");
                 }
 
-                // Buscar potreros que contengan el texto (ignorando mayúsculas/minúsculas)
                 var potreros_encontrados = l_potreros
                     .Where(p => p.Identificacion.IndexOf(nombre, StringComparison.OrdinalIgnoreCase) >= 0)
                     .ToList();
 
-                // Si no hay resultados
                 if (potreros_encontrados.Count == 0)
                 {
                     throw new Exception($"No se encontró ningún potrero con el nombre o coincidencia '{nombre}'.");
                 }
 
-                // Si hay más de un resultado, mostrar opciones
                 if (potreros_encontrados.Count > 1)
                 {
                     throw new Exception($" se encontró mas de un potrero con el nombre o coincidencia '{nombre}'.");
                 }
 
-                //  devolver potrero
                 return potreros_encontrados.First();
             }
             catch (Exception er)
@@ -119,15 +120,15 @@ namespace Bib_Hacienda.Clases
                 throw new Exception("Error inesperado en el método buscar_potrero: " + er.Message);
             }
         }
-        
-        //Metodo para  anadir res a un potrero 
+
+        //Metodo para  anadir res a un potrero
         public string anadir_res_potrero (string id_potrero, string nombre, ushort edad, uint peso)
         {
             try
             {
                 Potrero potrero = buscar_potrero(id_potrero);
-                string resultado = potrero.anadir_res(nombre, edad, peso);  // ✅ Capturar el mensaje
-                return resultado;  // ✅ Retornar el mensaje del potrero (incluye eventos)
+                string resultado = potrero.anadir_res(nombre, edad, peso);
+                return resultado;
             }
             catch (Exception er)
             {
@@ -160,9 +161,8 @@ namespace Bib_Hacienda.Clases
                 DateTime.Now,
                 productoRetirado,
                 monto
-            ){
+            );
 
-            };
             registroVentas.registrar(venta);
 
             return $"Venta de '{productoRetirado.Nombre}' realizada con éxito.";
@@ -209,7 +209,6 @@ namespace Bib_Hacienda.Clases
                 Potrero potrero = buscar_potrero(id_potrero);
                 Res res = potrero.buscar_res(nombre);
 
-                //Validar parámetros
                 if (potrero == null) throw new ArgumentNullException(nameof(potrero));
                 if (res == null) throw new ArgumentNullException(nameof(res));
 
@@ -217,7 +216,6 @@ namespace Bib_Hacienda.Clases
 
                 string mensaje_eventos = "";
 
-                //Suscribirse a los eventos con lambdas para acumular mensajes
                 publisher_peso_min.evt_peso_min += (mensaje) =>
                 {
                     if (!string.IsNullOrEmpty(mensaje))
@@ -230,11 +228,9 @@ namespace Bib_Hacienda.Clases
                         mensaje_eventos += mensaje + "\n";
                 };
 
-                //Disparar los eventos con la res actualizada
                 publisher_peso_min.Informar_Peso_Min(res);
                 publisher_peso_ideal.Informar_Peso_Venta(res);
 
-                //Construir mensaje de retorno
                 string mensaje_final = $"La res '{res.Nombre}' ha sido alimentada, ahora pesa {res.Peso} kg.";
                 if (!string.IsNullOrEmpty(mensaje_eventos))
                 {
@@ -249,195 +245,36 @@ namespace Bib_Hacienda.Clases
             }
         }
 
+        // —— Creación de vacunas: delega a FabricadorVacunas (SRP). ——
+
         //Metodo para crear y añadir vacuna al inventario
         public string crear_vacuna(string nombre, string lote, DateTime fecha_vencimiento, DateTime fecha_aplicacion, uint periodo_aplicacion)
         {
-            try
-            {
-                //Validar parámetros
-                if (string.IsNullOrWhiteSpace(nombre))
-                    throw new ArgumentException("El nombre de la vacuna no puede estar vacío", nameof(nombre));
-
-                if (string.IsNullOrWhiteSpace(lote))
-                    throw new ArgumentException("El lote de la vacuna no puede estar vacío", nameof(lote));
-
-                //Validar que la fecha de vencimiento sea posterior a la fecha de aplicación
-                if (fecha_vencimiento <= fecha_aplicacion)
-                    throw new Exception("La fecha de vencimiento debe ser posterior a la fecha de aplicación");
-
-                //Verificar si ya existe una vacuna con el mismo lote
-                if (l_vacunas.Any(v => v.Lote.Equals(lote, StringComparison.OrdinalIgnoreCase)))
-                    throw new Exception($"Ya existe una vacuna con el lote '{lote}' en el inventario");
-
-                //Crear vacuna bacteriana
-                Bacteriana nueva_vacuna = new Bacteriana(nombre, lote, fecha_vencimiento, fecha_aplicacion, periodo_aplicacion);
-
-                //Agregar al inventario
-                l_vacunas.Add(nueva_vacuna);
-
-                return $"Vacuna bacteriana '{nombre}' del lote '{lote}' agregada al inventario con éxito. Período de aplicación: {periodo_aplicacion} semanas.";
-            }
-            catch (Exception er)
-            {
-                throw new Exception("Error inesperado en el método crear_vacuna (bacteriana): " + er.Message);
-            }
+            return fabricadorVacunas.Crear(nombre, lote, fecha_vencimiento, fecha_aplicacion, periodo_aplicacion);
         }
 
         //Metodo para crear vacuna viva individual
         public string crear_vacuna(string nombre, string lote, DateTime fecha_vencimiento, DateTime fecha_aplicacion, Viva.enum_l_atenuaciones grado_atenuacion)
         {
-            try
-            {
-                //Validar parámetros
-                if (string.IsNullOrWhiteSpace(nombre))
-                    throw new ArgumentException("El nombre de la vacuna no puede estar vacío", nameof(nombre));
-
-                if (string.IsNullOrWhiteSpace(lote))
-                    throw new ArgumentException("El lote de la vacuna no puede estar vacío", nameof(lote));
-
-                //Validar que la fecha de vencimiento sea posterior a la fecha de aplicación
-                if (fecha_vencimiento <= fecha_aplicacion)
-                    throw new Exception("La fecha de vencimiento debe ser posterior a la fecha de aplicación");
-
-                //Verificar si ya existe una vacuna con el mismo lote
-                if (l_vacunas.Any(v => v.Lote.Equals(lote, StringComparison.OrdinalIgnoreCase)))
-                    throw new Exception($"Ya existe una vacuna con el lote '{lote}' en el inventario");
-
-                //Crear vacuna viva
-                Viva nueva_vacuna = new Viva(nombre, lote, fecha_vencimiento, fecha_aplicacion, grado_atenuacion);
-
-                //Agregar al inventario
-                l_vacunas.Add(nueva_vacuna);
-
-                return $"Vacuna viva '{nombre}' del lote '{lote}' agregada al inventario con éxito. Grado de atenuación: {(int)grado_atenuacion}.";
-            }
-            catch (Exception er)
-            {
-                throw new Exception("Error inesperado en el método crear_vacuna (viva): " + er.Message);
-            }
+            return fabricadorVacunas.Crear(nombre, lote, fecha_vencimiento, fecha_aplicacion, grado_atenuacion);
         }
 
         //Metodo para crear lote de vacunas bacterianas
         public string crear_vacuna(string nombre, string lote_base, DateTime fecha_vencimiento, DateTime fecha_aplicacion, uint periodo_aplicacion, uint cantidad)
         {
-            try
-            {
-                //Validar cantidad
-                if (cantidad <= 0)
-                    throw new ArgumentException("La cantidad debe ser mayor a 0", nameof(cantidad));
-
-                if (cantidad > 100)
-                    throw new ArgumentException("No se pueden crear más de 100 vacunas en un solo lote", nameof(cantidad));
-
-                //Validar parámetros
-                if (string.IsNullOrWhiteSpace(nombre))
-                    throw new ArgumentException("El nombre de la vacuna no puede estar vacío", nameof(nombre));
-
-                if (string.IsNullOrWhiteSpace(lote_base))
-                    throw new ArgumentException("El lote base no puede estar vacío", nameof(lote_base));
-
-                //Validar fechas
-                if (fecha_vencimiento <= fecha_aplicacion)
-                    throw new Exception("La fecha de vencimiento debe ser posterior a la fecha de aplicación");
-
-                int vacunas_creadas = 0;
-
-                //Crear múltiples vacunas con lotes numerados
-                for (int i = 1; i <= cantidad; i++)
-                {
-                    string lote_numerado = $"{lote_base}-{i:D3}";
-
-                    //Verificar si ya existe
-                    if (l_vacunas.Any(v => v.Lote.Equals(lote_numerado, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        continue;
-                    }
-
-                    //Crear vacuna bacteriana
-                    Bacteriana nueva_vacuna = new Bacteriana(nombre, lote_numerado, fecha_vencimiento, fecha_aplicacion, periodo_aplicacion);
-                    l_vacunas.Add(nueva_vacuna);
-                    vacunas_creadas++;
-                }
-
-                if (vacunas_creadas == 0)
-                    throw new Exception($"No se pudo crear ninguna vacuna. Todos los lotes ya existen en el inventario");
-
-                return $"Lote de vacunas bacterianas creado con éxito:\n" +
-                "- Nombre: {nombre}\n" +
-                $"- Cantidad creada: {vacunas_creadas} de {cantidad}\n" +
-                $"- Lotes: {lote_base}-001 a {lote_base}-{vacunas_creadas:D3}\n" +
-                $"- Período de aplicación: {periodo_aplicacion} semanas";
-            }
-            catch (Exception er)
-            {
-                throw new Exception("Error inesperado en el método crear_vacuna (lote bacteriano): " + er.Message);
-            }
+            return fabricadorVacunas.CrearLote(nombre, lote_base, fecha_vencimiento, fecha_aplicacion, periodo_aplicacion, cantidad);
         }
 
         //Metodo para crear lote de vacunas vivas
         public string crear_vacuna(string nombre, string lote_base, DateTime fecha_vencimiento, DateTime fecha_aplicacion, Viva.enum_l_atenuaciones grado_atenuacion, uint cantidad)
         {
-            try
-            {
-                //Validar cantidad
-                if (cantidad <= 0)
-                    throw new ArgumentException("La cantidad debe ser mayor a 0", nameof(cantidad));
-
-                if (cantidad > 100)
-                    throw new ArgumentException("No se pueden crear más de 100 vacunas en un solo lote", nameof(cantidad));
-
-                //Validar parámetros
-                if (string.IsNullOrWhiteSpace(nombre))
-                    throw new ArgumentException("El nombre de la vacuna no puede estar vacío", nameof(nombre));
-
-                if (string.IsNullOrWhiteSpace(lote_base))
-                    throw new ArgumentException("El lote base no puede estar vacío", nameof(lote_base));
-
-                //Validar fechas
-                if (fecha_vencimiento <= fecha_aplicacion)
-                    throw new Exception("La fecha de vencimiento debe ser posterior a la fecha de aplicación");
-
-                int vacunas_creadas = 0;
-
-                //Crear múltiples vacunas con lotes numerados
-                for (int i = 1; i <= cantidad; i++)
-                {
-                    string lote_numerado = $"{lote_base}-{i:D3}";
-
-                    //Verificar si ya existe
-                    if (l_vacunas.Any(v => v.Lote.Equals(lote_numerado, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        continue;
-                    }
-
-                    //Crear vacuna viva
-                    Viva nueva_vacuna = new Viva(nombre, lote_numerado, fecha_vencimiento, fecha_aplicacion, grado_atenuacion);
-                    l_vacunas.Add(nueva_vacuna);
-                    vacunas_creadas++;
-                }
-
-                if (vacunas_creadas == 0)
-                    throw new Exception($"No se pudo crear ninguna vacuna. Todos los lotes ya existen en el inventario");
-
-                return $"Lote de vacunas vivas creado con éxito:\n" +
-                $"- Nombre: {nombre}\n" +
-                $"- Cantidad creada: {vacunas_creadas} de {cantidad}\n" +
-                $"- Lotes: {lote_base}-001 a {lote_base}-{vacunas_creadas:D3}\n" +
-                $"- Grado de atenuación: {(int)grado_atenuacion}";
-            }
-            catch (Exception er)
-            {
-                throw new Exception("Error inesperado en el método crear_vacuna (lote vivo): " + er.Message);
-            }
+            return fabricadorVacunas.CrearLote(nombre, lote_base, fecha_vencimiento, fecha_aplicacion, grado_atenuacion, cantidad);
         }
 
-              
         //Metodo nuevo para aplicar vacuna - hacienda
-
-        public string aplicar_vacuna(Vacuna vacuna,string nombre,string idPotrero)
+        public string aplicar_vacuna(Vacuna vacuna, string nombre, string idPotrero)
         {
             Potrero potrero = buscar_potrero(idPotrero);
-
             Res res = potrero.buscar_res(nombre);
 
             if (vacuna == null)

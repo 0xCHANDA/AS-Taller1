@@ -36,7 +36,7 @@ namespace Bib_Hacienda.Clases
 
         public bool EstaVencida()
         {
-            return DateTime.Now > Fecha_vencimiento;
+            return Fecha_vencimiento <= DateTime.Now;
         }
 
         public abstract bool PuedeAplicarseA(Res res);
