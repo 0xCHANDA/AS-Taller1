@@ -18,6 +18,7 @@ python3 - "$tmp_dir" <<'PY'
 import json, pathlib, sys
 
 root = pathlib.Path(sys.argv[1])
+resolved_agents = json.loads((root / "config.json").read_text())["agent"]
 required_steps = {
     "solid-orchestrator": 160, "codebase-cartographer": 30,
     "srp-auditor": 35, "ocp-auditor": 40, "lsp-auditor": 45,
@@ -41,6 +42,16 @@ required_models = {
 
 def rules(agent):
     return json.loads((root / f"{agent}.json").read_text())["permission"]
+
+def ordered_structure(value):
+    if isinstance(value, dict):
+        return ("dict", tuple((key, ordered_structure(item)) for key, item in value.items()))
+    if isinstance(value, list):
+        return ("list", tuple(ordered_structure(item) for item in value))
+    return ("value", value)
+
+def resolved_permission(agent):
+    return ordered_structure(resolved_agents[agent]["permission"])
 
 def last_general(rs, permission):
     matches = [r for r in rs if r["permission"] == permission and r.get("pattern") == "*"]
@@ -86,9 +97,9 @@ if not evid_edit or evid_edit[-5] != ("*", "deny"):
     errors.append("phase4-evidence-engineer: falta default deny edit")
 if any("Bib_Hacienda/**" in (p or "") or "p_mvcHacienda/**" in (p or "") for p, a in evid_edit if a == "allow"):
     errors.append("phase4-evidence-engineer: puede editar producción")
-if impl != impl_fallback:
+if resolved_permission("refactor-implementer") != resolved_permission("refactor-implementer-fallback"):
     errors.append("refactor-implementer-fallback: permisos no son idénticos al agente preferido")
-if evid != evid_fallback:
+if resolved_permission("phase4-evidence-engineer") != resolved_permission("phase4-evidence-engineer-fallback"):
     errors.append("phase4-evidence-engineer-fallback: permisos no son idénticos al agente preferido")
 
 readonly_fallback = rules("phase4-readonly-fallback")
