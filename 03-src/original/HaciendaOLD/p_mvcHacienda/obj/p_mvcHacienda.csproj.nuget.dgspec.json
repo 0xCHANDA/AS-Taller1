@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/Hacienda/p_mvcHacienda/p_mvcHacienda.csproj": {}
+    "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj": {}
   },
   "projects": {
-    "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/Hacienda/p_mvcHacienda/p_mvcHacienda.csproj": {
+    "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/Hacienda/p_mvcHacienda/p_mvcHacienda.csproj",
+        "projectUniqueName": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj",
         "projectName": "p_mvcHacienda",
-        "projectPath": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/Hacienda/p_mvcHacienda/p_mvcHacienda.csproj",
+        "projectPath": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj",
         "packagesPath": "/home/chanda/.nuget/packages/",
-        "outputPath": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/Hacienda/p_mvcHacienda/obj/",
+        "outputPath": "/home/chanda/Projects/College/ArqSftwr/AS-Taller1/03-src/original/HaciendaOLD/p_mvcHacienda/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/chanda/.nuget/NuGet/NuGet.Config"
