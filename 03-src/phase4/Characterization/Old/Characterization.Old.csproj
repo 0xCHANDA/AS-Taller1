@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bib_Hacienda">
+      <HintPath>../../../original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/bin/Debug/Bib_Hacienda.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -154,18 +154,18 @@ namespace Bib_Hacienda.Clases
                 throw new InvalidOperationException(
                     $"El producto '{producto.Nombre}' no se encuentra en el inventario.");
 
+            Producto productoRetirado = inventario.retirar(producto);
+
             Venta venta = new Venta(
                 DateTime.Now,
-                producto,
+                productoRetirado,
                 monto
             ){
 
             };
             registroVentas.registrar(venta);
 
-            inventario.retirar(producto);
-
-            return $"Venta de '{producto.Nombre}' realizada con éxito.";
+            return $"Venta de '{productoRetirado.Nombre}' realizada con éxito.";
         }
 
         //Metodo para registrar una venta ya creada (por ejemplo, restaurada desde persistencia)
@@ -447,10 +447,18 @@ namespace Bib_Hacienda.Clases
 
             L_vacunas.Remove(vacuna);
 
-            publisher_vacunacion_completa
-                .Informar_Vacunacion_Completada(res, res.CantidadVacunasBacterianas, res.CantidadVacunasVivas);
+            string mensaje_vacunacion = "";
+            publisher_vacunacion_completa.evt_vacunacion_completada += (mensaje) =>
+            {
+                mensaje_vacunacion = mensaje;
+            };
 
-            return $"Vacuna aplicada correctamente a la res {res.Nombre}.";
+            publisher_vacunacion_completa.Informar_Vacunacion_Completada(
+                res,
+                res.CantidadVacunasBacterianas,
+                res.CantidadVacunasVivas);
+
+            return $"Vacuna aplicada correctamente a la res {res.Nombre}. {mensaje_vacunacion}";
         }
     }
 }

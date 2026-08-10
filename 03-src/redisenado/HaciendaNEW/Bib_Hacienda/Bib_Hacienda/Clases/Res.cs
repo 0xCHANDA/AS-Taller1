@@ -96,10 +96,6 @@ namespace Bib_Hacienda.Clases
         public void Alimentar(uint cantidad)
         {
             try {
-                if (cantidad == 0)
-                    throw new ArgumentException(
-                        "La cantidad debe ser mayor que 0.");
-
                 Peso += cantidad;
             }
             catch (Exception er)

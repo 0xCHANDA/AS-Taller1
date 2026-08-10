@@ -36,7 +36,9 @@ namespace HaciendaNEW.Verification
             VerificarInventariosSinDuplicadoNiNoOp();
             VerificarVentaGenericaRes();
             VerificarVentaGenericaLacteo();
+            VerificarVentaGenericaCarne();
             VerificarVentaGenericaPiel();
+            VerificarIdentidadProductoVendido();
             VerificarVentaProductoDefinidoEnVerifier();
             VerificarVentaProductoAusenteONull();
             VerificarContratoRes();
@@ -525,6 +527,40 @@ namespace HaciendaNEW.Verification
             Console.WriteLine("[OK] Venta genérica de Piel.");
         }
 
+        private static void VerificarVentaGenericaCarne()
+        {
+            var hacienda = new Hacienda();
+            var inventario = new InventarioCarnes();
+            var carne = new Carne("Corte de res");
+            inventario.agregar(carne);
+
+            string mensaje = hacienda.vender(inventario, carne, 900u);
+            Assert(mensaje.Contains("Corte de res"), "Mensaje de venta genérica menciona la carne.");
+            Assert(!inventario.contiene(carne), "La carne fue retirada del inventario.");
+            Assert(hacienda.L_ventas.Count == 1, "Debe registrarse una venta de carne.");
+            Assert(hacienda.L_ventas[0].Producto == carne, "Venta TO-BE referencia la carne.");
+
+            Console.WriteLine("[OK] Venta genérica de Carne.");
+        }
+
+        private static void VerificarIdentidadProductoVendido()
+        {
+            var hacienda = new Hacienda();
+            var inventario = new InventarioLacteos();
+            var productoInventariado = new Lacteo("Leche");
+            var solicitudEquivalente = new Lacteo("Leche");
+            inventario.agregar(productoInventariado);
+
+            hacienda.vender(inventario, solicitudEquivalente, 100u);
+
+            Assert(hacienda.L_ventas[0].Producto == productoInventariado,
+                "La venta debe registrar exactamente el objeto retirado del inventario.");
+            Assert(hacienda.L_ventas[0].Producto != solicitudEquivalente,
+                "La venta no debe registrar un objeto distinto del retirado.");
+
+            Console.WriteLine("[OK] Identidad: la venta registra el mismo objeto que retira.");
+        }
+
         private static void VerificarVentaProductoDefinidoEnVerifier()
         {
             var hacienda = new Hacienda();
@@ -628,8 +664,8 @@ namespace HaciendaNEW.Verification
             Assert(res.Peso == 110, "Alimentar incrementa el peso.");
             Assert(res.Edad == 5, "Alimentar no modifica la edad.");
 
-            try { res.Alimentar(0); Fail("Alimentar con 0 debe fallar."); }
-            catch (Exception) { /* esperado */ }
+            res.Alimentar(0);
+            Assert(res.Peso == 110, "Alimentar con 0 conserva el peso como en OLD.");
 
             // Vacunación aplicable respetando máximos por subtipo
             var fecha = DateTime.Now.AddMonths(1);
@@ -683,6 +719,7 @@ namespace HaciendaNEW.Verification
                 {
                     new Venta(potrero, fecha, resLegacy, 1000),
                     new Venta(fecha, new Lacteo("Queso"), 500),
+                    new Venta(fecha, new Carne("Corte de res"), 900),
                     new Venta(fecha, new Piel("Cuero"), 800),
                     new Venta(fecha, new Ternero("Lolita", 200, 6), 1200),
                     new Venta(fecha, new ProductoVerificador("ProductoExterno"), 999)
@@ -696,17 +733,17 @@ namespace HaciendaNEW.Verification
                 Assert(File.Exists(rutaVentas), "Debe crearse Ventas.txt.");
 
                 var lineas = File.ReadAllLines(rutaVentas);
-                Assert(lineas.Length == 5, $"Deben persistirse 5 ventas, no {lineas.Length}.");
+                Assert(lineas.Length == 6, $"Deben persistirse 6 ventas, no {lineas.Length}.");
 
                 var legacyLine = lineas.FirstOrDefault(l => !l.StartsWith("V2", StringComparison.OrdinalIgnoreCase));
                 Assert(legacyLine != null, "Debe conservarse al menos una línea legacy.");
                 Assert(legacyLine.Split('|').Length == 7,
                     "El registro legacy debe mantener la forma de 7 campos.");
-                Assert(lineas.Count(l => l.StartsWith("V2", StringComparison.OrdinalIgnoreCase)) == 4,
-                    "Las 4 ventas genéricas deben persistirse con prefijo V2.");
+                Assert(lineas.Count(l => l.StartsWith("V2", StringComparison.OrdinalIgnoreCase)) == 5,
+                    "Las 5 ventas genéricas deben persistirse con prefijo V2.");
 
                 var cargadas = persistencia.CargarVentas(new List<Potrero>());
-                Assert(cargadas.Count == 5, $"Deben recargarse 5 ventas, no {cargadas.Count}.");
+                Assert(cargadas.Count == 6, $"Deben recargarse 6 ventas, no {cargadas.Count}.");
 
                 var legacy = cargadas.FirstOrDefault(v => v.Potrero != null && v.Res != null);
                 Assert(legacy != null, "Debe recargarse la venta legacy con Potrero/Res.");
@@ -720,6 +757,12 @@ namespace HaciendaNEW.Verification
                 var piel = cargadas.FirstOrDefault(v => v.Producto is Piel);
                 Assert(piel != null && piel.Producto.Nombre == "Cuero" && piel.Monto == 800,
                     "Venta genérica de Piel se recarga correctamente.");
+
+                var carne = cargadas.FirstOrDefault(v => v.Producto != null && v.Producto.Nombre == "Corte de res");
+                Assert(carne != null && carne.Monto == 900,
+                    "Venta genérica de Carne conserva nombre y monto al recargarse.");
+                Assert(carne.Producto.GetType().Name == "ProductoPersistido",
+                    "Carne se recarga mediante el snapshot genérico sin modificar persistencia.");
 
                 var resGenerica = cargadas.FirstOrDefault(v => v.Producto is Ternero t && t.Nombre == "Lolita");
                 Assert(resGenerica != null && resGenerica.Monto == 1200,
