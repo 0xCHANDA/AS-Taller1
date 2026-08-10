@@ -1,0 +1,125 @@
+﻿using Bib_Hacienda.Clases;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class VacunaService
+    {
+        // Atributos
+        private readonly Hacienda _hacienda;
+        private readonly PersistenciaService _persistencia;
+        // Constructor
+        public VacunaService(Hacienda hacienda, PersistenciaService persistencia)
+        {
+            _hacienda = hacienda;
+            _persistencia = persistencia;
+        }
+
+        // Crear vacuna viva o bacteriana
+        public string CrearVacuna(string nombre, string lote, DateTime fechaVencimiento, DateTime fechaAplicacion, uint? periodoAplicacion, enum_l_atenuaciones? atenuacion)
+        {
+            try
+            {
+                string validado;
+
+                // Bacteriana: requiere periodo y NO atenuación
+                if (periodoAplicacion.HasValue && !atenuacion.HasValue)
+                {
+                    _hacienda.crear_vacuna(nombre, lote, fechaVencimiento, fechaAplicacion, periodoAplicacion.Value);
+                }
+                // Viva: requiere atenuación y NO periodo
+                else if (!periodoAplicacion.HasValue && atenuacion.HasValue)
+                {
+                    _hacienda.crear_vacuna(nombre, lote, fechaVencimiento, fechaAplicacion, atenuacion.Value);
+                }
+                else
+                {
+                    return "Error: parámetros inválidos para crear la vacuna (revise tipo, período o atenuación)";
+                }
+
+                validado = _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+
+                return validado;
+            }
+
+            catch (Exception ex)
+            {
+                return $"{ex.Message}";
+            }
+        }
+
+        // Aplicar vacuna a una res
+        public string AplicarVacuna(string potreroId, string nombreRes, string loteVacuna)
+        {
+            try
+            {
+                string validado;
+
+                // Buscar la vacuna por su lote
+                var vacuna = _hacienda.L_vacunas.FirstOrDefault(v => v.Lote == loteVacuna);
+
+                if (vacuna == null)
+                {
+                    throw new Exception($"No se encontró una vacuna con el lote '{loteVacuna}'");
+                }
+
+                // Aplicar la vacuna desde la hacienda
+                string resultado = _hacienda.aplicar_vacuna(vacuna, nombreRes, potreroId);
+                
+                // Guardar con validación
+                validado = _persistencia.GuardarVacunasAplicadas(_hacienda.L_potreros);
+            
+                _persistencia.GuardarPotreros(_hacienda.L_potreros);
+                _persistencia.GuardarReses(_hacienda.L_potreros);
+                _persistencia.GuardarVacunas(_hacienda.L_vacunas);
+                
+                return validado;
+            }
+            
+            catch (Exception ex)
+            {
+                return $"{ex.Message}";
+            }
+        }
+
+        // Obtener todas las vacunas disponibles
+        public List<Vacuna> ObtenerVacunasDisponibles()
+        {
+            // Ordenar por nombre antes de retornar
+            return _hacienda.L_vacunas.OrderBy(v => v.Nombre).ToList();
+        }
+
+        // Obtener vacunas aplicadas a una res
+        public List<Vacuna> ObtenerVacunasAplicadas(string potreroId, string nombreRes)
+        {
+            try
+            {
+                // Buscar el potrero por su identificación
+                var potrero = _hacienda.buscar_potrero(potreroId);
+                var res = potrero.buscar_res(nombreRes);
+                return res.L_vacunas_aplicadas;
+            }
+            
+            catch
+            {
+                return new List<Vacuna>();
+            }
+        }
+
+        // Obtener estadísticas de vacunas
+        public Dictionary<string, object> ObtenerEstadisticas()
+        {
+            var vacunas = _hacienda.L_vacunas;
+
+            // Calcular estadísticas
+            return new Dictionary<string, object>
+            {
+                { "TotalVacunas", vacunas.Count },
+                { "Bacterianas", vacunas.Count(v => v is Bacteriana) },
+                { "Vivas", vacunas.Count(v => v is Viva) },
+                { "Vencidas", vacunas.Count(v => v.Fecha_vencimiento < DateTime.Now) },
+                { "Vigentes", vacunas.Count(v => v.Fecha_vencimiento >= DateTime.Now) }
+            };
+        }
+    }
+}

@@ -1,0 +1,138 @@
+﻿@using Bib_Hacienda.Clases
+
+@{
+    ViewData["Title"] = "🐄 Agregar Res";
+  var potreros = ViewBag.Potreros as List<Potrero>;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Encabezado -->
+            <div class="text-center mb-4">
+              <h1 class="display-5 fw-bold" style="color: #8b4513;">
+          🐄 Agregar Nueva Res
+    </h1>
+     <p class="lead text-muted">Registra una nueva res en un potrero</p>
+    </div>
+
+     <!-- Mensaje de error -->
+            @if (ViewBag.Mensaje != null)
+         {
+   <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show" role="alert">
+   <strong>@ViewBag.Mensaje</strong>
+     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+     </div>
+       }
+
+        <!-- Formulario -->
+            <div class="card shadow-lg" style="background-color: #fff8e7; border: 2px solid #8b4513;">
+       <div class="card-header text-white text-center" style="background-color: #8b4513;">
+     <h4 class="mb-0">📝 Información de la Res</h4>
+      </div>
+         <div class="card-body p-4">
+           <form asp-action="Create" method="post">
+  @Html.AntiForgeryToken()
+
+     <!-- Seleccionar Potrero -->
+         <div class="mb-4">
+         <label for="potreroId" class="form-label fw-bold" style="color: #8b4513;">
+    🌾 Potrero donde se alojará
+      </label>
+  @if (potreros != null && potreros.Any())
+     {
+    <select name="potreroId" class="form-select form-select-lg" 
+    style="border: 2px solid #a1887f;" required>
+    <option value="">-- Seleccione un potrero --</option>
+ @foreach (var potrero in potreros)
+       {
+   <option value="@potrero.Identificacion">
+      @potrero.Identificacion (@potrero.Tipo_potrero) - @potrero.L_reses.Count reses
+  </option>
+         }
+      </select>
+    <small class="form-text text-muted">
+     El tipo de potrero determina automáticamente el tipo de res (Ternero: 0-12 meses, Novillo: 12-36 meses, Cebón: +36 meses)
+  </small>
+     }
+     else
+      {
+   <div class="alert alert-warning">
+  <strong>⚠️ No hay potreros disponibles.</strong>
+       <a asp-controller="Potrero" asp-action="Create" class="alert-link">Crear un potrero primero</a>
+     </div>
+       }
+  </div>
+
+<!-- Nombre de la Res -->
+           <div class="mb-4">
+       <label for="nombre" class="form-label fw-bold" style="color: #8b4513;">
+       🏷️ Nombre de la Res
+      </label>
+     <input name="nombre" type="text" 
+       class="form-control form-control-lg" 
+   placeholder="Ej: Pinta, Mocha, Lucero, etc."
+style="border: 2px solid #a1887f;" 
+       required />
+ <small class="form-text text-muted">Nombre único para identificar la res</small>
+   </div>
+
+     <!-- Edad -->
+              <div class="mb-4">
+     <label for="edad" class="form-label fw-bold" style="color: #8b4513;">
+    📅 Edad (en meses)
+  </label>
+  <input name="edad" type="number" 
+    class="form-control form-control-lg" 
+     placeholder="Ej: 6"
+  style="border: 2px solid #a1887f;" 
+ min="0" max="120"
+  required />
+      <small class="form-text text-muted">
+   <strong>Importante:</strong> 
+   Terneros: 0-12 meses | Cebones: 13-48 meses | Novillos: 49+ meses
+       </small>
+ </div>
+
+     <!-- Peso -->
+     <div class="mb-4">
+      <label for="peso" class="form-label fw-bold" style="color: #8b4513;">
+    ⚖️ Peso (en kilogramos)
+  </label>
+      <input name="peso" type="number" 
+         class="form-control form-control-lg" 
+ placeholder="Ej: 250"
+      style="border: 2px solid #a1887f;" 
+           min="1" max="2000"
+    required />
+          <small class="form-text text-muted">Peso actual de la res en kilogramos</small>
+    </div>
+
+       <!-- Botones -->
+     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+   <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4">
+      ❌ Cancelar
+     </a>
+       <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
+        ✅ Agregar Res 🐄
+   </button>
+    </div>
+         </form>
+ </div>
+  </div>
+
+    <!-- Información adicional -->
+     <div class="card mt-4 shadow-sm" style="background-color: #e8f5e9; border-left: 5px solid #4caf50;">
+    <div class="card-body">
+      <h5 class="card-title text-success">💡 Guía de Tipos de Ganado</h5>
+     <ul class="mb-0">
+    <li><strong>🐮 Ternero (0-12 meses):</strong> Cría joven en desarrollo. Peso promedio: 80-200 kg</li>
+    <li><strong>🐃 Cebón (13-48 meses):</strong> Ganado en crecimiento. Peso promedio: 200-400 kg</li>
+    <li><strong>🐂 Novillo (49+ meses):</strong> Ganado adulto listo para engorde/venta. Peso promedio: 400-600 kg</li>
+       <li><strong>Importante:</strong> La edad debe coincidir con el tipo de potrero seleccionado</li>
+    </ul>
+    </div>
+  </div>
+        </div>
+    </div>
+</div>

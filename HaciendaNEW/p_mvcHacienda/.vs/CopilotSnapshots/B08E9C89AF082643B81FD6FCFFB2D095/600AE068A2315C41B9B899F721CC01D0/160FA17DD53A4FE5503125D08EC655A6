@@ -1,0 +1,82 @@
+﻿using Bib_Hacienda.Clases;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class UsuarioService
+    {
+        private static List<Usuario> _usuarios = new List<Usuario>();
+        private readonly PersistenciaService _persistencia;
+
+        public UsuarioService(PersistenciaService persistencia)
+        {
+            _persistencia = persistencia;
+   }
+
+    // Cargar usuarios desde persistencia
+   public void CargarUsuarios()
+        {
+          _usuarios = _persistencia.CargarUsuarios();
+ }
+
+        // Crear un nuevo usuario
+        public string CrearUsuario(string nombre, string contrasena)
+        {
+         try
+  {
+      if (string.IsNullOrWhiteSpace(nombre))
+                {
+   throw new ArgumentException("El nombre del usuario no puede estar vacío");
+           }
+
+         if (string.IsNullOrWhiteSpace(contrasena))
+                {
+           throw new ArgumentException("La contraseña no puede estar vacía");
+           }
+
+        if (_usuarios.Any(u => u.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase)))
+            {
+              throw new InvalidOperationException($"Ya existe un usuario con el nombre '{nombre}'");
+     }
+
+    var nuevoUsuario = new Usuario(nombre, contrasena);
+    _usuarios.Add(nuevoUsuario);
+    _persistencia.GuardarUsuarios(_usuarios);
+
+         return $"✅ Usuario '{nombre}' creado exitosamente";
+            }
+            catch (Exception ex)
+            {
+     return $"❌ {ex.Message}";
+            }
+        }
+
+        // Autenticar usuario
+        public bool AutenticarUsuario(string nombre, string contrasena)
+        {
+ return _usuarios.Any(u => 
+   u.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase) && 
+  u.Contrasena == contrasena);
+        }
+
+    // Obtener todos los usuarios
+        public List<Usuario> ObtenerTodosLosUsuarios()
+        {
+      return _usuarios.OrderBy(u => u.Nombre).ToList();
+        }
+
+        // Buscar usuario por nombre
+   public Usuario? BuscarUsuario(string nombre)
+      {
+     return _usuarios.FirstOrDefault(u => u.Nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Obtener estadísticas
+   public Dictionary<string, object> ObtenerEstadisticas()
+        {
+    return new Dictionary<string, object>
+       {
+     { "TotalUsuarios", _usuarios.Count }
+     };
+  }
+    }
+}

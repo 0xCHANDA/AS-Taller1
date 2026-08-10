@@ -1,0 +1,94 @@
+﻿@using static Bib_Hacienda.Clases.Potrero
+
+@{
+    ViewData["Title"] = "🌿 Crear Potrero";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+  <div class="col-md-8">
+      <!-- Encabezado -->
+    <div class="text-center mb-4">
+      <h1 class="display-5 fw-bold" style="color: #2e7d32;">
+    🌿 Crear Nuevo Potrero
+    </h1>
+  <p class="lead text-muted">Registra un nuevo potrero en tu hacienda</p>
+       </div>
+
+    <!-- Mensaje de error -->
+       @if (ViewBag.Mensaje != null)
+   {
+     <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show" role="alert">
+         <strong>@ViewBag.Mensaje</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+ </div>
+}
+
+<!-- Formulario -->
+    <div class="card shadow-lg" style="background-color: #fdf5e6; border: 2px solid #2e7d32;">
+      <div class="card-header text-white text-center" style="background-color: #2e7d32;">
+      <h4 class="mb-0">📝 Información del Potrero</h4>
+    </div>
+       <div class="card-body p-4">
+    <form asp-action="Create" method="post">
+         @Html.AntiForgeryToken()
+
+       <!-- Identificación -->
+   <div class="mb-4">
+    <label for="identificacion" class="form-label fw-bold" style="color: #2e7d32;">
+    🏷️ Identificación del Potrero
+    </label>
+   <input name="identificacion" 
+    class="form-control form-control-lg" 
+   placeholder="Ej: Potrero Norte, P-001, etc."
+          style="border: 2px solid #a1887f;" 
+       required />
+       <small class="form-text text-muted">Nombre único para identificar el potrero</small>
+        </div>
+
+   <!-- Tipo de Potrero -->
+      <div class="mb-4">
+ <label for="tipo" class="form-label fw-bold" style="color: #2e7d32;">
+   📦 Tipo de Potrero
+   </label>
+  <select name="tipo" 
+        class="form-select form-select-lg" 
+       style="border: 2px solid #a1887f;"
+  required>
+      <option value="">-- Seleccione un tipo --</option>
+   <option value="@l_tipos_potreros.ternero">🐮 Ternero (cría joven)</option>
+       <option value="@l_tipos_potreros.novillo">🐂 Novillo (macho joven)</option>
+   <option value="@l_tipos_potreros.cebon">🐃 Cebón (engorde)</option>
+       </select>
+    <small class="form-text text-muted">Selecciona el tipo de ganado que alojará este potrero</small>
+     </div>
+
+    <!-- Botones -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+    <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4">
+       ❌ Cancelar
+    </a>
+     <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
+     ✅ Crear Potrero 🌿
+  </button>
+  </div>
+   </form>
+    </div>
+        </div>
+
+ <!-- Información adicional -->
+     <div class="card mt-4 shadow-sm" style="background-color: #fff3e0; border-left: 5px solid #ff9800;">
+    <div class="card-body">
+       <h5 class="card-title text-warning">💡 Consejos para la gestión de potreros</h5>
+      <ul class="mb-0">
+       <li>Utiliza nombres descriptivos para facilitar la identificación</li>
+    <li>El tipo de potrero determina qué reses pueden alojarse</li>
+    <li>Los terneros tienen entre 0-12 meses</li>
+      <li>Los novillos tienen entre 12-36 meses</li>
+     <li>Los cebones tienen más de 36 meses</li>
+     </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+</div>

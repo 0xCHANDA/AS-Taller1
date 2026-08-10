@@ -1,0 +1,121 @@
+﻿using Bib_Hacienda.Eventos;
+using Bib_Hacienda.Interfaces;
+using Bib_Hacienda.Reglas;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+    public class Hacienda: IVacunacion, IVentaRes
+    {
+        //Atributos
+        private List<Potrero> l_potreros;
+        private List<Venta> l_ventas;
+        private List<Usuario> l_usuarios;
+        private List<Vacuna> l_vacunas;
+
+        //Eventos
+        private PublisherVacunacionCompletada publisher_vacunacion_completa = new PublisherVacunacionCompletada();
+        private PublisherVacunaVencida publisher_vacuna_vencida = new PublisherVacunaVencida();
+
+        //EventHandler
+        internal void EventHandler() { }
+
+        //Constructor vacío
+        public Hacienda() { }
+
+
+        //Metodo para vender res
+        public void vender_res(Potrero potrero, Res res, uint monto)
+        {
+            try
+            {
+                //Crear la venta
+                Venta venta = new Venta(potrero, DateTime.Now, res, monto);
+                //Agregar la venta a la lista de ventas
+                l_ventas.Add(venta);
+                //Remover la res del potrero
+                l_potreros.Where(p => p == potrero).FirstOrDefault().L_reses.Remove(res);
+                throw new Exception($"Venta de la res {res.Nombre} realizada con exito");
+            }
+            catch (Exception er)
+            {
+                throw new Exception("Error inesperado en el metodo vender_res: " + er.Message);
+            }
+
+        }
+
+        //Metodo para aplicar vacuna
+        public void aplicar_vacuna(Vacuna vacuna, Res res)
+        {
+            try
+            {
+                //Contadores de vacunas aplicadas
+                byte contador_bacterianas = 0;
+                byte contador_vivas = 0;
+
+                //Contar las vacunas ya aplicadas a la res
+                foreach (Vacuna vac in res.L_vacunas_aplicadas)
+                {
+                    if (vac is Bacteriana)
+                    {
+                        contador_bacterianas++;
+                    }
+                    else if (vac is Viva)
+                    {
+                        contador_vivas++;
+                    }
+                }
+
+                //Validar si se puede aplicar la vacuna segun el tipo de res y las reglas establecidas
+                if (res is Ternero && (vacuna is Bacteriana && contador_bacterianas < ReglaVacuna.max_bac_ternero || vacuna is Viva && contador_vivas < ReglaVacuna.max_viv_ternero) ||
+                    (res is Novillo && (vacuna is Bacteriana && contador_bacterianas < ReglaVacuna.max_bac_novillo || vacuna is Viva && contador_vivas < ReglaVacuna.max_viv_novillo)) ||
+                    (res is Cebon && (vacuna is Bacteriana && contador_bacterianas < ReglaVacuna.max_bac_cebon || vacuna is Viva && contador_vivas < ReglaVacuna.max_viv_cebon)))
+                {
+                    //1 viva por 3 bacterianas -> ternero
+                    //2 vivas por 2 bacterianas -> novillo
+                    //4 vivas por 1 bacteriana -> cebon
+
+                    //Suscribirse al evento para capturar el mensaje (opcional)
+                    string mensaje_vacuna = "";
+                    publisher_vacuna_vencida.evt_vacuna_vencida += (mensaje) => {
+                        mensaje_vacuna = mensaje;
+                    };
+
+                    //Validar fecha de vencimiento de la vacuna usando el publisher
+                    bool vacuna_vencida = publisher_vacuna_vencida.Informar_Vacuna_Vencida(vacuna);
+
+                    if (vacuna_vencida)
+                    {
+                        throw new Exception("La vacuna está vencida y no puede ser aplicada. " + mensaje_vacuna);
+                    }
+                    else
+                    {
+                        res.L_vacunas_aplicadas.Add(vacuna);
+                        l_vacunas.Remove(vacuna);
+
+                        //Disparar evento de vacunacion completa
+                        publisher_vacunacion_completada.evt_vacunacion_completada += EventHandler;
+                        publisher_vacunacion_completada.Informar_Vacunacion_Completada(res, contador_bacterianas, contador_vivas);
+
+                        throw new Exception("Vacuna aplicada correctamente. " + mensaje_vacuna);
+                    }
+
+                }
+                else
+                {
+                    throw new Exception("El esquema de vacunación de la Res ya ha sido completado");
+                }
+
+            }
+            catch (Exception err)
+            {
+                throw new Exception("Error inesperado en el metodo aplicar_vacuna: " + err.Message);
+            }
+        }
+    }
+}

@@ -1,0 +1,189 @@
+﻿@using Bib_Hacienda.Clases
+@model List<Venta>
+
+@{
+    ViewData["Title"] = "💰 Registro de Ventas";
+    var estadisticas = ViewBag.Estadisticas as Dictionary<string, object>;
+}
+
+<div class="container mt-4">
+    <!-- Encabezado -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" style="color: #2e7d32;">
+   💰 Registro de Ventas
+  </h1>
+  <p class="lead text-muted">Historial completo de ventas de ganado</p>
+    </div>
+
+    <!-- Mensaje de éxito/error -->
+    @if (TempData["Mensaje"] != null)
+    {
+   <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show" role="alert">
+   <strong>@TempData["Mensaje"]</strong>
+ <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+ </div>
+    }
+
+    <!-- Tarjetas de estadísticas -->
+    @if (estadisticas != null)
+    {
+   <div class="row mb-4">
+       <div class="col-md-3">
+        <div class="card border-success">
+          <div class="card-body text-center">
+  <h5 class="card-title text-success">Total Ventas</h5>
+   <h2 class="fw-bold">@estadisticas["TotalVentas"]</h2>
+  </div>
+   </div>
+         </div>
+    <div class="col-md-3">
+       <div class="card border-primary">
+     <div class="card-body text-center">
+       <h5 class="card-title text-primary">Monto Total</h5>
+        <h2 class="fw-bold">$@string.Format("{0:N0}", estadisticas["MontoTotal"])</h2>
+       </div>
+    </div>
+   </div>
+      <div class="col-md-3">
+     <div class="card border-info">
+     <div class="card-body text-center">
+            <h5 class="card-title text-info">Promedio</h5>
+      <h2 class="fw-bold">$@string.Format("{0:N0}", estadisticas["PromedioVenta"])</h2>
+    </div>
+      </div>
+      </div>
+     <div class="col-md-3">
+      <div class="card border-warning">
+    <div class="card-body text-center">
+   <h5 class="card-title text-warning">Este Mes</h5>
+  <h2 class="fw-bold">@estadisticas["VentasEsteMes"]</h2>
+      <small class="text-muted">$@string.Format("{0:N0}", estadisticas["MontoEsteMes"])</small>
+   </div>
+</div>
+   </div>
+ </div>
+    }
+
+    <!-- Información -->
+    <div class="alert alert-info">
+        <strong>Información:</strong> Las ventas se registran automáticamente cuando vendes una res desde la sección de Reses.
+  <a asp-controller="Res" asp-action="Index" class="alert-link">Ir a Reses →</a>
+    </div>
+
+    <!-- Tabla de ventas -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow" style="background-color: #e8f5e9;">
+     <div class="card-body">
+       <table class="table table-hover table-striped">
+      <thead style="background-color: #2e7d32; color: white;">
+ <tr>
+   <th>Fecha</th>
+     <th>Res Vendida</th>
+      <th>Tipo</th>
+   <th>Peso</th>
+     <th>Potrero Origen</th>
+ <th>Monto</th>
+        <th>Precio/kg</th>
+</tr>
+      </thead>
+  <tbody>
+        @foreach (var venta in Model)
+      {
+   var precioKg = venta.Res.Peso >0 ? (double)venta.Monto / venta.Res.Peso :0;
+  
+    <tr>
+ <td>
+      <strong>@venta.Fecha.ToString("dd/MM/yyyy")</strong><br/>
+<small class="text-muted">@venta.Fecha.ToString("HH:mm")</small>
+       </td>
+ <td class="fw-bold">@venta.Res.Nombre</td>
+   <td>
+ @if (venta.Res is Ternero)
+    {
+         <span class="badge bg-info">Ternero</span>
+   }
+  else if (venta.Res is Novillo)
+{
+   <span class="badge bg-warning text-dark">Novillo</span>
+   }
+      else if (venta.Res is Cebon)
+      {
+   <span class="badge bg-danger">Cebón</span>
+         }
+ </td>
+   <td>@venta.Res.Peso kg</td>
+   <td>
+ <span class="badge bg-success">@venta.Potrero.Identificacion</span>
+   </td>
+ <td class="fw-bold text-success">$@string.Format("{0:N0}", venta.Monto)</td>
+      <td>
+    <small class="text-muted">$@string.Format("{0:N0}", precioKg)/kg</small>
+      </td>
+        </tr>
+   }
+       </tbody>
+   <tfoot style="background-color: #c8e6c9;">
+  <tr>
+     <td colspan="5" class="text-end fw-bold">TOTAL GENERAL:</td>
+ <td class="fw-bold fs-5 text-success">$@string.Format("{0:N0}", Model.Sum(v => v.Monto))</td>
+    <td></td>
+         </tr>
+</tfoot>
+      </table>
+   </div>
+ </div>
+
+    <!-- Resumen por mes -->
+        <div class="card mt-4 shadow" style="background-color: #fff8e7;">
+   <div class="card-header" style="background-color: #ffc107;">
+  <h5 class="mb-0 text-dark">Ventas por Mes (@DateTime.Now.Year)</h5>
+     </div>
+  <div class="card-body">
+    <div class="row">
+       @{
+ var ventasPorMes = Model
+ .Where(v => v.Fecha.Year == DateTime.Now.Year)
+        .GroupBy(v => v.Fecha.Month)
+     .OrderBy(g => g.Key)
+  .Select(g => new {
+     Mes = new DateTime(DateTime.Now.Year, g.Key, 1).ToString("MMMM"),
+      Cantidad = g.Count(),
+     Monto = g.Sum(v => v.Monto)
+  });
+      }
+       @foreach (var mes in ventasPorMes)
+      {
+   <div class="col-md-4 mb-3">
+  <div class="card border-warning">
+     <div class="card-body">
+   <h6 class="card-title text-warning">@mes.Mes</h6>
+   <p class="mb-1"><strong>Ventas:</strong> @mes.Cantidad</p>
+      <p class="mb-0"><strong>Total:</strong> $@string.Format("{0:N0}", mes.Monto)</p>
+     </div>
+       </div>
+      </div>
+   }
+ </div>
+      </div>
+        </div>
+    }
+    else
+  {
+        <div class="alert alert-warning text-center py-5" style="background-color: #fff8e7; border: 2px dashed #ff9800;">
+            <h3>No hay ventas registradas</h3>
+            <p class="lead">Las ventas se registrarán automáticamente cuando vendas reses</p>
+ <a asp-controller="Res" asp-action="Index" class="btn btn-warning btn-lg rounded-pill px-5 mt-3">
+ Ir a Gestión de Reses
+      </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        setTimeout(function() {
+          $('.alert').alert('close');
+        }, 5000);
+    </script>
+}

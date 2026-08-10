@@ -1,0 +1,84 @@
+﻿using Castle.DynamicProxy;
+using Bib_Hacienda.Clases;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Aspectos
+{
+    //Interceptor que valida autenticación antes de ejecutar operaciones usando HTTP Context
+    public class InterceptorAutenticacion : IInterceptor
+    {
+        private Autenticacion autenticacion;
+        private Usuario usuario_actual;
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        //Constructor que recibe autenticación, usuario y contexto HTTP
+        public InterceptorAutenticacion(Autenticacion autenticacion, Usuario usuario, IHttpContextAccessor httpContextAccessor)
+        {
+            this.autenticacion = autenticacion;
+            this.usuario_actual = usuario;
+            this.httpContextAccessor = httpContextAccessor;
+        }
+
+        public void Intercept(IInvocation invocation)
+        {
+            var context = httpContextAccessor?.HttpContext;
+
+            //ANTES: Verificar autenticación
+            EscribirLog(context, "\n[ASPECTO AUTENTICACIÓN] >> Verificando autenticación y permisos...");
+            EscribirLog(context, $"[ASPECTO AUTENTICACIÓN] >> Operación solicitada: {invocation.Method.Name}");
+            EscribirLog(context, $"[ASPECTO AUTENTICACIÓN] >> Usuario: {(usuario_actual != null ? usuario_actual.Nombre : "No autenticado")}");
+
+            try
+            {
+                //Verificar si el usuario tiene permisos
+                if (autenticacion.TienePermiso(usuario_actual, invocation.Method.Name))
+                {
+                    EscribirLog(context, "[ASPECTO AUTENTICACIÓN] >> ✓ Autenticación exitosa. Ejecutando operación...\n");
+
+                    //EJECUTAR la operación
+                    invocation.Proceed();
+
+                    //DESPUÉS: Operación ejecutada
+                    EscribirLog(context, "[ASPECTO AUTENTICACIÓN] >> ✓ Operación completada exitosamente\n");
+                }
+                else
+                {
+                    EscribirLog(context, "[ASPECTO AUTENTICACIÓN] >> ✗ ACCESO DENEGADO: Permisos insuficientes\n");
+                    //No ejecutar la operación
+                    throw new UnauthorizedAccessException($"El usuario '{usuario_actual?.Nombre}' no tiene permisos para ejecutar: {invocation.Method.Name}");
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //Re-lanzar excepción de permisos
+                throw;
+            }
+            catch (Exception ex)
+            {
+                EscribirLog(context, $"[ASPECTO AUTENTICACIÓN] >> ✗ Error durante la operación: {ex.Message}\n");
+                throw;
+            }
+        }
+
+        //Método helper para escribir en el contexto HTTP o consola como fallback
+        private void EscribirLog(HttpContext context, string mensaje)
+        {
+            if (context != null && context.Response != null)
+            {
+                //Escribir en el response HTTP
+                var bytes = Encoding.UTF8.GetBytes(mensaje + "\n");
+                context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
+            }
+            else
+            {
+                //Fallback a consola si no hay contexto HTTP
+                Console.WriteLine(mensaje);
+            }
+        }
+    }
+}

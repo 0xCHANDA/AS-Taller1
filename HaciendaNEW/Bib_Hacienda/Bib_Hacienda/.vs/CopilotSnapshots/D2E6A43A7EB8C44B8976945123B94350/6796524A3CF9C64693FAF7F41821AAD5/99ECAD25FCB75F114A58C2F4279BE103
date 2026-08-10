@@ -1,0 +1,63 @@
+﻿using Castle.DynamicProxy;
+using Bib_Hacienda.Clases;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Aspectos
+{
+    //Interceptor que valida autenticación antes de ejecutar operaciones
+    public class InterceptorAutenticacion : IInterceptor
+    {
+        private Autenticacion autenticacion;
+        private Usuario usuario_actual;
+
+        public InterceptorAutenticacion(Autenticacion autenticacion, Usuario usuario)
+        {
+            this.autenticacion = autenticacion;
+            this.usuario_actual = usuario;
+        }
+
+        public void Intercept(IInvocation invocation)
+        {
+            //ANTES: Verificar autenticación
+            Console.WriteLine("\n[ASPECTO] >> Verificando autenticación y permisos...");
+            Console.WriteLine($"[ASPECTO] >> Operación solicitada: {invocation.Method.Name}");
+            Console.WriteLine($"[ASPECTO] >> Usuario: {(usuario_actual != null ? usuario_actual.Nombre : "No autenticado")}");
+
+            try
+            {
+                //Verificar si el usuario tiene permisos
+                if (autenticacion.TienePermiso(usuario_actual, invocation.Method.Name))
+                {
+                    Console.WriteLine("[ASPECTO] >> ✓ Autenticación exitosa. Ejecutando operación...\n");
+
+                    //EJECUTAR la operación
+                    invocation.Proceed();
+
+                    //DESPUÉS: Operación ejecutada
+                    Console.WriteLine("[ASPECTO] >> ✓ Operación completada exitosamente\n");
+                }
+                else
+                {
+                    Console.WriteLine("[ASPECTO] >> ✗ ACCESO DENEGADO: Permisos insuficientes\n");
+                    //No ejecutar la operación
+                    throw new UnauthorizedAccessException($"El usuario '{usuario_actual?.Nombre}' no tiene permisos para ejecutar: {invocation.Method.Name}");
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //Re-lanzar excepción de permisos
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ASPECTO] >> ✗ Error durante la operación: {ex.Message}\n");
+                throw;
+            }
+        }
+    }
+}

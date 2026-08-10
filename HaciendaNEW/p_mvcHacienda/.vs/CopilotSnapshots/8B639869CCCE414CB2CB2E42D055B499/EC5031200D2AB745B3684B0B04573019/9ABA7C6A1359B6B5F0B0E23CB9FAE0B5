@@ -1,0 +1,128 @@
+﻿@model p_mvcHacienda.Models.Potrero
+
+@{
+  ViewData["Title"] = "🌿 Crear Potrero";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+     <!-- Encabezado -->
+            <div class="text-center mb-4">
+      <h1 class="display-5 fw-bold" style="color: #2e7d32;">
+          🌿 Crear Nuevo Potrero
+        </h1>
+      <p class="lead text-muted">Registra un nuevo potrero en tu hacienda</p>
+   </div>
+
+            <!-- Mensaje de error -->
+            @if (ViewBag.Mensaje != null)
+   {
+       <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show" role="alert">
+      <strong>@ViewBag.Mensaje</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+            }
+
+    <!-- Formulario -->
+   <div class="card shadow-lg" style="background-color: #fdf5e6; border: 2px solid #2e7d32;">
+     <div class="card-header text-white text-center" style="background-color: #2e7d32;">
+          <h4 class="mb-0">📝 Información del Potrero</h4>
+   </div>
+            <div class="card-body p-4">
+              <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+           
+  <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <!-- Identificación -->
+   <div class="mb-4">
+<label asp-for="Identificacion" class="form-label fw-bold" style="color: #2e7d32;">
+   🏷️ Identificación del Potrero
+    </label>
+    <input asp-for="Identificacion" 
+       class="form-control form-control-lg" 
+    placeholder="Ej: Potrero Norte, P-001, etc."
+    style="border: 2px solid #a1887f;" />
+             <span asp-validation-for="Identificacion" class="text-danger"></span>
+         <small class="form-text text-muted">Nombre único para identificar el potrero</small>
+          </div>
+
+ <!-- Tipo de Potrero -->
+  <div class="mb-4">
+           <label asp-for="Tipo" class="form-label fw-bold" style="color: #2e7d32;">
+         📦 Tipo de Potrero
+           </label>
+         <select asp-for="Tipo" 
+              class="form-select form-select-lg" 
+         style="border: 2px solid #a1887f;">
+                <option value="">-- Seleccione un tipo --</option>
+       <option value="0">🐮 Ternero (cría joven)</option>
+    <option value="1">🐂 Novillo (macho joven)</option>
+          <option value="2">🐃 Cebón (engorde)</option>
+       <option value="3">🐄 Vaca Lechera</option>
+           <option value="4">🦬 Reproductor (semental)</option>
+               </select>
+     <span asp-validation-for="Tipo" class="text-danger"></span>
+          <small class="form-text text-muted">Selecciona el tipo de ganado que alojará este potrero</small>
+    </div>
+
+       <!-- Capacidad Máxima -->
+          <div class="mb-4">
+         <label asp-for="CapacidadMaxima" class="form-label fw-bold" style="color: #2e7d32;">
+            📊 Capacidad Máxima (número de reses)
+         </label>
+         <input asp-for="CapacidadMaxima" 
+       type="number" 
+    min="1" 
+       max="1000"
+       class="form-control form-control-lg" 
+        placeholder="Ej: 50"
+      style="border: 2px solid #a1887f;" />
+           <span asp-validation-for="CapacidadMaxima" class="text-danger"></span>
+     <small class="form-text text-muted">Cantidad máxima de reses que puede albergar</small>
+            </div>
+
+ <!-- Botones -->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+      <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4">
+         ❌ Cancelar
+              </a>
+       <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
+        ✅ Crear Potrero 🌿
+           </button>
+         </div>
+         </form>
+                </div>
+          </div>
+
+            <!-- Información adicional -->
+        <div class="card mt-4 shadow-sm" style="background-color: #fff3e0; border-left: 5px solid #ff9800;">
+    <div class="card-body">
+      <h5 class="card-title text-warning">💡 Consejos para la gestión de potreros</h5>
+           <ul class="mb-0">
+     <li>Utiliza nombres descriptivos para facilitar la identificación</li>
+        <li>Establece capacidades realistas según el tamaño del terreno</li>
+          <li>Considera el tipo de ganado al definir la capacidad</li>
+      <li>Mantén un control regular de la ocupación de cada potrero</li>
+           </ul>
+    </div>
+     </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Validación adicional en el cliente
+   document.querySelector('form').addEventListener('submit', function(e) {
+    const capacidad = document.querySelector('input[name="CapacidadMaxima"]').value;
+        if (capacidad < 1) {
+        e.preventDefault();
+    alert('⚠️ La capacidad debe ser al menos 1 res');
+  }
+        });
+    </script>
+}

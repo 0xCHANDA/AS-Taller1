@@ -1,0 +1,79 @@
+﻿using Bib_Hacienda.Clases;
+using static Bib_Hacienda.Clases.Potrero;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class PotreroService
+    {
+        private readonly Hacienda _hacienda;
+        private readonly PersistenciaService _persistencia;
+
+        public PotreroService(Hacienda hacienda, PersistenciaService persistencia)
+        {
+            _hacienda = hacienda;
+            _persistencia = persistencia;
+        }
+
+        // Crear un nuevo potrero
+        public string CrearPotrero(string identificacion, l_tipos_potreros tipo)
+        {
+            try
+            {
+                string resultado = _hacienda.crear_potrero(identificacion, tipo);
+                _persistencia.GuardarPotreros(_hacienda.L_potreros);
+                return $"✅ {resultado}";
+            }
+            catch (Exception ex)
+            {
+                return $"❌ {ex.Message}";
+            }
+        }
+
+        // Obtener todos los potreros
+        public List<Potrero> ObtenerTodosLosPotreros()
+        {
+            return _hacienda.L_potreros.OrderBy(p => p.Identificacion).ToList();
+        }
+
+        // Obtener un potrero por identificación
+        public Potrero? ObtenerPotreroPorIdentificacion(string identificacion)
+        {
+            try
+            {
+                return _hacienda.buscar_potrero(identificacion);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Agregar una res al potrero
+        public string AgregarRes(string potreroId, string nombreRes, ushort edad, uint peso)
+        {
+            try
+            {
+                string resultado = _hacienda.anadir_res_potrero(potreroId, nombreRes, edad, peso);
+                _persistencia.GuardarPotreros(_hacienda.L_potreros);
+                return $"✅ {resultado}";
+            }
+            catch (Exception ex)
+            {
+                return $"❌ {ex.Message}";
+            }
+        }
+
+        // Obtener estadísticas
+        public Dictionary<string, object> ObtenerEstadisticas()
+        {
+            var potreros = _hacienda.L_potreros;
+            return new Dictionary<string, object>
+            {
+                { "TotalPotreros", potreros.Count },
+                { "TotalReses", potreros.Sum(p => p.L_reses.Count) },
+                { "PotrerosVacios", potreros.Count(p => p.L_reses.Count == 0) },
+                { "PotrerosConReses", potreros.Count(p => p.L_reses.Count > 0) }
+            };
+        }
+    }
+}

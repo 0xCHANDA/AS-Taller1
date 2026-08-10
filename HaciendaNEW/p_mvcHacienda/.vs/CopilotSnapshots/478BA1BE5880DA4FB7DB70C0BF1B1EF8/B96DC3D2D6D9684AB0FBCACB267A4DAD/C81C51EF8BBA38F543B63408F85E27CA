@@ -1,0 +1,28 @@
+﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// for details on configuring this project to bundle and minify static web assets.
+
+// Write your JavaScript code.
+
+// JS global del sitio
+
+// Extiende la duración de los alerts (Bootstrap)
+// Usa8 segundos por defecto si tienen data-timeout, sino5000 ms
+(function () {
+ document.addEventListener('DOMContentLoaded', function () {
+ const alerts = document.querySelectorAll('.alert');
+ alerts.forEach(function (al) {
+ const timeoutAttr = al.getAttribute('data-timeout');
+ const timeout = timeoutAttr ? parseInt(timeoutAttr,10) :8000; //8s
+ if (!isNaN(timeout) && timeout >0) {
+ setTimeout(() => {
+ // Ocultar con clase fade si existe
+ al.classList.add('fade');
+ // Cerrar si tiene botón
+ const btn = al.querySelector('.btn-close');
+ if (btn) btn.click();
+ else al.remove();
+ }, timeout);
+ }
+ });
+ });
+})();

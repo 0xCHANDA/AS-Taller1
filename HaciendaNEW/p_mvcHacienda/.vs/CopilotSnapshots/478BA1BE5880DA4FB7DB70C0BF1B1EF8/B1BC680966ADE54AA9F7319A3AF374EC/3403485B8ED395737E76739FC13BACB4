@@ -1,0 +1,129 @@
+﻿@using Bib_Hacienda.Clases
+@using static Bib_Hacienda.Clases.Potrero
+@model List<Potrero>
+
+@{
+    ViewData["Title"] = "🌿 Gestión de Potreros";
+    var estadisticas = ViewBag.Estadisticas as Dictionary<string, object>;
+}
+
+<div class="container mt-4">
+    <!-- Encabezado con estilo ganadero -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" style="color: #2e7d32;">
+   🌿 Gestión de Potreros
+        </h1>
+ <p class="lead text-muted">Administra los potreros de tu hacienda ganadera</p>
+    </div>
+
+    <!-- Mensaje de éxito/error -->
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show" role="alert">
+            <strong>@TempData["Mensaje"]</strong>
+       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+ </div>
+    }
+
+    <!-- Tarjetas de estadísticas -->
+  @if (estadisticas != null)
+    {
+ <div class="row mb-4">
+ <div class="col-md-3">
+    <div class="card border-success">
+  <div class="card-body text-center">
+          <h5 class="card-title text-success">🌾 Total Potreros</h5>
+          <h2 class="fw-bold">@estadisticas["TotalPotreros"]</h2>
+          </div>
+     </div>
+            </div>
+ <div class="col-md-3">
+                <div class="card border-info">
+          <div class="card-body text-center">
+    <h5 class="card-title text-info">🐄 Total Reses</h5>
+     <h2 class="fw-bold">@estadisticas["TotalReses"]</h2>
+     </div>
+     </div>
+            </div>
+      <div class="col-md-3">
+       <div class="card border-warning">
+        <div class="card-body text-center">
+      <h5 class="card-title text-warning">⭕ Potreros Vacíos</h5>
+       <h2 class="fw-bold">@estadisticas["PotrerosVacios"]</h2>
+     </div>
+        </div>
+            </div>
+            <div class="col-md-3">
+  <div class="card border-success">
+           <div class="card-body text-center">
+         <h5 class="card-title text-success">✅ Con Reses</h5>
+     <h2 class="fw-bold">@estadisticas["PotrerosConReses"]</h2>
+  </div>
+          </div>
+            </div>
+      </div>
+    }
+
+    <!-- Botón para crear nuevo potrero -->
+    <div class="mb-3">
+        <a asp-action="Create" class="btn btn-success rounded-pill px-4 shadow">
+   ➕ Crear Nuevo Potrero 🌿
+     </a>
+    </div>
+
+    <!-- Tabla de potreros -->
+    @if (Model != null && Model.Any())
+    {
+   <div class="card shadow" style="background-color: #fdf5e6;">
+       <div class="card-body">
+         <table class="table table-hover table-striped">
+          <thead style="background-color: #2e7d32; color: white;">
+   <tr>
+      <th>🏷️ Identificación</th>
+       <th>📦 Tipo</th>
+     <th>🐄 Cantidad Reses</th>
+     <th class="text-center">⚙️ Acciones</th>
+       </tr>
+    </thead>
+             <tbody>
+    @foreach (var potrero in Model)
+          {
+  <tr>
+        <td class="fw-bold">@potrero.Identificacion</td>
+            <td>
+           <span class="badge bg-secondary">@potrero.Tipo_potrero</span>
+    </td>
+           <td>@potrero.L_reses.Count</td>
+  <td class="text-center">
+         <a asp-action="Details" asp-route-id="@potrero.Identificacion" 
+    class="btn btn-sm btn-info" title="Ver detalles">
+           👁️ Detalles
+     </a>
+      </td>
+        </tr>
+   }
+  </tbody>
+                </table>
+   </div>
+        </div>
+}
+else
+    {
+        <div class="alert alert-info text-center py-5" style="background-color: #fdf5e6; border: 2px dashed #2e7d32;">
+        <h3>🌾 No hay potreros registrados</h3>
+ <p class="lead">Comienza creando tu primer potrero para gestionar tu hacienda</p>
+      <a asp-action="Create" class="btn btn-success btn-lg rounded-pill px-5 mt-3">
+    ➕ Crear Primer Potrero 🐄
+    </a>
+      </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-cerrar alertas después de 5 segundos
+    setTimeout(function() {
+  $('.alert').alert('close');
+        }, 5000);
+    </script>
+}

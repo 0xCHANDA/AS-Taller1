@@ -1,0 +1,165 @@
+﻿@using Bib_Hacienda.Clases
+@model List<Vacuna>
+
+@{
+    ViewData["Title"] = "💉 Gestión de Vacunas";
+    var estadisticas = ViewBag.Estadisticas as Dictionary<string, object>;
+}
+
+<div class="container mt-4">
+    <!-- Encabezado -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" style="color: #1976d2;">
+💉 Gestión de Vacunas
+   </h1>
+   <p class="lead text-muted">Administra el inventario de vacunas de la hacienda</p>
+    </div>
+
+    <!-- Mensaje de éxito/error -->
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show" role="alert">
+         <strong>@TempData["Mensaje"]</strong>
+   <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+    }
+
+    <!-- Tarjetas de estadísticas -->
+    @if (estadisticas != null)
+    {
+        <div class="row mb-4">
+     <div class="col-md-2">
+        <div class="card border-primary">
+ <div class="card-body text-center">
+        <h5 class="card-title text-primary">Total</h5>
+ <h2 class="fw-bold">@estadisticas["TotalVacunas"]</h2>
+    </div>
+           </div>
+ </div>
+   <div class="col-md-3">
+        <div class="card border-info">
+       <div class="card-body text-center">
+       <h5 class="card-title text-info">Bacterianas</h5>
+  <h2 class="fw-bold">@estadisticas["Bacterianas"]</h2>
+  </div>
+ </div>
+      </div>
+            <div class="col-md-2">
+  <div class="card border-warning">
+       <div class="card-body text-center">
+   <h5 class="card-title text-warning">Vivas</h5>
+    <h2 class="fw-bold">@estadisticas["Vivas"]</h2>
+  </div>
+ </div>
+      </div>
+     <div class="col-md-3">
+   <div class="card border-success">
+ <div class="card-body text-center">
+        <h5 class="card-title text-success">Vigentes</h5>
+   <h2 class="fw-bold">@estadisticas["Vigentes"]</h2>
+   </div>
+  </div>
+      </div>
+      <div class="col-md-2">
+         <div class="card border-danger">
+ <div class="card-body text-center">
+       <h5 class="card-title text-danger">Vencidas</h5>
+  <h2 class="fw-bold">@estadisticas["Vencidas"]</h2>
+     </div>
+   </div>
+            </div>
+        </div>
+    }
+
+    <!-- Botones de acción -->
+    <div class="mb-3">
+        <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow me-2">
+    Crear Nueva Vacuna
+  </a>
+        <a asp-action="Aplicar" class="btn btn-success rounded-pill px-4 shadow">
+   Aplicar Vacuna a Res
+   </a>
+    </div>
+
+    <!-- Tabla de vacunas -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow" style="background-color: #e3f2fd;">
+     <div class="card-body">
+   <table class="table table-hover table-striped">
+     <thead style="background-color: #1976d2; color: white;">
+  <tr>
+  <th>Nombre</th>
+   <th>Lote</th>
+         <th>Tipo</th>
+    <th>F. Vencimiento</th>
+    <th>F. Aplicación</th>
+  <th>Período/Atenuación</th>
+    <th class="text-center">Estado</th>
+   </tr>
+ </thead>
+  <tbody>
+    @foreach (var vacuna in Model)
+   {
+      var estaVencida = vacuna.Fecha_vencimiento < DateTime.Now;
+   <tr class="@(estaVencida ? "table-danger" : "")">
+       <td class="fw-bold">@vacuna.Nombre</td>
+      <td>@vacuna.Lote</td>
+     <td>
+     @if (vacuna is Bacteriana)
+       {
+  <span class="badge bg-info">Bacteriana</span>
+    }
+  else
+  {
+        <span class="badge bg-warning text-dark">Viva</span>
+       }
+      </td>
+ <td>@vacuna.Fecha_vencimiento.ToString("dd/MM/yyyy")</td>
+    <td>@vacuna.Fecha_aplicacion.ToString("dd/MM/yyyy")</td>
+   <td>
+    @if (vacuna is Bacteriana bac)
+     {
+    <span class="badge bg-secondary">@bac.Periodo_aplicacion semanas</span>
+    }
+     else if (vacuna is Viva viva)
+     {
+      <span class="badge bg-secondary">Atenuada</span>
+     }
+   </td>
+     <td class="text-center">
+      @if (estaVencida)
+  {
+   <span class="badge bg-danger fs-6">VENCIDA</span>
+ }
+      else
+  {
+ <span class="badge bg-success fs-6">VIGENTE</span>
+    }
+  </td>
+      </tr>
+     }
+      </tbody>
+     </table>
+ </div>
+        </div>
+    }
+else
+    {
+      <div class="alert alert-info text-center py-5" style="background-color: #e3f2fd; border: 2px dashed #1976d2;">
+   <h3>No hay vacunas en el inventario</h3>
+            <p class="lead">Comienza agregando vacunas para aplicar a las reses</p>
+  <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-5 mt-3">
+   Crear Primera Vacuna
+   </a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+ setTimeout(function() {
+$('.alert').alert('close');
+        }, 5000);
+    </script>
+}

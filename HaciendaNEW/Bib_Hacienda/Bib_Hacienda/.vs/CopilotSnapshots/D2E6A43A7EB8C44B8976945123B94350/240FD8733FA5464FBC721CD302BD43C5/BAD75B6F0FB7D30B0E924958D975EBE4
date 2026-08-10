@@ -1,0 +1,100 @@
+﻿using Bib_Hacienda.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+    //Clase que implementa la autenticación de usuarios
+    public class Autenticacion : IAutenticacion
+    {
+        //Lista de usuarios registrados en el sistema
+        private List<Usuario> usuarios_registrados;
+        //Usuario actualmente autenticado
+        private Usuario usuario_actual;
+
+        public Autenticacion()
+        {
+            usuarios_registrados = new List<Usuario>();
+            //Agregar usuarios por defecto
+            usuarios_registrados.Add(new Usuario("admin", "admin123"));
+            usuarios_registrados.Add(new Usuario("empleado", "emp456"));
+            usuarios_registrados.Add(new Usuario("visitante", "visit789"));
+        }
+
+        //Autentica un usuario verificando nombre y contraseña
+        public bool Autenticar(string nombre, string contrasena)
+        {
+            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(contrasena))
+            {
+                Console.WriteLine("[Autenticación] ✗ Credenciales vacías");
+                return false;
+            }
+
+            //Buscar usuario en la lista
+            Usuario usuario = usuarios_registrados.FirstOrDefault(u =>
+                    u.Nombre == nombre && u.Contrasena == contrasena);
+
+            if (usuario != null)
+            {
+                usuario_actual = usuario;
+                Console.WriteLine($"[Autenticación] ✓ Usuario '{nombre}' autenticado correctamente");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine($"[Autenticación] ✗ Credenciales incorrectas para '{nombre}'");
+                return false;
+            }
+        }
+
+        //Verifica si un usuario tiene permisos para ejecutar una operación
+        public bool TienePermiso(Usuario usuario, string operacion)
+        {
+            if (usuario == null)
+            {
+                Console.WriteLine("[Autenticación] ✗ Usuario no autenticado");
+                return false;
+            }
+
+            //Reglas de permisos según el nombre de usuario
+            bool tienePermiso = false;
+
+            if (usuario.Nombre == "admin")
+            {
+                //Admin tiene todos los permisos
+                tienePermiso = true;
+            }
+            else if (usuario.Nombre == "empleado")
+            {
+                //Empleado puede hacer todo excepto eliminar usuarios
+                tienePermiso = !operacion.Contains("EliminarUsuario");
+            }
+            else if (usuario.Nombre == "visitante")
+            {
+                //Visitante solo puede consultar
+                tienePermiso = operacion.Contains("Consultar") || operacion.Contains("Listar");
+            }
+
+            if (tienePermiso)
+            {
+                Console.WriteLine($"[Autenticación] ✓ Usuario '{usuario.Nombre}' tiene permiso para: {operacion}");
+            }
+            else
+            {
+                Console.WriteLine($"[Autenticación] ✗ Usuario '{usuario.Nombre}' NO tiene permiso para: {operacion}");
+            }
+
+            return tienePermiso;
+        }
+
+        //Propiedad para obtener el usuario actual
+        public Usuario UsuarioActual
+        {
+            get => usuario_actual;
+        }
+    }
+}

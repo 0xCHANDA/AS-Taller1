@@ -1,0 +1,45 @@
+﻿using Bib_Hacienda.Clases;
+using Bib_Hacienda.Reglas;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Bib_Hacienda.Eventos;
+
+namespace Bib_Hacienda.Eventos
+{
+    public class PublisherPotreroLleno
+    {
+        //Definicion del delegado y el evento
+        public delegate void delegado_potrero_lleno();
+        public event delegado_potrero_lleno evt_potrero_lleno;
+
+        //Metodo para informar que el potrero está lleno
+        public void Informar_Potrero_Lleno(ushort cantidad_reses, Potrero potrero)
+        {
+            try
+            {
+                if (evt_potrero_lleno != null)
+                {
+                    evt_potrero_lleno();
+
+                    //Notificar que el potrero ha alcanzado su capacidad máxima
+                    if (cantidad_reses == ReglaPotrero.max_reses_potrero)
+                    {
+                        Console.WriteLine($"[Evento] El potrero '{potrero.Identificacion}' ha alcanzado su capacidad máxima de reses ({ReglaPotrero.max_reses_potrero}). No se pueden agregar más reses.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No hay suscriptores para el evento de potrero lleno.");
+                }
+            }
+            catch (Exception er)
+            {
+
+                throw new Exception("[Evento] Error inesperado en el metodo Informar_Potrero_Lleno: " + er.Message);
+            }
+        }
+    }
+}

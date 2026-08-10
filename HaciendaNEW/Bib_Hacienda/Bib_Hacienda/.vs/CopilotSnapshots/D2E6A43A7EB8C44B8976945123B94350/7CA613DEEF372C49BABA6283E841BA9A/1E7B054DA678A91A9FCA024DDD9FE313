@@ -1,0 +1,16 @@
+﻿using Bib_Hacienda.Clases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Interfaces
+{
+    //Interfaz para operaciones de vacunación
+    public interface IVacunacion
+    {
+        //Metodo para aplicar vacuna usando el lote
+        string aplicar_vacuna(string lote_vacuna, string nombre, string id_potrero);
+    }
+}

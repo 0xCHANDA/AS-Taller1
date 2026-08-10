@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases.Validaciones
+{
+    /// <summary>
+    /// Clase especializada en validar objetos de tipo Venta
+    /// Verifica que los datos de la venta sean correctos antes de guardar en BD
+    /// </summary>
+    public class ValidadorVenta : Validacion
+    {
+        /// <summary>
+        /// Valida que una venta tenga datos correctos para ser guardada
+        /// Verifica: potrero no nulo, res no nula, monto mayor a 0, fecha válida
+        /// </summary>
+        /// <param name="venta">Venta a validar</param>
+        /// <returns>True si es válida, False en caso contrario</returns>
+        public override bool ValidarVenta(Venta venta)
+        {
+            try
+            {
+                // Validar que la venta no sea nula
+                if (!ValidarNoNulo(venta))
+                {
+                    MostrarMensaje("Venta [NULL]", false);
+                    return false;
+                }
+
+                // Validar que el potrero no sea nulo
+                if (!ValidarNoNulo(venta.Potrero))
+                {
+                    MostrarMensaje("Venta [Potrero NULL]", false);
+                    return false;
+                }
+
+                // Validar que la res no sea nula
+                if (!ValidarNoNulo(venta.Res))
+                {
+                    MostrarMensaje("Venta [Res NULL]", false);
+                    return false;
+                }
+
+                // Validar monto
+                if (venta.Monto <= 0)
+                {
+                    MostrarMensaje($"Venta de '{venta.Res.Nombre}' [Monto inválido: {venta.Monto}]", false);
+                    return false;
+                }
+
+                // Validar fecha (no puede ser futura)
+                if (venta.Fecha > DateTime.Now)
+                {
+                    MostrarMensaje($"Venta de '{venta.Res.Nombre}' [Fecha futura no permitida]", false);
+                    return false;
+                }
+
+                // Validar que la fecha no sea muy antigua (más de 5 años)
+                if (venta.Fecha < DateTime.Now.AddYears(-5))
+                {
+                    MostrarMensaje($"Venta de '{venta.Res.Nombre}' [Fecha muy antigua: {venta.Fecha.ToShortDateString()}]", false);
+                    return false;
+                }
+
+                // Si todas las validaciones pasan
+                MostrarMensaje($"Venta de '{venta.Res.Nombre}' por ${venta.Monto} el {venta.Fecha.ToShortDateString()}", true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Validación] ✗ Error al validar Venta: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidadorRes
+        /// </summary>
+        public override bool ValidarRes(Res res)
+        {
+            throw new NotImplementedException("Para validar Res, use la clase ValidadorRes");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidadorPotrero
+        /// </summary>
+        public override bool ValidarPotrero(Potrero potrero)
+        {
+            throw new NotImplementedException("Para validar Potrero, use la clase ValidadorPotrero");
+        }
+
+        /// <summary>
+        /// No implementado. Use la clase ValidadorVacuna
+        /// </summary>
+        public override bool ValidarVacuna(Vacuna vacuna)
+        {
+            throw new NotImplementedException("Para validar Vacuna, use la clase ValidadorVacuna");
+        }
+    }
+}

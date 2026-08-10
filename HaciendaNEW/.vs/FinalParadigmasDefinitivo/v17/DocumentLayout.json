@@ -1,0 +1,261 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T14:03:07.08Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Venta.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Venta.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T14:01:33.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Viva.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Viva.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:59:38.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Vacuna.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Vacuna.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:57:06.591Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Ternero.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Ternero.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:50:21.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Res.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Res.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:50:12.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Autenticacion.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Autenticacion.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAGcAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:39:27.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Hacienda.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Hacienda.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAH8AAABjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:40:52.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Cebon.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Cebon.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:56:05.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Novillo.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Novillo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:50:17.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Bacteriana.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Bacteriana.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:39:28.477Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Potrero.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Potrero.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:46:51.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Validacion.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs",
+              "RelativeDocumentMoniker": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Hacienda\\FinalParadigmasDefinitivo\\Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs",
+              "RelativeToolTip": "Bib_Hacienda\\Bib_Hacienda\\Clases\\Validaciones\\Validacion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-05T13:39:22.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

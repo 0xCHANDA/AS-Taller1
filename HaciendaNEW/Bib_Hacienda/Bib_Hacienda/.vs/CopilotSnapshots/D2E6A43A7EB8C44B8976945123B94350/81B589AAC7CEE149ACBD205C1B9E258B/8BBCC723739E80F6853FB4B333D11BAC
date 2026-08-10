@@ -1,0 +1,73 @@
+﻿using Bib_Hacienda.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+    //Clase que implementa la autenticación y autorización de usuarios
+    public class Autenticacion : IAutenticacion
+    {
+        //Lista de usuarios registrados en el sistema
+        private List<Usuario> usuarios_registrados;
+
+        public Autenticacion()
+        {
+            usuarios_registrados = new List<Usuario>();
+            //Agregar usuarios por defecto
+            usuarios_registrados.Add(new Usuario("admin", "admin123"));
+            usuarios_registrados.Add(new Usuario("empleado", "emp456"));
+            usuarios_registrados.Add(new Usuario("visitante", "visit789"));
+        }
+
+        //Autoriza la ejecución de una operación para un usuario específico
+        //Lanza excepción con el resultado (éxito o denegación)
+        public void AutorizarOperacion(Usuario usuario, string operacion)
+        {
+            if (usuario == null)
+            {
+                throw new Exception("✗ Usuario no autenticado. Debe iniciar sesión para realizar operaciones");
+            }
+
+            //Buscar si el usuario está registrado
+            Usuario usuarioRegistrado = usuarios_registrados.FirstOrDefault(u =>
+                    u.Nombre == usuario.Nombre && u.Contrasena == usuario.Contrasena);
+
+            if (usuarioRegistrado == null)
+            {
+                throw new Exception($"✗ Usuario '{usuario.Nombre}' no está registrado en el sistema");
+            }
+
+            //Verificar permisos según el rol del usuario
+            bool tienePermiso = false;
+
+            if (usuario.Nombre == "admin")
+            {
+                //Admin tiene todos los permisos
+                tienePermiso = true;
+            }
+            else if (usuario.Nombre == "empleado")
+            {
+                //Empleado puede hacer todo excepto eliminar usuarios
+                tienePermiso = !operacion.Contains("Eliminar");
+            }
+            else if (usuario.Nombre == "visitante")
+            {
+                //Visitante solo puede consultar
+                tienePermiso = operacion.Contains("Consultar") || operacion.Contains("Listar");
+            }
+
+            //Lanzar excepción con el resultado
+            if (tienePermiso)
+            {
+                throw new Exception($"✓ Usuario '{usuario.Nombre}' autorizado para ejecutar: {operacion}");
+            }
+            else
+            {
+                throw new Exception($"✗ Acceso DENEGADO. Usuario '{usuario.Nombre}' NO tiene permisos para: {operacion}");
+            }
+        }
+    }
+}

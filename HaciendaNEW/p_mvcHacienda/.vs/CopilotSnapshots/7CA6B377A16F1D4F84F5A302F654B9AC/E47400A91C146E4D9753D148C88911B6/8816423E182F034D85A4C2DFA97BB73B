@@ -1,0 +1,177 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using p_mvcHacienda.Servicios;
+using static Bib_Hacienda.Clases.Viva;
+
+namespace p_mvcHacienda.Controllers
+{
+    public class VacunaController : Controller
+    {
+        private readonly VacunaService _vacunaService;
+        private readonly ResService _resService;
+        private readonly PotreroService _potreroService;
+
+        public VacunaController(VacunaService vacunaService, ResService resService, PotreroService potreroService)
+        {
+            _vacunaService = vacunaService;
+            _resService = resService;
+            _potreroService = potreroService;
+        }
+
+        // GET: Vacuna/Index - Listar todas las vacunas
+        [HttpGet]
+        public ActionResult Index()
+        {
+            var vacunas = _vacunaService.ObtenerVacunasDisponibles();
+            var estadisticas = _vacunaService.ObtenerEstadisticas();
+
+            ViewBag.Estadisticas = estadisticas;
+
+            return View(vacunas);
+        }
+
+        // GET: Vacuna/Create - Mostrar formulario de creación
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Vacuna/Create - Procesar creación de vacuna
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(string tipoVacuna, string nombre, string lote,
+            DateTime fechaVencimiento, DateTime fechaAplicacion,
+            uint? periodoAplicacion, enum_l_atenuaciones? atenuacion)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(lote))
+                {
+                    ViewBag.Mensaje = "❌ El nombre y lote son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    return View();
+                }
+
+                string resultado;
+                if (tipoVacuna == "Bacteriana")
+                {
+                    if (!periodoAplicacion.HasValue)
+                    {
+                        ViewBag.Mensaje = "❌ El período de aplicación es requerido para vacunas bacterianas";
+                        ViewBag.TipoMensaje = "danger";
+                        return View();
+                    }
+                    resultado = _vacunaService.CrearVacunaBacteriana(nombre, lote, fechaVencimiento, fechaAplicacion, periodoAplicacion.Value);
+                }
+                else // Viva
+                {
+                    if (!atenuacion.HasValue)
+                    {
+                        ViewBag.Mensaje = "❌ La atenuación es requerida para vacunas vivas";
+                        ViewBag.TipoMensaje = "danger";
+                        return View();
+                    }
+                    resultado = _vacunaService.CrearVacunaViva(nombre, lote, fechaVencimiento, fechaAplicacion, atenuacion.Value);
+                }
+
+                if (resultado.Contains("✅"))
+                {
+                    TempData["Mensaje"] = resultado;
+                    TempData["TipoMensaje"] = "success";
+
+                    // Capturar mensaje de validación del interceptor
+                    if (HttpContext.Items.ContainsKey("MensajeValidacion"))
+                    {
+                        TempData["MensajeValidacion"] = HttpContext.Items["MensajeValidacion"];
+                        TempData["ValidacionExitosa"] = HttpContext.Items["ValidacionExitosa"];
+                    }
+                    else
+                    {
+                        TempData["MensajeValidacion"] = $"✅ Vacuna '{nombre}' validada y guardada correctamente";
+                        TempData["ValidacionExitosa"] = "true";
+                    }
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Mensaje = resultado;
+                    ViewBag.TipoMensaje = "danger";
+                    TempData["MensajeValidacion"] = $"❌ Error al crear vacuna: {resultado}";
+                    TempData["ValidacionExitosa"] = "false";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ Error: {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+                TempData["MensajeValidacion"] = $"❌ Error al crear vacuna: {ex.Message}";
+                TempData["ValidacionExitosa"] = "false";
+                return View();
+            }
+        }
+
+        // GET: Vacuna/Aplicar - Mostrar formulario para aplicar vacuna
+        [HttpGet]
+        public ActionResult Aplicar()
+        {
+            ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+            ViewBag.Reses = _resService.ObtenerTodasLasReses();
+            ViewBag.Vacunas = _vacunaService.ObtenerVacunasDisponibles();
+            return View();
+        }
+
+        // POST: Vacuna/Aplicar - Procesar aplicación de vacuna
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Aplicar(string potreroId, string nombreRes, string loteVacuna)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(potreroId) || string.IsNullOrWhiteSpace(nombreRes) || string.IsNullOrWhiteSpace(loteVacuna))
+                {
+                    ViewBag.Mensaje = "❌ Todos los campos son requeridos";
+                    ViewBag.TipoMensaje = "danger";
+                    ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                    ViewBag.Reses = _resService.ObtenerTodasLasReses();
+                    ViewBag.Vacunas = _vacunaService.ObtenerVacunasDisponibles();
+                    return View();
+                }
+
+                var resultado = _vacunaService.AplicarVacuna(potreroId, nombreRes, loteVacuna);
+
+                TempData["Mensaje"] = resultado;
+                TempData["TipoMensaje"] = resultado.Contains("✅") ? "success" : "danger";
+
+                // Capturar mensaje de validación del interceptor
+                if (HttpContext.Items.ContainsKey("MensajeValidacion"))
+                {
+                    TempData["MensajeValidacion"] = HttpContext.Items["MensajeValidacion"];
+                    TempData["ValidacionExitosa"] = HttpContext.Items["ValidacionExitosa"];
+                }
+                else
+                {
+                    TempData["MensajeValidacion"] = resultado.Contains("✅")
+                        ? $"✅ Vacuna aplicada y validada correctamente"
+                        : $"❌ Error al aplicar vacuna";
+                    TempData["ValidacionExitosa"] = resultado.Contains("✅") ? "true" : "false";
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = $"❌ Error: {ex.Message}";
+                ViewBag.TipoMensaje = "danger";
+                ViewBag.Potreros = _potreroService.ObtenerTodosLosPotreros();
+                ViewBag.Reses = _resService.ObtenerTodasLasReses();
+                ViewBag.Vacunas = _vacunaService.ObtenerVacunasDisponibles();
+                TempData["MensajeValidacion"] = $"❌ Error: {ex.Message}";
+                TempData["ValidacionExitosa"] = "false";
+                return View();
+            }
+        }
+    }
+}

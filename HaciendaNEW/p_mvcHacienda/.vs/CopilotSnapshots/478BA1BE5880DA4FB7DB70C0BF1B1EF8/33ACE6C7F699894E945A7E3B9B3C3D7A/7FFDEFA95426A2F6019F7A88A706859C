@@ -1,0 +1,133 @@
+﻿@using Bib_Hacienda.Clases
+@model List<Usuario>
+
+@{
+ViewData["Title"] = "👤 Gestión de Usuarios";
+    var estadisticas = ViewBag.Estadisticas as Dictionary<string, object>;
+}
+
+<div class="container mt-4">
+    <!-- Encabezado -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" style="color: #6a1b9a;">
+   👤 Gestión de Usuarios
+    </h1>
+  <p class="lead text-muted">Administra los usuarios del sistema</p>
+    </div>
+
+    <!-- Mensaje de éxito/error -->
+    @if (TempData["Mensaje"] != null)
+    {
+   <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show" role="alert">
+     <strong>@TempData["Mensaje"]</strong>
+ <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+ <!-- Tarjeta de estadísticas -->
+@if (estadisticas != null)
+    {
+   <div class="row mb-4 justify-content-center">
+          <div class="col-md-4">
+     <div class="card border-primary shadow">
+        <div class="card-body text-center">
+ <h5 class="card-title text-primary">👥 Total de Usuarios</h5>
+    <h1 class="display-3 fw-bold text-primary">@estadisticas["TotalUsuarios"]</h1>
+        <small class="text-muted">Usuarios registrados en el sistema</small>
+    </div>
+   </div>
+      </div>
+        </div>
+    }
+
+ <!-- Botón para crear usuario -->
+    <div class="mb-3">
+   <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+     ➕ Crear Nuevo Usuario 👤
+  </a>
+    </div>
+
+  <!-- Tabla de usuarios -->
+    @if (Model != null && Model.Any())
+    {
+   <div class="card shadow" style="background-color: #f3e5f5;">
+       <div class="card-body">
+ <table class="table table-hover table-striped">
+      <thead style="background-color: #6a1b9a; color: white;">
+    <tr>
+   <th>#</th>
+  <th>👤 Nombre de Usuario</th>
+     <th>🔒 Estado</th>
+      <th class="text-center">📅 Información</th>
+      </tr>
+  </thead>
+  <tbody>
+        @{int contador = 1;}
+ @foreach (var usuario in Model)
+ {
+  <tr>
+      <td class="fw-bold">@contador</td>
+   <td class="fs-5">
+        <i class="bi bi-person-circle"></i> @usuario.Nombre
+   </td>
+       <td>
+         <span class="badge bg-success fs-6">✅ Activo</span>
+</td>
+  <td class="text-center">
+         <small class="text-muted">Usuario del sistema</small>
+     </td>
+   </tr>
+    contador++;
+    }
+</tbody>
+      </table>
+ </div>
+        </div>
+    }
+    else
+    {
+  <div class="alert alert-info text-center py-5" style="background-color: #f3e5f5; border: 2px dashed #6a1b9a;">
+     <h3>👤 No hay usuarios registrados</h3>
+ <p class="lead">Comienza creando el primer usuario del sistema</p>
+   <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-5 mt-3">
+   ➕ Crear Primer Usuario 👤
+    </a>
+ </div>
+    }
+
+    <!-- Información adicional -->
+    <div class="row mt-4">
+ <div class="col-md-6">
+      <div class="card shadow-sm" style="background-color: #e1bee7; border-left: 5px solid #9c27b0;">
+     <div class="card-body">
+        <h5 class="card-title text-purple">🔐 Seguridad</h5>
+     <ul class="mb-0">
+        <li>Cada usuario debe tener un nombre único</li>
+    <li>Las contraseñas se almacenan de forma segura</li>
+<li>Se recomienda usar contraseñas fuertes</li>
+     </ul>
+    </div>
+ </div>
+ </div>
+   <div class="col-md-6">
+   <div class="card shadow-sm" style="background-color: #c5cae9; border-left: 5px solid #3f51b5;">
+       <div class="card-body">
+     <h5 class="card-title text-indigo">💡 Recomendaciones</h5>
+   <ul class="mb-0">
+     <li>Crea usuarios para cada operador de la hacienda</li>
+      <li>Mantén un registro actualizado de usuarios</li>
+        <li>Revisa periódicamente los accesos al sistema</li>
+ </ul>
+        </div>
+     </div>
+   </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+ setTimeout(function() {
+   $('.alert').alert('close');
+ }, 5000);
+    </script>
+}

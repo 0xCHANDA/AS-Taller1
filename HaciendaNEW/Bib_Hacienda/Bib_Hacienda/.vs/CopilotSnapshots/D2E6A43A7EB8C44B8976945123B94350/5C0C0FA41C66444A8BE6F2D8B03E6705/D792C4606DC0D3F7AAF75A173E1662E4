@@ -1,0 +1,108 @@
+﻿using Castle.DynamicProxy;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Aspectos
+{
+    /// <summary>
+    /// Interceptor de aspectos para validación de información antes de guardar en BD
+    /// Implementa IInterceptor de Castle.DynamicProxy
+    /// Simula conexión a base de datos y ejecuta validaciones
+    /// </summary>
+    public class InterceptorValidarInformacion : IInterceptor
+    {
+   /// <summary>
+        /// Método que intercepta las llamadas a los métodos de validación
+    /// Ejecuta lógica antes y después del método real
+        /// </summary>
+        /// <param name="invocation">Información sobre el método interceptado</param>
+        public void Intercept(IInvocation invocation)
+        {
+            // ===== ANTES DE LA VALIDACIÓN =====
+     Console.WriteLine();
+            Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║    [ASPECTO] INICIANDO PROCESO DE VALIDACIÓN        ║");
+    Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
+            Console.WriteLine($"[Aspecto] >> Método interceptado: {invocation.Method.Name}");
+  
+            // Obtener el nombre del parámetro si existe
+    if (invocation.Arguments.Length > 0 && invocation.Arguments[0] != null)
+   {
+      var argumento = invocation.Arguments[0];
+        Console.WriteLine($"[Aspecto] >> Entidad a validar: {argumento.GetType().Name}");
+     }
+
+          Console.WriteLine($"[Aspecto] >> Simulando conexión a base de datos...");
+   Console.WriteLine($"[Aspecto] >> Conexión establecida ✓");
+        Console.WriteLine();
+
+            try
+       {
+   // ===== EJECUTAR EL MÉTODO REAL DE VALIDACIÓN =====
+    invocation.Proceed();
+
+    // ===== DESPUÉS DE LA VALIDACIÓN =====
+    bool resultado = (bool)invocation.ReturnValue;
+
+         Console.WriteLine();
+    if (resultado)
+      {
+   // La validación fue exitosa
+        Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
+          Console.WriteLine("║         [ASPECTO] ✓ VALIDACIÓN EXITOSA           ║");
+               Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
+    Console.WriteLine($"[Aspecto] >> Preparando transacción de base de datos...");
+      Console.WriteLine($"[Aspecto] >> Ejecutando INSERT INTO tabla...");
+  Console.WriteLine($"[Aspecto] >> Commit de transacción...");
+         Console.WriteLine($"[Aspecto] >> ✓✓✓ DATOS GUARDADOS EXITOSAMENTE EN LA BASE DE DATOS ✓✓✓");
+       }
+    else
+        {
+      // La validación falló
+     Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
+    Console.WriteLine("║ [ASPECTO] ✗ VALIDACIÓN FALLIDA ║");
+ Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
+          Console.WriteLine($"[Aspecto] >> La información NO cumple con los requisitos.");
+            Console.WriteLine($"[Aspecto] >> Rollback de transacción...");
+           Console.WriteLine($"[Aspecto] >> ✗✗✗ NO SE GUARDÓ NADA EN LA BASE DE DATOS ✗✗✗");
+                }
+
+          Console.WriteLine($"[Aspecto] >> Cerrando conexión a base de datos...");
+ Console.WriteLine($"[Aspecto] >> Conexión cerrada ✓");
+   Console.WriteLine();
+            }
+ catch (NotImplementedException ex)
+{
+          // Capturar excepciones de métodos no implementados
+      Console.WriteLine();
+  Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
+        Console.WriteLine("║         [ASPECTO] ⚠ MÉTODO NO IMPLEMENTADO   ║");
+  Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
+      Console.WriteLine($"[Aspecto] >> {ex.Message}");
+  Console.WriteLine($"[Aspecto] >> Cerrando conexión a base de datos...");
+    Console.WriteLine();
+         
+   // Re-lanzar la excepción para que el llamador la maneje
+        throw;
+            }
+      catch (Exception ex)
+      {
+  // Capturar cualquier otro error
+    Console.WriteLine();
+     Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
+      Console.WriteLine("║         [ASPECTO] ✗ ERROR DURANTE LA VALIDACIÓN      ║");
+       Console.WriteLine("╚═══════════════════════════════════════════════════════════════╝");
+      Console.WriteLine($"[Aspecto] >> Error: {ex.Message}");
+          Console.WriteLine($"[Aspecto] >> Rollback de transacción...");
+     Console.WriteLine($"[Aspecto] >> Cerrando conexión a base de datos...");
+          Console.WriteLine();
+ 
+       // Re-lanzar la excepción
+         throw;
+     }
+    }
+    }
+}

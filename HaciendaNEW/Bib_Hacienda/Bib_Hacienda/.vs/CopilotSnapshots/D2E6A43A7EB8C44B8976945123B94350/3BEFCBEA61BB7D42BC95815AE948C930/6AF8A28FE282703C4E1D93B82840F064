@@ -1,0 +1,49 @@
+﻿using Castle.DynamicProxy;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Aspectos
+{
+    // Interceptor que simula conexión a BD usando Castle DynamicProxy
+    public class InterceptorValidarInformacion : IInterceptor
+    {
+     public void Intercept(IInvocation invocation)
+  {
+      // ANTES: Simular conexión a BD
+            Console.WriteLine("\n[ASPECTO] >> Simulando conexión a base de datos...");
+            Console.WriteLine($"[ASPECTO] >> Interceptando método: {invocation.Method.Name}");
+           
+            try
+    {
+          // EJECUTAR el método de validación
+        invocation.Proceed();
+
+   // DESPUÉS: Analizar resultado
+    bool resultado = (bool)invocation.ReturnValue;
+
+    if (resultado)
+      {
+          Console.WriteLine("[ASPECTO] >> ✓ Datos válidos. Guardando en BD...");
+          Console.WriteLine("[ASPECTO] >> ✓ GUARDADO EXITOSO en la base de datos\n");
+    }
+       else
+       {
+            Console.WriteLine("[ASPECTO] >> ✗ Datos inválidos. NO se guardó nada\n");
+     }
+        }
+            catch (NotImplementedException ex)
+            {
+      Console.WriteLine($"[ASPECTO] >> ⚠ Método no implementado: {ex.Message}\n");
+           throw;
+            }
+    catch (Exception ex)
+  {
+    Console.WriteLine($"[ASPECTO] >> ✗ Error: {ex.Message}\n");
+     throw;
+   }
+ }
+    }
+}

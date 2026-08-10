@@ -1,0 +1,300 @@
+﻿@using Bib_Hacienda.Clases
+@model List<(Potrero Potrero, Res Res)>
+
+@{
+    ViewData["Title"] = "🐄 Gestión de Reses";
+var estadisticas = ViewBag.Estadisticas as Dictionary<string, object>;
+}
+
+<div class="container mt-4">
+  <!-- Encabezado -->
+    <div class="text-center mb-4">
+     <h1 class="display-4 fw-bold" style="color: #8b4513;">
+  🐄 Gestión de Reses
+      </h1>
+     <p class="lead text-muted">Administra el ganado de tu hacienda</p>
+    </div>
+
+    <!-- Mensaje de éxito/error -->
+  @if (TempData["Mensaje"] != null)
+    {
+     <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show" role="alert">
+  <strong>@TempData["Mensaje"]</strong>
+     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+<!-- Tarjetas de estadísticas con orden corregido -->
+    @if (estadisticas != null)
+    {
+      <div class="row mb-4">
+       <div class="col-md-3">
+     <div class="card border-primary">
+    <div class="card-body text-center">
+     <h5 class="card-title text-primary">🐄 Total Reses</h5>
+<h2 class="fw-bold">@estadisticas["TotalReses"]</h2>
+           </div>
+     </div>
+        </div>
+      <div class="col-md-2">
+        <div class="card border-info">
+    <div class="card-body text-center">
+    <h5 class="card-title text-info">🐮 Terneros</h5>
+       <small class="text-muted">(0-12 meses)</small>
+    <h2 class="fw-bold">@estadisticas["Terneros"]</h2>
+         </div>
+       </div>
+    </div>
+  <div class="col-md-2">
+     <div class="card border-warning">
+           <div class="card-body text-center">
+      <h5 class="card-title text-warning">🐃 Cebones</h5>
+       <small class="text-muted">(12-36 meses)</small>
+      <h2 class="fw-bold">@estadisticas["Cebones"]</h2>
+  </div>
+    </div>
+          </div>
+   <div class="col-md-2">
+<div class="card border-danger">
+            <div class="card-body text-center">
+      <h5 class="card-title text-danger">🐂 Novillos</h5>
+         <small class="text-muted">(+36 meses)</small>
+     <h2 class="fw-bold">@estadisticas["Novillos"]</h2>
+     </div>
+    </div>
+    </div>
+            <div class="col-md-3">
+          <div class="card border-success">
+  <div class="card-body text-center">
+   <h5 class="card-title text-success">⚖️ Peso Promedio</h5>
+   <h2 class="fw-bold">@estadisticas["PesoPromedio"].ToString().Substring(0, Math.Min(5, estadisticas["PesoPromedio"].ToString().Length)) kg</h2>
+      </div>
+   </div>
+      </div>
+        </div>
+      
+        <!-- Información del orden corregido -->
+        <div class="alert alert-info">
+      <h6><strong>📋 Clasificación por Edad (Corregida):</strong></h6>
+       <ul class="mb-0">
+    <li><strong>🐮 Terneros:</strong> Ganado joven (0-12 meses)</li>
+                <li><strong>🐃 Cebones:</strong> Ganado medio (12-36 meses)</li>
+          <li><strong>🐂 Novillos:</strong> Ganado adulto (+36 meses)</li>
+          </ul>
+        </div>
+    }
+
+  <!-- Botón para agregar nueva res -->
+    <div class="mb-3">
+ <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+      ➕ Agregar Nueva Res 🐄
+        </a>
+    </div>
+
+    <!-- Tabla de reses -->
+    @if (Model != null && Model.Any())
+    {
+    <div class="card shadow" style="background-color: #fff8e7;">
+            <div class="card-body">
+ <table class="table table-hover table-striped">
+       <thead style="background-color: #8b4513; color: white;">
+  <tr>
+         <th>🏷️ Nombre</th>
+        <th>🌾 Potrero</th>
+      <th>📦 Tipo</th>
+     <th>⚖️ Peso (kg)</th>
+         <th>📅 Edad (meses)</th>
+      <th>💉 Vacunas</th>
+  <th class="text-center">⚙️ Acciones</th>
+ </tr>
+ </thead>
+       <tbody>
+     @foreach (var item in Model)
+   {
+        <tr>
+        <td class="fw-bold">@item.Res.Nombre</td>
+           <td>
+<span class="badge bg-success">@item.Potrero.Identificacion</span>
+</td>
+ <td>
+      @if (item.Res is Ternero)
+   {
+        <span class="badge bg-info">🐮 Ternero</span>
+       <small class="d-block text-muted">Joven</small>
+      }
+   else if (item.Res is Cebon)
+    {
+          <span class="badge bg-warning text-dark">🐃 Cebón</span>
+         <small class="d-block text-muted">Medio</small>
+     }
+ else if (item.Res is Novillo)
+       {
+        <span class="badge bg-danger">🐂 Novillo</span>
+    <small class="d-block text-muted">Adulto</small>
+         }
+  </td>
+       <td>@item.Res.Peso kg</td>
+ <td>@item.Res.Edad meses</td>
+ <td>
+      <span class="badge bg-secondary">@item.Res.L_vacunas_aplicadas.Count vacunas</span>
+    </td>
+     <td class="text-center">
+   <button type="button" class="btn btn-sm btn-success" 
+          data-bs-toggle="modal" 
+       data-bs-target="#alimentarModal" 
+     data-potrero="@item.Potrero.Identificacion"
+        data-res="@item.Res.Nombre"
+          title="Alimentar">
+🌾 Alimentar
+           </button>
+
+    <button type="button" class="btn btn-sm btn-warning" 
+   data-bs-toggle="modal" 
+       data-bs-target="#ventaModal" 
+     data-potrero="@item.Potrero.Identificacion"
+ data-res="@item.Res.Nombre"
+ data-peso="@item.Res.Peso"
+     title="Vender">
+       💰 Vender
+       </button>
+     </td>
+     </tr>
+}
+         </tbody>
+     </table>
+      </div>
+   </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center py-5" style="background-color: #fff8e7; border: 2px dashed #8b4513;">
+      <h3>🐄 No hay reses registradas</h3>
+       <p class="lead">Comienza agregando tu primera res al sistema</p>
+      <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-5 mt-3">
+       ➕ Agregar Primera Res 🐄
+            </a>
+     </div>
+    }
+</div>
+
+<!-- Modal para alimentar res -->
+<div class="modal fade" id="alimentarModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border: 2px solid #4caf50;">
+         <div class="modal-header" style="background-color: #4caf50; color: white;">
+     <h5 class="modal-title">🌾 Alimentar Res</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+            <form asp-action="Alimentar" method="post">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+     <input type="hidden" id="alimentarPotreroId" name="potreroId" />
+         <input type="hidden" id="alimentarNombreRes" name="nombreRes" />
+          
+       <div class="mb-3">
+<label class="form-label fw-bold">🐄 Res a alimentar:</label>
+               <p class="form-control-plaintext fw-bold" id="alimentarResDisplay"></p>
+ </div>
+     
+        <div class="mb-3">
+         <label for="cantidadAlimento" class="form-label fw-bold">🌾 Cantidad de alimento:</label>
+           <select class="form-select form-select-lg" id="cantidadAlimento" name="cantidadAlimento" required>
+           <option value="1" selected>1 vez (normal)</option>
+                <option value="2">2 veces (doble ración)</option>
+     <option value="3">3 veces (triple ración)</option>
+               <option value="4">4 veces (ración especial)</option>
+  <option value="5">5 veces (máximo recomendado)</option>
+        </select>
+       <small class="form-text text-muted">
+        Selecciona cuántas veces alimentar la res. Cada alimentación incrementa el peso.
+           </small>
+  </div>
+  
+                    <div class="alert alert-warning">
+ <strong>⚠️ Importante:</strong> Una alimentación excesiva puede afectar la salud del animal.
+               Se recomienda máximo 5 raciones por sesión.
+         </div>
+           </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+     <button type="submit" class="btn btn-success">✅ Alimentar</button>
+      </div>
+            </form>
+     </div>
+    </div>
+</div>
+
+<!-- Modal para vender res -->
+<div class="modal fade" id="ventaModal" tabindex="-1">
+    <div class="modal-dialog">
+ <div class="modal-content" style="border: 2px solid #8b4513;">
+<div class="modal-header" style="background-color: #8b4513; color: white;">
+        <h5 class="modal-title">💰 Vender Res</h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+      <form asp-action="Vender" method="post">
+     @Html.AntiForgeryToken()
+  <div class="modal-body">
+<input type="hidden" id="ventaPotreroId" name="potreroId" />
+     <input type="hidden" id="ventaNombreRes" name="nombreRes" />
+    
+   <div class="mb-3">
+       <label class="form-label fw-bold">🐄 Res a vender:</label>
+      <p class="form-control-plaintext fw-bold" id="ventaResDisplay"></p>
+     </div>
+          
+ <div class="mb-3">
+     <label class="form-label fw-bold">⚖️ Peso actual:</label>
+         <p class="form-control-plaintext" id="ventaPesoDisplay"></p>
+  </div>
+        
+         <div class="mb-3">
+      <label for="monto" class="form-label fw-bold">💵 Monto de venta (COP):</label>
+<input type="number" class="form-control form-control-lg" id="monto" name="monto" 
+min="1" required placeholder="Ej: 2500000" />
+   <small class="form-text text-muted">Ingrese el monto total de la venta</small>
+      </div>
+          </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+   <button type="submit" class="btn btn-success">✅ Confirmar Venta</button>
+   </div>
+          </form>
+   </div>
+ </div>
+</div>
+
+@section Scripts {
+    <script>
+    // Auto-cerrar alertas
+    setTimeout(function() {
+   $('.alert').alert('close');
+        }, 5000);
+
+      // Configurar modal de alimentación
+        var alimentarModal = document.getElementById('alimentarModal');
+     alimentarModal.addEventListener('show.bs.modal', function (event) {
+     var button = event.relatedTarget;
+      var potrero = button.getAttribute('data-potrero');
+          var res = button.getAttribute('data-res');
+            
+       document.getElementById('alimentarPotreroId').value = potrero;
+            document.getElementById('alimentarNombreRes').value = res;
+document.getElementById('alimentarResDisplay').textContent = res + ' (Potrero: ' + potrero + ')';
+        });
+
+        // Configurar modal de venta
+        var ventaModal = document.getElementById('ventaModal');
+   ventaModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+       var potrero = button.getAttribute('data-potrero');
+ var res = button.getAttribute('data-res');
+   var peso = button.getAttribute('data-peso');
+
+    document.getElementById('ventaPotreroId').value = potrero;
+            document.getElementById('ventaNombreRes').value = res;
+ document.getElementById('ventaResDisplay').textContent = res + ' (Potrero: ' + potrero + ')';
+        document.getElementById('ventaPesoDisplay').textContent = peso + ' kg';
+        });
+    </script>
+}

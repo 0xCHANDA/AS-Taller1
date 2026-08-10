@@ -1,0 +1,102 @@
+﻿using p_mvcHacienda.Models;
+
+namespace p_mvcHacienda.Servicios
+{
+    public class PotreroService
+    {
+        private static List<Potrero> _potreros = new List<Potrero>();
+        private static int _proximoId = 1;
+
+        // Crear un nuevo potrero
+        public string CrearPotrero(string identificacion, TipoPotrero tipo, int capacidadMaxima)
+        {
+            try
+            {
+                // Validar que no exista un potrero con la misma identificación
+                if (_potreros.Any(p => p.Identificacion.Equals(identificacion, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return $"❌ Ya existe un potrero con la identificación '{identificacion}'";
+                }
+
+                var nuevoPotrero = new Potrero
+                {
+                    Id = _proximoId++,
+                    Identificacion = identificacion,
+                    Tipo = tipo,
+                    CapacidadMaxima = capacidadMaxima,
+                    CantidadReses = 0,
+                    FechaCreacion = DateTime.Now
+                };
+
+                _potreros.Add(nuevoPotrero);
+                return $"✅ Potrero '{identificacion}' creado exitosamente";
+            }
+            catch (Exception ex)
+            {
+                return $"❌ Error al crear el potrero: {ex.Message}";
+            }
+        }
+
+        // Obtener todos los potreros
+        public List<Potrero> ObtenerTodosLosPotreros()
+        {
+            return _potreros.OrderBy(p => p.Identificacion).ToList();
+        }
+
+        // Obtener un potrero por ID
+        public Potrero? ObtenerPotreroPorId(int id)
+        {
+            return _potreros.FirstOrDefault(p => p.Id == id);
+        }
+
+        // Obtener un potrero por identificación
+        public Potrero? ObtenerPotreroPorIdentificacion(string identificacion)
+        {
+            return _potreros.FirstOrDefault(p =>
+                p.Identificacion.Equals(identificacion, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // Agregar una res al potrero
+        public string AgregarResAlPotrero(int potreroId)
+        {
+            var potrero = ObtenerPotreroPorId(potreroId);
+
+            if (potrero == null)
+                return "❌ Potrero no encontrado";
+
+            if (potrero.EstaLleno)
+                return $"❌ El potrero '{potrero.Identificacion}' está lleno (Capacidad: {potrero.CapacidadMaxima})";
+
+            potrero.CantidadReses++;
+            return $"✅ Res agregada al potrero '{potrero.Identificacion}'. Ocupación: {potrero.CantidadReses}/{potrero.CapacidadMaxima}";
+        }
+
+        // Remover una res del potrero
+        public string RemoverResDelPotrero(int potreroId)
+        {
+            var potrero = ObtenerPotreroPorId(potreroId);
+
+            if (potrero == null)
+                return "❌ Potrero no encontrado";
+
+            if (potrero.CantidadReses == 0)
+                return $"❌ El potrero '{potrero.Identificacion}' está vacío";
+
+            potrero.CantidadReses--;
+            return $"✅ Res removida del potrero '{potrero.Identificacion}'. Ocupación: {potrero.CantidadReses}/{potrero.CapacidadMaxima}";
+        }
+
+        // Obtener estadísticas
+        public Dictionary<string, object> ObtenerEstadisticas()
+        {
+            return new Dictionary<string, object>
+            {
+                { "TotalPotreros", _potreros.Count },
+                { "TotalReses", _potreros.Sum(p => p.CantidadReses) },
+                { "CapacidadTotal", _potreros.Sum(p => p.CapacidadMaxima) },
+                { "PotrerosLlenos", _potreros.Count(p => p.EstaLleno) },
+                { "PotrerosVacios", _potreros.Count(p => p.CantidadReses == 0) }
+            };
+        }
+    }
+}

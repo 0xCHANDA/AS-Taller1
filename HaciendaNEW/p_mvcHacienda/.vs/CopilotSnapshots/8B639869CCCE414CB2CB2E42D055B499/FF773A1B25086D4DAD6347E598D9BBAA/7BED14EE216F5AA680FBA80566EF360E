@@ -1,0 +1,209 @@
+﻿@using Bib_Hacienda.Clases
+
+@{
+    ViewData["Title"] = "💉 Aplicar Vacuna";
+    var potreros = ViewBag.Potreros as List<Potrero>;
+    var reses = ViewBag.Reses as List<(Potrero Potrero, Res Res)>;
+    var vacunas = ViewBag.Vacunas as List<Vacuna>;
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+   <div class="col-md-10">
+ <!-- Encabezado -->
+   <div class="text-center mb-4">
+     <h1 class="display-5 fw-bold" style="color: #1976d2;">
+       💉 Aplicar Vacuna a Res
+       </h1>
+     <p class="lead text-muted">Registra la aplicación de una vacuna del inventario a una res</p>
+            </div>
+
+      <!-- Mensaje de error -->
+   @if (ViewBag.Mensaje != null)
+          {
+  <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show" role="alert">
+       <strong>@ViewBag.Mensaje</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+            }
+
+     <!-- Formulario -->
+       <div class="card shadow-lg" style="background-color: #e3f2fd; border: 2px solid #1976d2;">
+     <div class="card-header text-white text-center" style="background-color: #1976d2;">
+         <h4 class="mb-0">📝 Datos de Aplicación</h4>
+     </div>
+  <div class="card-body p-4">
+       <form asp-action="Aplicar" method="post">
+     @Html.AntiForgeryToken()
+
+     <!-- Seleccionar Potrero -->
+       <div class="mb-4">
+ <label for="potreroId" class="form-label fw-bold" style="color: #1976d2;">
+   🌾 Seleccionar Potrero
+     </label>
+        @if (potreros != null && potreros.Any())
+       {
+  <select name="potreroId" id="selectPotrero" class="form-select form-select-lg" 
+  style="border: 2px solid #90caf9;" required>
+    <option value="">-- Seleccione un potrero --</option>
+ @foreach (var potrero in potreros)
+         {
+        <option value="@potrero.Identificacion">
+  @potrero.Identificacion (@potrero.Tipo_potrero) - @potrero.L_reses.Count reses
+          </option>
+  }
+       </select>
+         }
+   else
+ {
+        <div class="alert alert-warning">
+  <strong>⚠️ No hay potreros disponibles.</strong>
+         </div>
+        }
+      </div>
+
+   <!-- Seleccionar Res -->
+   <div class="mb-4">
+  <label for="nombreRes" class="form-label fw-bold" style="color: #1976d2;">
+🐄 Seleccionar Res
+             </label>
+  @if (reses != null && reses.Any())
+{
+       <select name="nombreRes" id="selectRes" class="form-select form-select-lg" 
+          style="border: 2px solid #90caf9;" required>
+   <option value="">-- Primero seleccione un potrero --</option>
+       </select>
+      <small class="form-text text-muted">Las reses se filtrarán según el potrero seleccionado</small>
+}
+      else
+          {
+   <div class="alert alert-warning">
+        <strong>⚠️ No hay reses disponibles.</strong>
+              <a asp-controller="Res" asp-action="Create" class="alert-link">Agregar una res primero</a>
+ </div>
+  }
+   </div>
+
+  <!-- Seleccionar Vacuna -->
+ <div class="mb-4">
+     <label for="loteVacuna" class="form-label fw-bold" style="color: #1976d2;">
+    💉 Seleccionar Vacuna
+              </label>
+         @if (vacunas != null && vacunas.Any())
+         {
+         <select name="loteVacuna" class="form-select form-select-lg" 
+      style="border: 2px solid #90caf9;" required>
+      <option value="">-- Seleccione una vacuna --</option>
+  @foreach (var vacuna in vacunas)
+     {
+       var estaVencida = vacuna.Fecha_vencimiento < DateTime.Now;
+           var tipoVacuna = vacuna is Bacteriana ? "🦠 Bacteriana" : "🧬 Viva";
+   
+        <option value="@vacuna.Lote" disabled="@estaVencida">
+    @vacuna.Nombre (Lote: @vacuna.Lote) - @tipoVacuna @(estaVencida ? "❌ VENCIDA" : "✅")
+    </option>
+     }
+ </select>
+     <small class="form-text text-muted">Solo se muestran vacunas vigentes</small>
+         }
+         else
+  {
+               <div class="alert alert-warning">
+         <strong>⚠️ No hay vacunas en el inventario.</strong>
+ <a asp-action="Create" class="alert-link">Crear una vacuna primero</a>
+   </div>
+      }
+  </div>
+
+    <!-- Información de la res seleccionada -->
+   <div id="infoRes" class="alert alert-info" style="display: none;">
+          <h6 class="fw-bold">📋 Información de la Res Seleccionada:</h6>
+ <div id="detallesRes"></div>
+    </div>
+
+      <!-- Botones -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+        <a asp-action="Index" class="btn btn-secondary btn-lg rounded-pill px-4">
+   ❌ Cancelar
+</a>
+      <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
+          ✅ Aplicar Vacuna 💉
+       </button>
+   </div>
+   </form>
+   </div>
+    </div>
+
+      <!-- Alerta informativa -->
+        <div class="alert alert-warning mt-4">
+          <h5 class="alert-heading">⚠️ Límites de Vacunación por Tipo de Res</h5>
+    <ul class="mb-0">
+        <li><strong>Terneros:</strong> Máximo 3 vacunas bacterianas y 1 viva</li>
+     <li><strong>Novillos:</strong> Máximo 2 vacunas bacterianas y 2 vivas</li>
+         <li><strong>Cebones:</strong> Máximo 1 vacuna bacteriana y 4 vivas</li>
+    <li>No se pueden aplicar vacunas duplicadas (mismo nombre o lote)</li>
+    <li>No se pueden aplicar vacunas vencidas</li>
+       </ul>
+     </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Datos de reses por potrero (desde el servidor)
+        var resesData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+   reses != null ? reses.Select(r => new {
+   potrero = r.Potrero.Identificacion,
+   nombre = r.Res.Nombre,
+    tipo = r.Res.GetType().Name,
+       peso = r.Res.Peso,
+     edad = r.Res.Edad,
+      vacunas = r.Res.L_vacunas_aplicadas.Count
+     }).ToList() : new List<object>()
+   ));
+
+        // Filtrar reses cuando se selecciona un potrero
+        document.getElementById('selectPotrero')?.addEventListener('change', function() {
+    var potreroId = this.value;
+            var selectRes = document.getElementById('selectRes');
+      
+   // Limpiar opciones
+ selectRes.innerHTML = '<option value="">-- Seleccione una res --</option>';
+      
+  if (potreroId) {
+// Filtrar y agregar reses del potrero seleccionado
+       var resesFiltradas = resesData.filter(r => r.potrero === potreroId);
+    
+    resesFiltradas.forEach(function(res) {
+     var option = document.createElement('option');
+ option.value = res.nombre;
+     option.textContent = `${res.nombre} (${res.tipo}) - ${res.peso}kg, ${res.edad} meses, ${res.vacunas} vacunas`;
+          option.dataset.res = JSON.stringify(res);
+     selectRes.appendChild(option);
+       });
+      }
+     });
+
+        // Mostrar información de la res seleccionada
+      document.getElementById('selectRes')?.addEventListener('change', function() {
+       var infoDiv = document.getElementById('infoRes');
+ var detallesDiv = document.getElementById('detallesRes');
+
+       if (this.value && this.selectedOptions[0].dataset.res) {
+          var res = JSON.parse(this.selectedOptions[0].dataset.res);
+ 
+   detallesDiv.innerHTML = `
+              <p class="mb-1"><strong>Nombre:</strong> ${res.nombre}</p>
+         <p class="mb-1"><strong>Tipo:</strong> ${res.tipo}</p>
+           <p class="mb-1"><strong>Peso:</strong> ${res.peso} kg</p>
+        <p class="mb-1"><strong>Edad:</strong> ${res.edad} meses</p>
+  <p class="mb-0"><strong>Vacunas aplicadas:</strong> ${res.vacunas}</p>
+ `;
+        infoDiv.style.display = 'block';
+        } else {
+ infoDiv.style.display = 'none';
+  }
+});
+    </script>
+}

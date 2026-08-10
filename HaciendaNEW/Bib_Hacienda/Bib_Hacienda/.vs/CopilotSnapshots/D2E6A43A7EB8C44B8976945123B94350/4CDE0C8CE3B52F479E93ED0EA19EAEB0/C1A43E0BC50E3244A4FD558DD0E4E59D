@@ -1,0 +1,53 @@
+﻿using Bib_Hacienda.Eventos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bib_Hacienda.Clases
+{
+    public abstract class Vacuna
+    {
+
+        //Atributos
+        private string nombre;
+        private string lote;
+        private DateTime fecha_vencimiento;
+        private DateTime fecha_aplicacion;
+
+        //Eventos
+        private PublisherVacunaVencida publisher_vacuna_vencida = new PublisherVacunaVencida();
+
+        //Constructor
+        protected Vacuna(string nombre, string lote, DateTime fecha_vencimiento, DateTime fecha_aplicacion)
+        {
+            this.Nombre = nombre;
+            this.Lote = lote;
+            this.Fecha_vencimiento = fecha_vencimiento;
+            this.Fecha_aplicacion = fecha_aplicacion;
+        }
+
+        //Accesores
+        public string Nombre { get => nombre; set => nombre = value; }
+        public string Lote { get => lote; set => lote = value; }
+        public DateTime Fecha_vencimiento { get => fecha_vencimiento; set => fecha_vencimiento = value; }
+        public DateTime Fecha_aplicacion { get => fecha_aplicacion; set => fecha_aplicacion = value; }
+
+        //EventHandler
+        internal void EventHandler() { }
+
+        //Metodo que salta el evento para validar si la vacuna está vencida
+        public bool validar_fecha_vencimiento()
+        {
+
+            bool is_vencida = false;
+
+            publisher_vacuna_vencida.evt_vacuna_vencida += EventHandler;
+            is_vencida = publisher_vacuna_vencida.Informar_Vacuna_Vencida(this);
+
+            return is_vencida;
+
+        }
+    }
+}

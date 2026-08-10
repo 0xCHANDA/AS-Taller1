@@ -1,0 +1,6 @@
+﻿namespace p_mvcHacienda.Servicios
+{
+    public class UsuarioService
+    {
+    }
+}
