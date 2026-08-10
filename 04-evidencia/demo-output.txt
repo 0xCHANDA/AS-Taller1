@@ -1,0 +1,14 @@
+=== DEMOSTRACION HACIENDA NEW ===
+El potrero Terneros Norte se a añadido a la hacienda. 
+La res Lola ha sido añadida al potrero Terneros Norte con exito.
+La res 'Lola' ha sido alimentada, ahora pesa 190 kg.
+Venta de la res Lola realizada con exito
+Venta de 'Leche entera' realizada con éxito.
+Venta de 'Corte de res' realizada con éxito.
+Venta de 'Cuero curtido' realizada con éxito.
+Ventas registradas: 4
+- Lola: $1500
+- Leche entera: $500
+- Corte de res: $900
+- Cuero curtido: $700
+SC-1 LACTEO/CARNE/PIEL: PASS

@@ -72,3 +72,25 @@ Para un archivo o clase concreta:
 ## Principio operativo
 
 SOLID no es una cuota de interfaces ni una excusa para multiplicar clases. Una modificación solo se acepta cuando reduce un riesgo demostrado, conserva contratos y deja evidencia verificable.
+
+## Hacienda — ejecución final de Fase 4
+
+Todos los comandos usan el wrapper aislado del repositorio:
+
+```bash
+# Compilar y arrancar NEW
+scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+scripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+
+# Verificador final
+scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+
+# Caracterización OLD primero y NEW después
+scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
+
+# Demo de flujo normal y SC-1 (Lacteo, Carne y Piel)
+scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+```
+
+Evidencia: `04-evidencia/PHASE4-REPORT.md`, `04-evidencia/characterization/`, `04-evidencia/SC1-METRICA-OCP.md`, `04-evidencia/TOBE-CODE-MATRIX.md` y `04-evidencia/BITACORA-IA.md`.

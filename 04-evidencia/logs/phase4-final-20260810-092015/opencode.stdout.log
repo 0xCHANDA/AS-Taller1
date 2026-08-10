@@ -1,0 +1,32 @@
+PHASE4_STATUS=COMPLETE  
+NEW_BUILD=PASS  
+VERIFIER=PASS  
+OLD_SCENARIOS=11  
+NEW_SCENARIOS=11  
+MATCH=11  
+MISMATCH=0  
+SC1=PASS  
+DEMO=PASS  
+TOBE_CODE_ALIGNMENT=PASS  
+AI_LOG=PASS  
+
+Production files changed:
+- `Clases/Hacienda.cs`
+- `Clases/Res.cs`
+- Added `Clases/Carne.cs`
+- Added `Clases/InventarioCarnes.cs`
+
+Main evidence:
+- `04-evidencia/PHASE4-REPORT.md`
+- `04-evidencia/characterization/CHARACTERIZATION-MATRIX.md`
+- `04-evidencia/characterization/{old-output,new-output}.txt`
+- `04-evidencia/SC1-METRICA-OCP.md`
+- `04-evidencia/TOBE-CODE-MATRIX.md`
+- `04-evidencia/BITACORA-IA.md`
+- `04-evidencia/demo-output.txt`
+- `02-diseno/diagramas/TO-BE-FINAL.puml`
+
+Executable infrastructure:
+- `03-src/phase4/Characterization/**`
+- `03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/**`
+- Extended `HaciendaNEW.Verification/Program.cs` for Carne, persistence, and sale/removal identity.

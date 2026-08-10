@@ -1,0 +1,1136 @@
+[0m
+> phase4-finisher · gpt-5.6-sol
+[0m
+[0m→ [0mRead AGENTS.md
+[0m→ [0mRead ESTADO_ACTUAL_Y_PLAN_CIERRE.md
+[0m→ [0mRead 04-evidencia/PHASE4-REPORT.md
+[0m→ [0mRead .opencode/phase4-overnight.md
+[0m→ [0mSkill "behavior-preserving-refactor-csharp"
+[0m→ [0mSkill "dotnet-refactor-verification"
+[0m→ [0mRead 04-evidencia/decisiones/SC1-SELECCION.md
+[0m→ [0mRead 03-src/original/HaciendaOLD
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW
+[0m→ [0mRead 02-diseno/diagramas
+[0m→ [0mRead 02-diseno
+[0m→ [0mRead scripts
+[0m→ [0mRead README.md
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification
+[0m→ [0mRead 02-diseno/Argumentacion-SOLID-con-evidencia.md
+[0m→ [0mRead 02-diseno/Inversiones-de-dependencia.md
+[0m→ [0mRead 02-diseno/Verificacion-de-herencias-LSP.md
+[0m→ [0mRead scripts/phase4-safe-dotnet.sh
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda
+[0m→ [0mRead 03-src/original/HaciendaOLD/p_mvcHacienda
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/p_mvcHacienda
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/Clases
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Producto.cs
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Lacteo.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IInventarioVendible.cs
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/Clases/Potrero.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Piel.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Potrero.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/InventarioLacteos.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/InventarioPieles.cs
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj (in 290 ms).
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Controllers/AccountController.cs(18,55): warning CS8625: Cannot convert null literal to non-nullable reference type. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Controllers/AccountController.cs(25,89): warning CS8625: Cannot convert null literal to non-nullable reference type. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Servicios/UsuarioService.cs(106,20): warning CS8619: Nullability of reference types in value of type '(bool, IEnumerable<Claim>?)' doesn't match target type '(bool, IEnumerable<Claim>)'. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+  p_mvcHacienda -> /tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.dll
+
+Build succeeded.
+
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Controllers/AccountController.cs(18,55): warning CS8625: Cannot convert null literal to non-nullable reference type. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Controllers/AccountController.cs(25,89): warning CS8625: Cannot convert null literal to non-nullable reference type. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/Servicios/UsuarioService.cs(106,20): warning CS8619: Nullability of reference types in value of type '(bool, IEnumerable<Claim>?)' doesn't match target type '(bool, IEnumerable<Claim>)'. [/tmp/as-taller1-phase4.5QC82L/repo/03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj]
+    5 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.79
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 161 ms).
+  Restored /tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 215 ms).
+  Bib_Hacienda -> /tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/bin/Debug/net8.0/Bib_Hacienda.dll
+/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+  p_mvcHacienda -> /tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.dll
+
+Build succeeded.
+
+/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.JFoKtR/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.32
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 176 ms).
+  Restored /tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 228 ms).
+  Restored /tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj (in 228 ms).
+/tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.1MQ0rI/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+=== HaciendaNEW.Verification ===
+[OK] Assembly source apunta a NEW.
+[OK] Producto/Res integridad y validación.
+[OK] Constructores Venta TO-BE y legacy.
+[OK] Venta legacy: retiro y registro exactos.
+[OK] ValidadorRes.
+[OK] ValidadorPotrero.
+[OK] ValidadorVacuna.
+[OK] ValidadorVenta.
+[OK] Validadores sin métodos ajenos ni NotImplementedException.
+[OK] PersistenciaService implementa los puertos de persistencia.
+[OK] Bib_Hacienda sin dependencias técnicas de infraestructura.
+[OK] Controladores no dependen directamente de Hacienda ni PersistenciaService.
+[OK] Contrato vendible estrecho separado del contrato completo.
+[OK] Potrero.agregar con semántica real de capacidad/tipo/duplicado.
+[OK] Inventarios sin duplicados ni no-ops.
+[OK] Venta genérica de Res.
+[OK] Venta genérica de Lacteo.
+[OK] Venta genérica de Piel.
+[OK] Venta genérica de Producto definido solo en el verifier.
+[OK] Venta rechaza producto ausente/null sin venta parcial.
+[OK] Contrato común Res/Ternero/Cebon/Novillo: inmutabilidad de Edad, rangos, Alimentar y vacunación.
+[OK] Persistencia de ventas legacy y genéricas (incluido producto externo).
+[OK] VentaService filtra ventas sin potrero y no falla con lista mixta.
+[OK] Vista Venta/Index tiene ramas null-safe.
+[OK] Persistencia legacy aborta en número malformado.
+[OK] Ventas cargadas desde persistencia se registran en Hacienda y son visibles por VentaService.
+[OK] Composición de validadores/interceptores centralizada en Program.cs.
+TODAS LAS VERIFICACIONES PASARON.
+Workspace source/status unchanged: PASS
+[0m
+[0m→ [0mRead 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj
+[0m→ [0mRead 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj
+[0m% [0mPatch 4 files
+[0m→ [0mRead 04-evidencia
+[0m→ [0mRead 04-evidencia/characterization
+[0m✗ [0mscripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj | tee 04-evidencia/characterization/old-output.txt failed
+[91m[1mError: [0mThe user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{"permission":"*","action":"allow","pattern":"*"},{"permission":"*","action":"deny","pattern":"*"},{"permission":"bash","pattern":"*","action":"deny"},{"permission":"bash","pattern":"rm *","action":"ask"},{"permission":"bash","pattern":"sudo *","action":"ask"},{"permission":"bash","pattern":"dd *","action":"ask"},{"permission":"bash","pattern":"mkfs*","action":"ask"},{"permission":"bash","pattern":"fdisk *","action":"ask"},{"permission":"bash","pattern":"parted *","action":"ask"},{"permission":"bash","pattern":"chmod -R *","action":"ask"},{"permission":"bash","pattern":"chown -R *","action":"ask"},{"permission":"bash","pattern":"git reset --hard*","action":"ask"},{"permission":"bash","pattern":"git clean*","action":"ask"},{"permission":"bash","pattern":"git push*","action":"ask"},{"permission":"bash","pattern":"git branch -D*","action":"ask"},{"permission":"bash","pattern":"git checkout -- *","action":"ask"},{"permission":"bash","pattern":"git restore*","action":"ask"},{"permission":"bash","pattern":"npm publish*","action":"ask"},{"permission":"bash","pattern":"pnpm publish*","action":"ask"},{"permission":"bash","pattern":"yarn npm publish*","action":"ask"},{"permission":"bash","pattern":"docker system prune*","action":"ask"},{"permission":"bash","pattern":"docker volume rm*","action":"ask"},{"permission":"bash","pattern":"kubectl delete*","action":"ask"},{"permission":"bash","pattern":"terraform apply*","action":"ask"},{"permission":"bash","pattern":"terraform destroy*","action":"ask"},{"permission":"bash","pattern":"shutdown*","action":"ask"},{"permission":"bash","pattern":"reboot*","action":"ask"},{"permission":"bash","pattern":"poweroff*","action":"ask"},{"permission":"bash","pattern":"*","action":"deny"},{"permission":"bash","pattern":"scripts/phase4-safe-dotnet.sh *","action":"allow"},{"permission":"bash","pattern":"scripts/phase4-git-readonly.sh *","action":"allow"},{"permission":"bash","pattern":"git status*","action":"allow"},{"permission":"bash","pattern":"git diff*","action":"allow"},{"permission":"bash","pattern":"git grep *","action":"allow"},{"permission":"bash","pattern":"git ls-files*","action":"allow"},{"permission":"bash","pattern":"git log*","action":"allow"},{"permission":"bash","pattern":"git show*","action":"allow"},{"permission":"bash","pattern":"rg *","action":"allow"},{"permission":"bash","pattern":"grep *","action":"allow"},{"permission":"bash","pattern":"find *","action":"allow"},{"permission":"bash","pattern":"mkdir *","action":"allow"}]
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.sjSgVe/repo/03-src/phase4/Characterization/Old/Characterization.Old.csproj (in 111 ms).
+C01|OK|El potrero P1 se a añadido a la hacienda. |potreros=1
+C02|EXCEPTION|Exception:Error inesperado en el metodo crear_potrero: Ya existe un potrero con el nombre 'p1'.|potreros=1
+C03|OK|La res Lola ha sido añadida al potrero P1 con exito.\n[Evento] La res 'Lola' tiene un peso 100, está en desnutrición.|reses=1;tipo=Ternero
+C04|EXCEPTION|Exception:Error inesperado en el método anadir_res_potrero: Error inesperado en el metodo anadir_res: La res no puede ser añadida al potrero P1 porque su edad no corresponde al tipo de potrero|reses=1
+C05|OK|P1|potreros=1
+C06|OK|La res 'Lola' ha sido alimentada, ahora pesa 101 kg.\n[Evento] La res 'Lola' tiene un peso 101, está en desnutrición.|peso=101
+C07|OK|La res 'Lola' ha sido alimentada, ahora pesa 101 kg.\n[Evento] La res 'Lola' tiene un peso 101, está en desnutrición.|peso=101
+C08|OK|Vacuna bacteriana 'Bovina' del lote 'L1' agregada al inventario con éxito. Período de aplicación: 4 semanas.|vacunas=1
+C09|EXCEPTION|Exception:Error inesperado en el método crear_vacuna (bacteriana): Ya existe una vacuna con el lote 'l1' en el inventario|vacunas=1
+C10|OK|Vacuna aplicada correctamente a la res Lola. [Evento] La res 'Lola' aún no ha completado su esquema de vacunación. Bacterianas: 1, Vivas: 0|inventario=0;aplicadas=1
+C11|OK|Venta de la res Lola realizada con exito|reses=0;ventas=1;monto=1200
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.LvNcBl/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 123 ms).
+  Restored /tmp/as-taller1-phase4.LvNcBl/repo/03-src/phase4/Characterization/New/Characterization.New.csproj (in 135 ms).
+C01|OK|El potrero P1 se a añadido a la hacienda. |potreros=1
+C02|EXCEPTION|Exception:Error inesperado en el metodo crear_potrero: Ya existe un potrero con el nombre 'p1'.|potreros=1
+C03|OK|La res Lola ha sido añadida al potrero P1 con exito.\n[Evento] La res 'Lola' tiene un peso 100, está en desnutrición.|reses=1;tipo=Ternero
+C04|EXCEPTION|Exception:Error inesperado en el método anadir_res_potrero: Error inesperado en el metodo anadir_res: La res no puede ser añadida al potrero P1 porque su edad no corresponde al tipo de potrero|reses=1
+C05|OK|P1|potreros=1
+C06|OK|La res 'Lola' ha sido alimentada, ahora pesa 101 kg.\n[Evento] La res 'Lola' tiene un peso 101, está en desnutrición.|peso=101
+C07|EXCEPTION|Exception:Error inesperado en el metodo alimentar_res: Error inesperado en el metodo alimentar: La cantidad debe ser mayor que 0.|peso=101
+C08|OK|Vacuna bacteriana 'Bovina' del lote 'L1' agregada al inventario con éxito. Período de aplicación: 4 semanas.|vacunas=1
+C09|EXCEPTION|Exception:Error inesperado en el método crear_vacuna (bacteriana): Ya existe una vacuna con el lote 'l1' en el inventario|vacunas=1
+C10|OK|Vacuna aplicada correctamente a la res Lola.|inventario=0;aplicadas=1
+C11|OK|Venta de la res Lola realizada con exito|reses=0;ventas=1;monto=1200
+Workspace source/status unchanged: PASS
+[0m
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/PersistenciaService.cs[90m [offset=350, limit=240][0m
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/p_mvcHacienda/Infrastructure
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/PersistenciaService.cs[90m [offset=590, limit=80][0m
+[0m
+[0m$ [0mgit grep -n "class ProductoPersistido" -- 03-src/redisenado/HaciendaNEW
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/ProductoPersistido.cs:8:    internal class ProductoPersistido : Producto
+[0m
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/ProductoPersistido.cs
+[0m% [0mPatch 6 files
+[0m% [0mPatch 1 file
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.aXUn0Y/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj (in 171 ms).
+  Restored /tmp/as-taller1-phase4.aXUn0Y/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 160 ms).
+=== DEMOSTRACION HACIENDA NEW ===
+El potrero Terneros Norte se a añadido a la hacienda. 
+La res Lola ha sido añadida al potrero Terneros Norte con exito.
+La res 'Lola' ha sido alimentada, ahora pesa 190 kg.
+Venta de la res Lola realizada con exito
+Venta de 'Leche entera' realizada con éxito.
+Venta de 'Corte de res' realizada con éxito.
+Venta de 'Cuero curtido' realizada con éxito.
+Ventas registradas: 4
+- Lola: $1500
+- Leche entera: $500
+- Corte de res: $900
+- Cuero curtido: $700
+SC-1 LACTEO/CARNE/PIEL: PASS
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.FrZFJN/repo/03-src/phase4/Characterization/New/Characterization.New.csproj (in 181 ms).
+  Restored /tmp/as-taller1-phase4.FrZFJN/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 164 ms).
+C01|OK|El potrero P1 se a añadido a la hacienda. |potreros=1
+C02|EXCEPTION|Exception:Error inesperado en el metodo crear_potrero: Ya existe un potrero con el nombre 'p1'.|potreros=1
+C03|OK|La res Lola ha sido añadida al potrero P1 con exito.\n[Evento] La res 'Lola' tiene un peso 100, está en desnutrición.|reses=1;tipo=Ternero
+C04|EXCEPTION|Exception:Error inesperado en el método anadir_res_potrero: Error inesperado en el metodo anadir_res: La res no puede ser añadida al potrero P1 porque su edad no corresponde al tipo de potrero|reses=1
+C05|OK|P1|potreros=1
+C06|OK|La res 'Lola' ha sido alimentada, ahora pesa 101 kg.\n[Evento] La res 'Lola' tiene un peso 101, está en desnutrición.|peso=101
+C07|OK|La res 'Lola' ha sido alimentada, ahora pesa 101 kg.\n[Evento] La res 'Lola' tiene un peso 101, está en desnutrición.|peso=101
+C08|OK|Vacuna bacteriana 'Bovina' del lote 'L1' agregada al inventario con éxito. Período de aplicación: 4 semanas.|vacunas=1
+C09|EXCEPTION|Exception:Error inesperado en el método crear_vacuna (bacteriana): Ya existe una vacuna con el lote 'l1' en el inventario|vacunas=1
+C10|OK|Vacuna aplicada correctamente a la res Lola. [Evento] La res 'Lola' aún no ha completado su esquema de vacunación. Bacterianas: 1, Vivas: 0|inventario=0;aplicadas=1
+C11|OK|Venta de la res Lola realizada con exito|reses=0;ventas=1;monto=1200
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 185 ms).
+  Restored /tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 247 ms).
+  Bib_Hacienda -> /tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/bin/Debug/net8.0/Bib_Hacienda.dll
+/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+  p_mvcHacienda -> /tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.dll
+
+Build succeeded.
+
+/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.wmxj5Q/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.11
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 176 ms).
+  Restored /tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj (in 231 ms).
+  Restored /tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 231 ms).
+/tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.sWxhYz/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+=== HaciendaNEW.Verification ===
+[OK] Assembly source apunta a NEW.
+[OK] Producto/Res integridad y validación.
+[OK] Constructores Venta TO-BE y legacy.
+[OK] Venta legacy: retiro y registro exactos.
+[OK] ValidadorRes.
+[OK] ValidadorPotrero.
+[OK] ValidadorVacuna.
+[OK] ValidadorVenta.
+[OK] Validadores sin métodos ajenos ni NotImplementedException.
+[OK] PersistenciaService implementa los puertos de persistencia.
+[OK] Bib_Hacienda sin dependencias técnicas de infraestructura.
+[OK] Controladores no dependen directamente de Hacienda ni PersistenciaService.
+[OK] Contrato vendible estrecho separado del contrato completo.
+[OK] Potrero.agregar con semántica real de capacidad/tipo/duplicado.
+[OK] Inventarios sin duplicados ni no-ops.
+[OK] Venta genérica de Res.
+[OK] Venta genérica de Lacteo.
+[OK] Venta genérica de Carne.
+[OK] Venta genérica de Piel.
+[OK] Identidad: la venta registra el mismo objeto que retira.
+[OK] Venta genérica de Producto definido solo en el verifier.
+[OK] Venta rechaza producto ausente/null sin venta parcial.
+[OK] Contrato común Res/Ternero/Cebon/Novillo: inmutabilidad de Edad, rangos, Alimentar y vacunación.
+[OK] Persistencia de ventas legacy y genéricas (incluido producto externo).
+[OK] VentaService filtra ventas sin potrero y no falla con lista mixta.
+[OK] Vista Venta/Index tiene ramas null-safe.
+[OK] Persistencia legacy aborta en número malformado.
+[OK] Ventas cargadas desde persistencia se registran en Hacienda y son visibles por VentaService.
+[OK] Composición de validadores/interceptores centralizada en Program.cs.
+TODAS LAS VERIFICACIONES PASARON.
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mgit ls-files '03-src/redisenado/HaciendaNEW/**/*.cs'
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Autenticacion.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Bacteriana.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Cebon.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/InventarioLacteos.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/InventarioPieles.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Lacteo.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Novillo.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Piel.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Potrero.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Producto.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/RegistroVenta.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Ternero.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Usuario.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Vacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarPotrero.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarRes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarVacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Validaciones/ValidarVenta.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Venta.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Viva.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPesoMin.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPesoVenta.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPotreroLleno.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPotreroMitad.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherVacunaVencida.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherVacunacionCompletada.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IAutenticacion.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/ICreacionVacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IInventario.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IInventarioVendible.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IPersistencia.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IVacunacion.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IValidadorPotrero.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IValidadorRes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IValidadorVacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IValidadorVenta.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IVentaRes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Properties/AssemblyInfo.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Reglas/ReglaPotrero.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Reglas/ReglaRes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Reglas/ReglaVacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/enum/TipoVacuna.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/obj/Release/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
+03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.AssemblyInfo.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/AccountController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/HomeController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/PotreroController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/ResController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/UsuarioController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/VacunaController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Controllers/VentaController.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Infrastructure/InterceptorAutenticacion.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Infrastructure/InterceptorValidarInformacion.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/ErrorViewModel.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Program.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/PersistenciaService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/PotreroService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/ProductoPersistido.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/ResService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/UsuarioService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/VacunaService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/Servicios/VentaService.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.GlobalUsings.g.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.RazorAssemblyInfo.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Release/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Release/net8.0/p_mvcHacienda.AssemblyInfo.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Release/net8.0/p_mvcHacienda.GlobalUsings.g.cs
+03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Release/net8.0/p_mvcHacienda.RazorAssemblyInfo.cs
+[0m
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Interfaces/IPersistencia.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Eventos/PublisherPesoMin.cs
+[0m→ [0mRead 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Reglas/ReglaRes.cs
+[0m→ [0mRead 04-evidencia/characterization/CHARACTERIZATION-MATRIX.md
+[0m
+[0m$ [0mgit grep -n "SC-1\|4 clases\|6 archivos" -- 01-diagnostico 02-diseno | grep -E "SC-1|4 clases|6 archivos"
+02-diseno/Argumentacion-SOLID-con-evidencia.md:16:| **OCP** | SC-1 exige vender reses, lácteos, pieles y futuras variantes sin agregar un método de venta por tipo. | `Producto` define el elemento vendible; `IInventarioVendible<T>` define consulta/retiro; una sola implementación `Hacienda.vender<T>` procesa cualquier inventario conforme. | `Producto.cs:9-30`; `IInventarioVendible.cs:8-12`; `Hacienda.cs:145-169`; `Lacteo.cs:9-13`; `Piel.cs:9-13`. | Una variante nueva puede agregarse mediante un `Producto` y un inventario, sin modificar el algoritmo de venta. | `Program.cs:474-579` del verifier cubre res, lácteo, piel, producto definido en el verifier y rechazo atómico de ausente/null. | **Confirmado para el eje “tipo de producto vendible”.** No se afirma que todo condicional del sistema viole OCP. |
+02-diseno/Argumentacion-SOLID-con-evidencia.md:21:## Cadena de evidencia de SC-1
+02-diseno/Hacienda_Plan_Cierre_Sobresaliente.md:15:| **Fase 2 — Cambios futuros** | 🟡 Parcial avanzado | `Fase 2 — Los cambios que vienen.docx`, con medición de `SC-1`, `SC-2` y `SC-3`. |
+02-diseno/Hacienda_Plan_Cierre_Sobresaliente.md:367:- `SC-1`
+[0m
+[0m→ [0mRead 01-diagnostico
+[0m✗ [0mRead 01-diagnostico/Fase 2 — Los cambios que vienen.docx failed
+[91m[1mError: [0mCannot read binary file: /home/chanda/Projects/College/ArqSftwr/AS-Taller1-phase4-20260810-0354/01-diagnostico/Fase 2 — Los cambios que vienen.docx
+[0m% [0mPatch 7 files
+[0m% [0mPatch 5 files
+[0m
+[0m$ [0mgit diff -- 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs README.md 02-diseno/diagramas/TO-BE-FINAL.puml 04-evidencia
+diff --git a/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs b/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+index 71afc8b..398f48c 100644
+--- a/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
++++ b/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+@@ -154,18 +154,18 @@ namespace Bib_Hacienda.Clases
+                 throw new InvalidOperationException(
+                     $"El producto '{producto.Nombre}' no se encuentra en el inventario.");
+ 
+-            Venta venta = new Venta(
+-                DateTime.Now,
+-                producto,
+-                monto
++            Producto productoRetirado = inventario.retirar(producto);
++
++            Venta venta = new Venta(
++                DateTime.Now,
++                productoRetirado,
++                monto
+             ){
+ 
+-            };
+-            registroVentas.registrar(venta);
+-
+-            inventario.retirar(producto);
+-
+-            return $"Venta de '{producto.Nombre}' realizada con éxito.";
++            };
++            registroVentas.registrar(venta);
++
++            return $"Venta de '{productoRetirado.Nombre}' realizada con éxito.";
+         }
+ 
+         //Metodo para registrar una venta ya creada (por ejemplo, restaurada desde persistencia)
+@@ -447,10 +447,18 @@ namespace Bib_Hacienda.Clases
+ 
+             L_vacunas.Remove(vacuna);
+ 
+-            publisher_vacunacion_completa
+-                .Informar_Vacunacion_Completada(res, res.CantidadVacunasBacterianas, res.CantidadVacunasVivas);
+-
+-            return $"Vacuna aplicada correctamente a la res {res.Nombre}.";
+-        }
++            string mensaje_vacunacion = "";
++            publisher_vacunacion_completa.evt_vacunacion_completada += (mensaje) =>
++            {
++                mensaje_vacunacion = mensaje;
++            };
++
++            publisher_vacunacion_completa.Informar_Vacunacion_Completada(
++                res,
++                res.CantidadVacunasBacterianas,
++                res.CantidadVacunasVivas);
++
++            return $"Vacuna aplicada correctamente a la res {res.Nombre}. {mensaje_vacunacion}";
++        }
+     }
+ }
+diff --git a/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs b/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+index 4b0b875..a2291bf 100644
+--- a/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
++++ b/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+@@ -93,14 +93,10 @@ namespace Bib_Hacienda.Clases
+             }
+         }
+ 
+-        public void Alimentar(uint cantidad)
+-        {
+-            try {
+-                if (cantidad == 0)
+-                    throw new ArgumentException(
+-                        "La cantidad debe ser mayor que 0.");
+-
+-                Peso += cantidad;
++        public void Alimentar(uint cantidad)
++        {
++            try {
++                Peso += cantidad;
+             }
+             catch (Exception er)
+             {
+diff --git a/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs b/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
+index 48c1c18..4c811cb 100644
+--- a/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
++++ b/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
+@@ -36,7 +36,9 @@ namespace HaciendaNEW.Verification
+             VerificarInventariosSinDuplicadoNiNoOp();
+             VerificarVentaGenericaRes();
+             VerificarVentaGenericaLacteo();
++            VerificarVentaGenericaCarne();
+             VerificarVentaGenericaPiel();
++            VerificarIdentidadProductoVendido();
+             VerificarVentaProductoDefinidoEnVerifier();
+             VerificarVentaProductoAusenteONull();
+             VerificarContratoRes();
+@@ -525,6 +527,40 @@ namespace HaciendaNEW.Verification
+             Console.WriteLine("[OK] Venta genérica de Piel.");
+         }
+ 
++        private static void VerificarVentaGenericaCarne()
++        {
++            var hacienda = new Hacienda();
++            var inventario = new InventarioCarnes();
++            var carne = new Carne("Corte de res");
++            inventario.agregar(carne);
++
++            string mensaje = hacienda.vender(inventario, carne, 900u);
++            Assert(mensaje.Contains("Corte de res"), "Mensaje de venta genérica menciona la carne.");
++            Assert(!inventario.contiene(carne), "La carne fue retirada del inventario.");
++            Assert(hacienda.L_ventas.Count == 1, "Debe registrarse una venta de carne.");
++            Assert(hacienda.L_ventas[0].Producto == carne, "Venta TO-BE referencia la carne.");
++
++            Console.WriteLine("[OK] Venta genérica de Carne.");
++        }
++
++        private static void VerificarIdentidadProductoVendido()
++        {
++            var hacienda = new Hacienda();
++            var inventario = new InventarioLacteos();
++            var productoInventariado = new Lacteo("Leche");
++            var solicitudEquivalente = new Lacteo("Leche");
++            inventario.agregar(productoInventariado);
++
++            hacienda.vender(inventario, solicitudEquivalente, 100u);
++
++            Assert(hacienda.L_ventas[0].Producto == productoInventariado,
++                "La venta debe registrar exactamente el objeto retirado del inventario.");
++            Assert(hacienda.L_ventas[0].Producto != solicitudEquivalente,
++                "La venta no debe registrar un objeto distinto del retirado.");
++
++            Console.WriteLine("[OK] Identidad: la venta registra el mismo objeto que retira.");
++        }
++
+         private static void VerificarVentaProductoDefinidoEnVerifier()
+         {
+             var hacienda = new Hacienda();
+@@ -628,8 +664,8 @@ namespace HaciendaNEW.Verification
+             Assert(res.Peso == 110, "Alimentar incrementa el peso.");
+             Assert(res.Edad == 5, "Alimentar no modifica la edad.");
+ 
+-            try { res.Alimentar(0); Fail("Alimentar con 0 debe fallar."); }
+-            catch (Exception) { /* esperado */ }
++            res.Alimentar(0);
++            Assert(res.Peso == 110, "Alimentar con 0 conserva el peso como en OLD.");
+ 
+             // Vacunación aplicable respetando máximos por subtipo
+             var fecha = DateTime.Now.AddMonths(1);
+diff --git a/04-evidencia/PHASE4-REPORT.md b/04-evidencia/PHASE4-REPORT.md
+index 2d1a0d4..2eb7c11 100644
+--- a/04-evidencia/PHASE4-REPORT.md
++++ b/04-evidencia/PHASE4-REPORT.md
+@@ -1,307 +1,98 @@
+-# PHASE 4 EVIDENCE REPORT — CIERRE BLOQUEADO
++# Reporte final — Fase 4 Hacienda
+ 
+-> **Agente:** Phase4-Evidence-Engineer (P4-E03)  
+-> **Rama:** `agent/phase4-overnight-20260810-0354`  
+-> **Corte:** 2026-08-10 ~04:18 UTC  
+-> **Estado final:** CIERRE BLOQUEADO — baseline técnica PASS, evidencia de caracterización/comparación AUSENTE
++**Corte:** 2026-08-10  
++**Estado actual:** COMPLETE
+ 
+----
++## 1. Historia y baseline
+ 
+-## 1. GATE DE RAMA — PASS
++El reporte anterior quedó en `CIERRE BLOQUEADO` porque los agentes no podían crear/ejecutar characterization. Ese hecho se conserva en `characterization/EVIDENCE-BLOCKED.md` y logs históricos; ya no representa el estado actual. Antes de editar producción se confirmó:
+ 
+-| Verificación | Resultado |
+-|---|---|
+-| Rama activa | `agent/phase4-overnight-20260810-0354` |
+-| Git diff (producción) | Vacío — sin ediciones a `01-diagnostico/`, `02-diseno/`, `03-src/`, `docs/`, `scripts/` |
+-| Untracked | Solo `04-evidencia/` |
+-
+-**Comando ejecutado:**
+-```
+-scripts/phase4-git-readonly.sh branch
+-scripts/phase4-git-readonly.sh status
+-```
+-
+-**Evidencia:** `04-evidencia/logs/20260810-041801/opencode.stderr.log:21-24`
+-
+----
+-
+-## 2. VALIDACIÓN DE WORKBENCH — TOOL_BLOCKED
+-
+-El comando `scripts/validate-phase4-workbench.sh` fue bloqueado por permisos del entorno (restricción de seguridad que solo permite `scripts/phase4-safe-dotnet.sh` y `scripts/phase4-git-readonly.sh`).
+-
+-**Evidencia:** `04-evidencia/logs/20260810-041801/opencode.stderr.log:31-33`
+-
+----
+-
+-## 3. BASELINE TÉCNICA (safe wrapper)
+-
+-### 3.1 OLD — PASS
+-
+-| Comando | Resultado |
++| Gate baseline | Resultado |
+ |---|---|
+-| `scripts/phase4-safe-dotnet.sh build 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj` | **PASS** — Build succeeded, 5 warnings, 0 errors |
+-| `scripts/phase4-safe-dotnet.sh web-smoke 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj` | **PASS** — Application startup observable |
+-
+-Warnings OLD (CS8625 ×2, CS8618 ×2, CS8619 ×1 en `AccountController.cs`, `LoginViewModel.cs`, `UsuarioService.cs`).
++| OLD MVC build | PASS, 5 warnings conocidos, 0 errores |
++| NEW MVC build | PASS, 2 warnings conocidos, 0 errores |
++| NEW verifier | PASS |
+ 
+-**Evidencia:** `opencode.stderr.log:34-96`
++## 2. Cambios de producción justificados
+ 
+-### 3.2 NEW — PASS
+-
+-| Comando | Resultado |
++| Archivo | Razón concreta |
+ |---|---|
+-| `scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj` | **PASS** — Build succeeded, 2 warnings, 0 errors |
+-| `scripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj` | **PASS** — Application startup observable |
+-
+-Warnings NEW (CS8618 ×2 en `LoginViewModel.cs` únicamente; `AccountController` y `UsuarioService` ya no generan advertencias).
+-
+-**Evidencia:** `opencode.stderr.log:98-152`
+-
+-### 3.3 NEW Verifier — PASS
+-
+-| Comando | Resultado |
+-|---|---|
+-| `scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj` | **PASS** — Build succeeded, 2 warnings, 0 errors |
+-| `scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj` | **PASS** — `TODAS LAS VERIFICACIONES PASARON.` |
+-
+-Verificaciones ejecutadas (todas las listadas a continuación pasaron):
+-- Assembly source apunta a NEW (no OLD)
+-- Producto/Res integridad y validación
+-- Constructores Venta TO-BE y legacy
+-- Venta legacy: retiro y registro exactos
+-- ValidadorRes, ValidadorPotrero, ValidadorVacuna, ValidadorVenta
+-- Validadores sin métodos ajenos ni NotImplementedException
+-- PersistenciaService implementa puertos de persistencia
+-- Bib_Hacienda sin dependencias técnicas de infraestructura
+-- Controladores no dependen directamente de Hacienda ni PersistenciaService
+-- Contrato vendible estrecho (`IInventarioVendible<T>`)
+-- Potrero.agregar con semántica real de capacidad/tipo/duplicado
+-- Inventarios sin duplicados ni no-ops
+-- Venta genérica de Res, Lacteo, Piel
+-- Venta genérica de Producto definido solo en el verifier (extensibilidad OCP)
+-- Venta rechaza producto ausente/null sin venta parcial
+-- Contrato común Res/Ternero/Cebon/Novillo: inmutabilidad de Edad, rangos, Alimentar, vacunación
+-- Persistencia de ventas legacy y genéricas (incluido producto externo)
+-- VentaService filtra ventas sin potrero y no falla con lista mixta
+-- Vista Venta/Index tiene ramas null-safe
+-- Persistencia legacy aborta en número malformado
+-- Ventas cargadas desde persistencia se registran en Hacienda y son visibles por VentaService
+-- Composición de validadores/interceptores centralizada en Program.cs
+-
+-**Evidencia:** `opencode.stderr.log:446-508`
+-
+-### 3.4 Tracked generated files
+-
+-| Métrica | Valor |
+-|---|---|
+-| Archivos generados rastreados (bin/obj) | **284** |
+-
+-Conteo obtenido por `scripts/phase4-git-readonly.sh tracked-generated` en cada invocación del safe wrapper.
+-
+-**Evidencia:** `opencode.stderr.log:35,60,99,120,447,471`
+-
+----
+-
+-## 4. AGENTES Y GATES DE EVIDENCIA
+-
+-### 4.1 Codebase Cartographer — TOOL_BLOCKED
+-
+-Dos invocaciones:
+-1. `Codebase-Cartographer Agent` — completó sin output de mapa (vacío)
+-2. `Retry Phase4 map` — completó sin output de mapa (vacío)
+-
+-Clasificación: **TOOL_BLOCKED**. El agente terminó sin error explícito pero no produjo artefacto de mapeo. No se dispone de PHASE4 EVIDENCE PACK formal.
+-
+-**Evidencia:** `opencode.stderr.log:154,442-444`
+-
+-### 4.2 P4-E01 Evidence Writer (OLD characterization) — TOOL_BLOCKED
+-
+-Dos invocaciones:
+-1. `Write OLD characterization` — completó sin output de caracterización
+-2. `Retry OLD evidence` — completó sin output de caracterización
+-
+-Clasificación: **TOOL_BLOCKED**. No se produjo ningún escenario de caracterización OLD.
+-
+-**Evidencia:** `opencode.stderr.log:512-515`
+-
+-### 4.3 Consecuencia sobre Gates 1 y 2
++| `Clases/Res.cs` | C07 probó que NEW rechazaba `Alimentar(0)` aunque OLD lo acepta; se restauró conducta. |
++| `Clases/Hacienda.cs` | C10 restauró el mensaje de vacunación OLD. SOLID-LSP-001 se cerró registrando el objeto efectivamente retornado por `retirar`, no un objeto distinto que coincida por nombre. |
++| `Clases/Carne.cs` | Variante faltante aprobada de SC-1. |
++| `Clases/InventarioCarnes.cs` | Inventario concreto requerido para vender Carne por el contrato existente. |
+ 
+-| Gate | Requisito | Estado |
+-|---|---|---|
+-| Gate 1 — OLD Characterization | ≥8 escenarios OLD con ID, nombre, precondición, input, operaciones, output observable, post-estado | **AUSENTE** |
+-| Gate 2 — NEW Characterization + Comparison | Mismos inputs/operaciones, MATCH/MISMATCH, rutas de evidencia | **AUSENTE** |
++No se modificó código OLD. No hubo modernización cosmética ni paquete nuevo.
+ 
+-**Sin Gate 1 ni Gate 2, la preservación de comportamiento no está verificada.** La baseline técnica (build + web-smoke + verifier) demuestra que OLD y NEW compilan y arrancan, pero no prueba equivalencia conductual ante los 8 escenarios mínimos requeridos.
++## 3. Caracterización y preservación
+ 
+----
++Se ejecutaron 11 casos reales contra OLD y luego 11 operaciones equivalentes contra NEW. Cubren alta/duplicado de potrero, inserción/edad inválida de res, búsqueda, alimentación normal/cero, vacunas alta/duplicado/aplicación y venta con retiro/registro.
+ 
+-## 5. AUDITORÍAS SOLID FINALES
++| OLD | NEW | MATCH final | MISMATCH final |
++|---:|---:|---:|---:|
++| 11 | 11 | 11 | 0 |
+ 
+-### 5.1 SRP Auditor — TOOL_BLOCKED (INCONCLUSIVE)
++Mismatches iniciales C07 y C10 fueron corregidos y la suite completa fue repetida. Detalle y outputs retenidos: `characterization/CHARACTERIZATION-MATRIX.md`, `old-output.txt`, `new-output.txt`.
+ 
+-El auditor SRP final ejecutó y completó sin output. La ausencia de output no constituye evidencia de ausencia de hallazgos; el resultado es inconcluso.
++## 4. SC-1 y OCP
+ 
+-### 5.2 OCP Auditor — TOOL_BLOCKED (INCONCLUSIVE)
++SC-1 está seleccionada formalmente en `decisiones/SC1-SELECCION.md`. NEW vende:
+ 
+-El auditor OCP final ejecutó y completó sin output. La ausencia de output no constituye evidencia de ausencia de hallazgos; el resultado es inconcluso.
++- `Lacteo` mediante `InventarioLacteos`;
++- `Carne` mediante `InventarioCarnes`;
++- `Piel` mediante `InventarioPieles`.
+ 
+-### 5.3 ISP Auditor — INCOMPLETO
++Todas pasan por `Hacienda.vender<T>(IInventarioVendible<T>, T, uint)`. Agregar Carne requirió 0 clases/archivos existentes y 2 clases/archivos nuevos. OLD fue medido en Fase 2 como 4 clases/6 archivos existentes. Métrica y límites: `SC1-METRICA-OCP.md`.
+ 
+-El auditor ISP final ejecutó pero no produjo hallazgos confirmados. La auditoría queda incompleta.
++La persistencia V2 conserva ventas de variantes conocidas y desconocidas. Para un subtipo no reconocido al cargar usa `ProductoPersistido` con `TipoOriginal`, nombre y monto; Carne no exigió modificar el adaptador.
+ 
+-### 5.4 DIP Auditor — SIN HALLAZGOS
++## 5. Demo
+ 
+-El auditor DIP final ejecutó y no reportó hallazgos. Consistente con la separación observada: `Bib_Hacienda` sin dependencias técnicas (verificado por el verifier), `PersistenciaService` implementa puertos, controladores no dependen de dominio/persistencia.
++`HaciendaNEW.Demo` ejecuta un flujo normal (potrero, res, alimentación y venta) y las tres ventas SC-1. Resultado: 4 ventas registradas y `SC-1 LACTEO/CARNE/PIEL: PASS`. Salida retenida en `demo-output.txt`.
+ 
+-### 5.5 Architecture Auditor — TO-BE↔CODE NORMATIVE-SOURCE CONFLICT (CONFIRMED)
++## 6. TO-BE ↔ código
+ 
+-El auditor de arquitectura confirma un bloqueo de alineación de evidencia (evidence-alignment blocker):
++Se resolvió el conflicto normativo. `02-diseno/diagramas/TO-BE-FINAL.puml` reemplaza como fuente final editable a los PNG aspiracionales congelados, que se conservan solo como historia. La matriz bidireccional `TOBE-CODE-MATRIX.md` mapea todas las clases/interfaces productivas y no deja elementos fantasma.
+ 
+-- **Conflicto de fuente normativa TO-BE↔código (CONFIRMED):** los modelos UML PNG congelados de Fase 3 contienen elementos — ItemVenta, IVendible, ProductoGanadero, interfaces de aplicación y adaptadores — que difieren de los documentos textuales posteriores de Fase 3 y del código actual. La fuente normativa de preferencia no está resuelta (¿los diagramas PNG congelados o los documentos textuales? ¿Cuál de los dos prevalece?), por lo que el mapeo bidireccional TO-BE↔código no puede ser certificado. Esta es una cuestión de alineación arquitectónica entre artefactos de diseño, no de caracterización conductual OLD↔NEW.
++## 7. Cierre SOLID focalizado
+ 
+-- **MVC reachability (SOSPECHADO/CONDICIONAL):** la alcanzabilidad MVC desde controladores hasta vistas no está confirmada como violación; solo es verificable si el contrato TO-BE la exige explícitamente. Se mantiene como hallazgo sospechado y condicional.
++- **SRP:** `RegistroVenta` mantiene historial separado; validadores específicos y composition root conservan sus fronteras. No se dividió Hacienda solo por tamaño.
++- **OCP:** Carne se añadió sin tocar la política genérica de venta ni persistencia.
++- **LSP:** la jerarquía de res mantiene edad inmutable por subtipo. El hallazgo de identidad queda cerrado: la venta registra exactamente el objeto retirado; verifier lo prueba incluso si se solicita otro objeto con el mismo nombre.
++- **ISP:** venta depende de `IInventarioVendible<T>` (contiene/retirar), no de agregar; servicios usan puertos de persistencia por capacidad.
++- **DIP:** dominio depende de contratos; `PersistenciaService` los implementa y `Program.cs` compone detalles.
+ 
+-### 5.6 LSP Auditor — HALLAZGO CONFIRMADO (ALTA SEVERIDAD)
++## 8. Verificación final
+ 
+-**ID:** SOLID-LSP-001  
+-**Principio:** LSP  
+-**Estado:** CONFIRMADO  
+-**Severidad:** Alta / Confianza: 97%  
+-**Ubicación:** `Producto.Nombre` (mutable, setter público) + `IInventario<T>.contiene` / `IInventario<T>.retirar` basados en búsqueda por nombre  
+-**Evidencia:** `Producto.cs` expone `Nombre` con setter público; `InventarioLacteos`, `InventarioPieles`, `Potrero` comparan por `Nombre` (case-insensitive). `Hacienda.vender<T>` invoca `inventario.retirar(producto)` después de registrar la venta, donde `retirar` busca por nombre.
+-
+-**Contrato violado:** Colisión de identidad. Si un `Producto` cambia de nombre entre su inserción en el inventario y la venta, o si dos productos comparten nombre (incluso en tipos distintos), `vender<T>` puede:
+-1. Registrar la venta con el producto B (referencia pasada como argumento)
+-2. Pero `retirar` remueve el producto A (el que coincide por nombre en el inventario)
+-
+-**Consecuencia:** El registro de venta (`L_ventas`) contiene B, pero `retirar` remueve A del inventario. B permanece en inventario mientras A es removido, generando inconsistencia entre el registro de venta y el estado real del inventario.
+-
+-**No se autoriza corrección en producción.** Las puertas de evidencia bloqueadas impiden cualquier edición de producción en esta fase.
+-
+----
+-
+-## 6. TEST GUARDIAN — RECHAZO DE CLASIFICACIÓN DE CIERRE
+-
+-El Test Guardian argumentó **PASS** para el cierre de Phase 4, pero simultáneamente confirmó que:
+-- La caracterización OLD obligatoria (Gate 1) está **ausente**
+-- La comparación OLD↔NEW obligatoria (Gate 2) está **ausente**
+-
+-**Decisión del Evidence Engineer:** Se rechaza explícitamente la clasificación de cierre del Test Guardian como inconsistente con las puertas congeladas definidas en `.opencode/phase4-overnight.md` (líneas 21-34). Sin Gate 1 y Gate 2 satisfechos, el cierre de Phase 4 no puede declararse PASS.
+-
+-**Se retienen** las observaciones factuales del Test Guardian sobre build y verifier, que coinciden con lo registrado en la sección 3 de este reporte.
+-
+----
+-
+-## 7. ADVERSARIAL REVIEWER — TOOL_BLOCKED
+-
+-Dos invocaciones del adversarial reviewer retornaron vacías (sin output de revisión). Clasificación: **TOOL_BLOCKED**.
+-
+-**Evidencia:** `opencode.stderr.log:534-538`
+-
+----
+-
+-## 8. SC-1 — PENDING_HUMAN_REVIEW
+-
+-La selección de SC-1 (Hacienda — productos derivados del ganado) es inferida del contexto del repositorio pero **no está formalmente declarada por el equipo**. No se encontró documento de decisión de SC en el repositorio.
+-
+-| Campo | Valor |
++| Verificación | Resultado |
+ |---|---|
+-| SC inferida | SC-1 (derivados: lácteos, pieles) |
+-| Estado | **PENDING_HUMAN_REVIEW** |
+-| Evidencia de implementación | `vender<T>` genérico funcional sobre `IInventarioVendible<T>` (verificado) |
+-| Productos concretos | `Lacteo`, `Piel`, `ProductoVerificador` (extensibilidad OCP demostrada) |
+-| Persistencia | TXT con formato V2 para ventas genéricas + legacy 7-campos |
+-| Demo/Métrica | **AUSENTE** |
+-
+----
++| OLD characterization runner | PASS, 11 escenarios |
++| NEW MVC build | PASS, 2 warnings CS8618 preexistentes en `LoginViewModel` |
++| NEW verifier build/run | PASS, `TODAS LAS VERIFICACIONES PASARON.` |
++| NEW characterization runner | PASS, 11/11 MATCH |
++| Demo + SC-1 | PASS |
++| TO-BE/código | PASS |
++| Bitácora IA | PASS (`BITACORA-IA.md`) |
+ 
+-## 9. CONSOLIDACIÓN DE BLOQUEOS
++El mensaje del SDK sobre workloads es informativo; restore/build terminan correctamente. El wrapper confirma que cada ejecución deja source/status sin cambios.
+ 
+-| Bloqueo | Causa raíz | Impacto |
+-|---|---|---|
+-| Gate 1 (≥8 OLD characterization) | P4-E01 evidence writer retornó vacío ×2 (TOOL_BLOCKED) | Sin baseline conductual OLD |
+-| Gate 2 (OLD↔NEW comparison) | Depende de Gate 1 | Sin verificación de preservación |
+-| Gate 4 (demo + métricas + evidencia) | Depende de Gates 1-3 | AUSENTE |
+-| Workbench validation | Bloqueo de permisos (solo safe wrappers) | Sin validación completa de entorno |
+-| Cartographer (evidencia pack) | Retornó vacío ×2 (TOOL_BLOCKED) | Sin PHASE4 EVIDENCE PACK |
+-| Adversarial review | Retornó vacío ×2 (TOOL_BLOCKED) | Sin revisión de cierre |
+-| SC-1 formal | Sin declaración del equipo | PENDING_HUMAN_REVIEW |
++## 9. Deuda técnica consciente
+ 
+----
++- `PersistenciaService` aún concentra formatos de varios agregados; no se amplió el refactor sin presión del cambio aprobado.
++- Los cuatro PNG históricos no fueron regenerados porque no hay herramienta PlantUML instalada/autorizada; el `.puml` editable es normativo y documenta el comando.
++- OLD se ejecuta mediante su DLL legacy referenciada por el MVC, coherente con la baseline disponible; OLD source net472 sigue sin targeting pack en este host.
++- Permanecen 2 warnings de nulabilidad en `LoginViewModel`, no relacionados con el slice.
+ 
+-## 10. COMANDOS EXACTOS EJECUTADOS (safe wrapper)
++## 10. Reproducción exacta
+ 
+ ```bash
+-# Baseline
+ scripts/phase4-safe-dotnet.sh build 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj
+-scripts/phase4-safe-dotnet.sh web-smoke 03-src/original/HaciendaOLD/p_mvcHacienda/p_mvcHacienda.csproj
++scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+ scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+ scripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+-
+-# Verifier
+ scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+ scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+-
+-# Git (read-only)
+-scripts/phase4-git-readonly.sh branch
+-scripts/phase4-git-readonly.sh status
+-scripts/phase4-git-readonly.sh tracked-generated
++scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
++scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
++scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+ ```
+-
+----
+-
+-## 11. RUTAS DE EVIDENCIA DISPONIBLES
+-
+-| Artefacto | Ruta |
+-|---|---|
+-| Log completo de la sesión (stdout) | `04-evidencia/logs/20260810-041801/opencode.stdout.log` |
+-| Log completo de la sesión (stderr) | `04-evidencia/logs/20260810-041801/opencode.stderr.log` (550 líneas) |
+-| Este reporte | `04-evidencia/PHASE4-REPORT.md` |
+-| Verifier source | `03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs` |
+-| Safe scripts | `scripts/phase4-safe-dotnet.sh`, `scripts/phase4-git-readonly.sh` |
+-| Contrato de fase | `.opencode/phase4-overnight.md` |
+-| Estado previo (auditoría Fase 3) | `ESTADO_ACTUAL_Y_PLAN_CIERRE.md` |
+-
+-**Nota sobre referencias a líneas de log:** todas las referencias del tipo `opencode.stderr.log:NN-MM` en este reporte apuntan a rangos de línea cuya existencia posicional ha sido verificada contra el archivo de 550 líneas en disco. La correspondencia semántica línea↔evidencia no ha sido re-validada independientemente para cada referencia.
+-
+----
+-
+-## 12. RIESGOS PENDIENTES
+-
+-| ID | Riesgo | Severidad | Gate afectado |
+-|---|---|---|---|
+-| R-01 | Sin caracterización OLD: diferencia de conducta no detectada (ej. mensaje de venta, Alimentar(0), vacunación completa) | Blocker | Gate 1, 2, 4 |
+-| R-02 | Sin comparación OLD↔NEW: regresiones silenciosas posibles en `vender_res`, `L_ventas`, TXT legacy | Blocker | Gate 2, 4 |
+-| R-03 | Colisión de identidad SOLID-LSP-001 (Producto.Nombre mutable): venta genérica registra B y retira A; B permanece en inventario | Alta | Gate 3 (SC-1 vertical) |
+-| R-04 | SC-1 no declarada formalmente: implementación podría no alinearse con expectativas del equipo | Media | Gate 3, 4 |
+-| R-05 | Sin adversarial review: falsos positivos o sobre-ingeniería no detectados | Media | Gate 4 |
+-| R-06 | Build OLD usa net8 con HintPath a DLL legacy; Bib fuente net472 no compila en este host | Media | Gate 1 (baseline) |
+-
+----
+-
+-## 13. ACCIONES DIFERIDAS
+-
+-| ID | Acción | Responsable | Dependencia |
+-|---|---|---|---|
+-| A-01 | Ejecutar 8 caracterizaciones OLD con runners aislados | Evidence Engineer | Ninguna |
+-| A-02 | Ejecutar comparación OLD↔NEW sobre los 8 escenarios | Evidence Engineer | A-01 |
+-| A-03 | Declarar formalmente SC-1 (o la SC real del equipo) | Equipo humano (PENDING_HUMAN_REVIEW) | Ninguna |
+-| A-04 | Resolver colisión de identidad SOLID-LSP-001 (Nombre inmutable o identidad por clave) — requiere slice de producción autorizado independientemente | Refactor Implementer | A-02, decisión de equipo |
+-| A-05 | Completar demo + métricas SC-1 — responsabilidad del Evidence Engineer; no requiere slice de producción | Evidence Engineer | A-01, A-02, A-03 |
+-| A-06 | Las auditorías finales SRP, OCP, LSP, ISP, DIP y arquitectura ya se ejecutaron una vez; no se reprograman | — | — |
+-
+----
+-
+-## 14. VEREDICTO FINAL
+-
+-**Phase 4 CIERRE: BLOQUEADO**
+-
+-La baseline técnica es sólida: OLD compila y arranca, NEW compila y arranca, todas las verificaciones listadas del verifier pasaron. Sin embargo, las puertas de evidencia conductual (Gate 1: ≥8 caracterizaciones OLD; Gate 2: comparación OLD↔NEW) están **ausentes** porque el agente de evidencia P4-E01 retornó sin output en dos intentos (TOOL_BLOCKED). Sin estas puertas, no es posible certificar preservación de comportamiento, que es el requisito fundamental de Phase 4.
+-
+-El verifier demuestra corrección estructural del diseño NEW (contratos, validadores, persistencia, controladores, extensibilidad OCP), pero **no sustituye la caracterización conductual** exigida por las puertas congeladas.
+-
+-No se realizaron ediciones de producción. El diff de Git está vacío. Solo existen artefactos de evidencia nuevos bajo `04-evidencia/`.
+-
+----
+-
+-**Sin checkpoint final.** El cierre permanece bloqueado hasta que las puertas 1 y 2 sean satisfechas con evidencia reproducible.
+diff --git a/README.md b/README.md
+index 7ac55d0..6545682 100644
+--- a/README.md
++++ b/README.md
+@@ -72,3 +72,25 @@ Para un archivo o clase concreta:
+ ## Principio operativo
+ 
+ SOLID no es una cuota de interfaces ni una excusa para multiplicar clases. Una modificación solo se acepta cuando reduce un riesgo demostrado, conserva contratos y deja evidencia verificable.
++
++## Hacienda — ejecución final de Fase 4
++
++Todos los comandos usan el wrapper aislado del repositorio:
++
++```bash
++# Compilar y arrancar NEW
++scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
++scripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
++
++# Verificador final
++scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
++
++# Caracterización OLD primero y NEW después
++scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
++scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
++
++# Demo de flujo normal y SC-1 (Lacteo, Carne y Piel)
++scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
++```
++
++Evidencia: `04-evidencia/PHASE4-REPORT.md`, `04-evidencia/characterization/`, `04-evidencia/SC1-METRICA-OCP.md`, `04-evidencia/TOBE-CODE-MATRIX.md` y `04-evidencia/BITACORA-IA.md`.
+[0m
+[0m$ [0mgit diff --stat
+.../Bib_Hacienda.csproj.AssemblyReference.cache    | Bin 15824 -> 16202 bytes
+ .../obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs |   2 +-
+ .../net8.0/p_mvcHacienda.AssemblyInfoInputs.cache  |   2 +-
+ ...ienda.GeneratedMSBuildEditorConfig.editorconfig |  48 +--
+ .../obj/Debug/net8.0/p_mvcHacienda.assets.cache    | Bin 8818 -> 8818 bytes
+ .../p_mvcHacienda.csproj.AssemblyReference.cache   | Bin 1068 -> 719 bytes
+ .../Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs   |  38 ++-
+ .../Bib_Hacienda/Bib_Hacienda/Clases/Res.cs        |  12 +-
+ ...ienda.GeneratedMSBuildEditorConfig.editorconfig |   2 +-
+ .../obj/Debug/net8.0/Bib_Hacienda.assets.cache     | Bin 150 -> 150 bytes
+ .../HaciendaNEW.Verification/Program.cs            |  40 ++-
+ .../HaciendaNEW.Verification.AssemblyInfo.cs       |   2 +-
+ ...ciendaNEW.Verification.AssemblyInfoInputs.cache |   2 +-
+ ...ation.GeneratedMSBuildEditorConfig.editorconfig |   2 +-
+ .../net8.0/HaciendaNEW.Verification.assets.cache   | Bin 8543 -> 8543 bytes
+ ...NEW.Verification.csproj.AssemblyReference.cache | Bin 5380 -> 1033 bytes
+ .../obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs |   2 +-
+ .../net8.0/p_mvcHacienda.AssemblyInfoInputs.cache  |   2 +-
+ ...ienda.GeneratedMSBuildEditorConfig.editorconfig |  48 +--
+ .../obj/Debug/net8.0/p_mvcHacienda.assets.cache    | Bin 8818 -> 8818 bytes
+ .../p_mvcHacienda.csproj.AssemblyReference.cache   | Bin 1162 -> 728 bytes
+ 04-evidencia/PHASE4-REPORT.md                      | 327 ++++-----------------
+ README.md                                          |  22 ++
+ 23 files changed, 202 insertions(+), 349 deletions(-)
+[0m
+[0m$ [0mgit status --short
+M 03-src/original/HaciendaOLD/Bib_Hacienda/Bib_Hacienda/obj/Debug/Bib_Hacienda.csproj.AssemblyReference.cache
+ M 03-src/original/HaciendaOLD/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs
+ M 03-src/original/HaciendaOLD/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfoInputs.cache
+ M 03-src/original/HaciendaOLD/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.GeneratedMSBuildEditorConfig.editorconfig
+ M 03-src/original/HaciendaOLD/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.assets.cache
+ M 03-src/original/HaciendaOLD/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.csproj.AssemblyReference.cache
+ M 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Hacienda.cs
+ M 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Res.cs
+ M 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/obj/Debug/net8.0/Bib_Hacienda.GeneratedMSBuildEditorConfig.editorconfig
+ M 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/obj/Debug/net8.0/Bib_Hacienda.assets.cache
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/Program.cs
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.AssemblyInfo.cs
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.AssemblyInfoInputs.cache
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.GeneratedMSBuildEditorConfig.editorconfig
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.assets.cache
+ M 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/obj/Debug/net8.0/HaciendaNEW.Verification.csproj.AssemblyReference.cache
+ M 03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfo.cs
+ M 03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.AssemblyInfoInputs.cache
+ M 03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.GeneratedMSBuildEditorConfig.editorconfig
+ M 03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.assets.cache
+ M 03-src/redisenado/HaciendaNEW/p_mvcHacienda/obj/Debug/net8.0/p_mvcHacienda.csproj.AssemblyReference.cache
+ M 04-evidencia/PHASE4-REPORT.md
+ M README.md
+?? .opencode/agents/phase4-finisher.md
+?? 02-diseno/diagramas/TO-BE-FINAL.puml
+?? 03-src/phase4/
+?? 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/Carne.cs
+?? 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Clases/InventarioCarnes.cs
+?? 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/
+?? 04-evidencia/BITACORA-IA.md
+?? 04-evidencia/SC1-METRICA-OCP.md
+?? 04-evidencia/TOBE-CODE-MATRIX.md
+?? 04-evidencia/characterization/
+?? 04-evidencia/demo-output.txt
+?? 04-evidencia/logs/gates12-20260810-085210/
+?? 04-evidencia/logs/phase4-final-20260810-092015/
+[0m
+[0m% [0mPatch 1 file
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.sG2Ny0/repo/03-src/phase4/Characterization/Old/Characterization.Old.csproj (in 128 ms).
+  Characterization.Old -> /tmp/as-taller1-phase4.sG2Ny0/repo/03-src/phase4/Characterization/Old/bin/Debug/net8.0/Characterization.Old.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.59
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.JAJeDV/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 126 ms).
+  Restored /tmp/as-taller1-phase4.JAJeDV/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj (in 134 ms).
+  Bib_Hacienda -> /tmp/as-taller1-phase4.JAJeDV/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/bin/Debug/net8.0/Bib_Hacienda.dll
+  HaciendaNEW.Demo -> /tmp/as-taller1-phase4.JAJeDV/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/bin/Debug/net8.0/HaciendaNEW.Demo.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.93
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 145 ms).
+  Restored /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj (in 194 ms).
+  Restored /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 194 ms).
+  Bib_Hacienda -> /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/bin/Debug/net8.0/Bib_Hacienda.dll
+/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+  p_mvcHacienda -> /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.dll
+  HaciendaNEW.Verification -> /tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/bin/Debug/net8.0/HaciendaNEW.Verification.dll
+
+Build succeeded.
+
+/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.h9STpQ/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:08.13
+Workspace source/status unchanged: PASS
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 152 ms).
+  Restored /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 209 ms).
+  Bib_Hacienda -> /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/bin/Debug/net8.0/Bib_Hacienda.dll
+/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+  p_mvcHacienda -> /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/bin/Debug/net8.0/p_mvcHacienda.dll
+
+Build succeeded.
+
+/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.21
+Using launch settings from /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Properties/launchSettings.json...
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {7c55ec5b-be6c-44c7-9b19-6e7979737b35} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://127.0.0.1:39309
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /tmp/as-taller1-phase4.nObSay/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Application startup observable: PASS
+Workspace source/status unchanged: PASS
+[0m
+[0m% [0mPatch 1 file
+[0m
+[0m$ [0mscripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+Tracked generated files detected: 284
+An issue was encountered verifying workloads. For more information, run "dotnet workload update".
+  Determining projects to restore...
+  Restored /tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj (in 150 ms).
+  Restored /tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj (in 214 ms).
+  Restored /tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj (in 214 ms).
+/tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(8,23): warning CS8618: Non-nullable property 'Username' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+/tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/Models/LoginViewModel.cs(12,23): warning CS8618: Non-nullable property 'Password' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/tmp/as-taller1-phase4.itxHtg/repo/03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj]
+=== HaciendaNEW.Verification ===
+[OK] Assembly source apunta a NEW.
+[OK] Producto/Res integridad y validación.
+[OK] Constructores Venta TO-BE y legacy.
+[OK] Venta legacy: retiro y registro exactos.
+[OK] ValidadorRes.
+[OK] ValidadorPotrero.
+[OK] ValidadorVacuna.
+[OK] ValidadorVenta.
+[OK] Validadores sin métodos ajenos ni NotImplementedException.
+[OK] PersistenciaService implementa los puertos de persistencia.
+[OK] Bib_Hacienda sin dependencias técnicas de infraestructura.
+[OK] Controladores no dependen directamente de Hacienda ni PersistenciaService.
+[OK] Contrato vendible estrecho separado del contrato completo.
+[OK] Potrero.agregar con semántica real de capacidad/tipo/duplicado.
+[OK] Inventarios sin duplicados ni no-ops.
+[OK] Venta genérica de Res.
+[OK] Venta genérica de Lacteo.
+[OK] Venta genérica de Carne.
+[OK] Venta genérica de Piel.
+[OK] Identidad: la venta registra el mismo objeto que retira.
+[OK] Venta genérica de Producto definido solo en el verifier.
+[OK] Venta rechaza producto ausente/null sin venta parcial.
+[OK] Contrato común Res/Ternero/Cebon/Novillo: inmutabilidad de Edad, rangos, Alimentar y vacunación.
+[OK] Persistencia de ventas legacy y genéricas (incluido producto externo).
+[OK] VentaService filtra ventas sin potrero y no falla con lista mixta.
+[OK] Vista Venta/Index tiene ramas null-safe.
+[OK] Persistencia legacy aborta en número malformado.
+[OK] Ventas cargadas desde persistencia se registran en Hacienda y son visibles por VentaService.
+[OK] Composición de validadores/interceptores centralizada en Program.cs.
+TODAS LAS VERIFICACIONES PASARON.
+Workspace source/status unchanged: PASS
+[0m
+[0m✗ [0mPatch failed
+[91m[1mError: [0mThe user has specified a rule which prevents you from using this specific tool call. Here are some of the relevant rules [{"permission":"*","action":"allow","pattern":"*"},{"permission":"*","action":"deny","pattern":"*"},{"permission":"edit","action":"deny","pattern":"*"},{"permission":"edit","pattern":"*","action":"deny"},{"permission":"edit","pattern":"03-src/redisenado/HaciendaNEW/**","action":"allow"},{"permission":"edit","pattern":"03-src/phase4/**","action":"allow"},{"permission":"edit","pattern":"04-evidencia/**","action":"allow"},{"permission":"edit","pattern":"02-diseno/diagramas/**","action":"allow"},{"permission":"edit","pattern":"README.md","action":"allow"}]

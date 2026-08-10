@@ -1,0 +1,17 @@
+EVIDENCE_BLOCKED
+
+The safe wrapper only executes projects under `03-src`, while evidence harnesses must remain under `04-evidencia`. Closing the gates would require an unauthorized production-path artifact, wrapper modification, or unrestricted `dotnet`.
+
+Evidence:
+- `04-evidencia/characterization/CHARACTERIZATION-MATRIX.md`
+- `04-evidencia/characterization/EVIDENCE-BLOCKED.md`
+
+OLD_SCENARIOS=0
+NEW_SCENARIOS=0
+MATCH=0
+MISMATCH=0
+PHASE3_REGRESSIONS=0
+GATE1=FAIL
+GATE2=FAIL
+
+MISMATCH IDs: none.
