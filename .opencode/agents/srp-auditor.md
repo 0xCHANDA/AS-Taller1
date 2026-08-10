@@ -1,6 +1,7 @@
 ---
 description: Audits C# code exclusively for Single Responsibility Principle violations using independent actors and reasons to change.
 mode: subagent
+model: opencode-go/minimax-m3
 temperature: 0.1
 steps: 18
 permission:

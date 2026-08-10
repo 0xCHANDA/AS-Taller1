@@ -1,6 +1,7 @@
 ---
 description: Maps C# solutions, projects, dependencies, entry points, tests, public contracts and probable architectural boundaries before SOLID analysis.
 mode: subagent
+model: opencode-go/deepseek-v4-flash
 temperature: 0.1
 steps: 20
 permission:

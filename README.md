@@ -1,4 +1,4 @@
-# OpenCode SOLID C# Workbench
+# OpenCode SOLID C# Multi-Model Workbench
 
 Entorno multiagente para analizar principios SOLID, diseñar refactorizaciones y mejorar código C# existente sin alterar comportamiento de forma accidental.
 
@@ -9,9 +9,9 @@ El sistema separa descubrimiento, auditoría, planificación, implementación y 
 ## Componentes
 
 - **1 agente principal:** `solid-orchestrator`.
-- **10 subagentes:** cartografía, cinco auditores SOLID, arquitectura, planificación, implementación, pruebas y revisión adversarial.
-- **10 skills:** protocolo común, una skill independiente por principio, arquitectura, refactorización, pruebas y reporte.
-- **10 comandos:** auditoría integral, auditorías individuales, planificación, aplicación y verificación.
+- **11 subagentes:** cartografía, cinco auditores SOLID, arquitectura, planificación, implementación, pruebas y revisión adversarial.
+- **11 skills:** protocolo común, una skill independiente por principio, arquitectura, refactorización, pruebas y reporte.
+- **11 comandos:** auditoría integral, auditorías individuales, planificación, aplicación y verificación.
 
 ## Instalación en un repositorio C#
 
@@ -36,7 +36,7 @@ En OpenCode:
 /models
 ```
 
-El paquete usa por defecto `openai/gpt-5.6-sol`. Si el selector `/models` muestra otro identificador para su proveedor, cambie únicamente la propiedad `model` de `opencode.jsonc`. Para GPT-5.5 use el identificador exacto mostrado por `/models`, normalmente `openai/gpt-5.5`.
+El paquete usa routing multimodelo explícito en cada agente, con `openai/gpt-5.6-sol` como modelo principal y `opencode-go/deepseek-v4-flash` para tareas ligeras. Conecte los proveedores requeridos mediante `/connect` y confirme los identificadores configurados con `/models`; no sustituya silenciosamente un modelo si todavía no está disponible en la sesión.
 
 ## Flujo recomendado
 

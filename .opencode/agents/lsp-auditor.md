@@ -1,6 +1,7 @@
 ---
 description: Audits C# inheritance and interface implementations for behavioral substitutability and contract violations.
 mode: subagent
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 18
 permission:

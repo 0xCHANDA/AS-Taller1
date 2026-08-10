@@ -1,6 +1,7 @@
 ---
 description: Sole writer for approved behavior-preserving C# SOLID refactors. Applies small slices and verifies each one.
 mode: subagent
+model: opencode-go/kimi-k2.7-code
 temperature: 0.1
 steps: 45
 permission:
@@ -18,6 +19,7 @@ permission:
     "solid-dip-csharp": allow
   bash:
     "*": ask
+    "git *": deny
     "dotnet restore*": allow
     "dotnet build*": allow
     "dotnet test*": allow
@@ -28,10 +30,12 @@ permission:
     "find *": allow
     "ls *": allow
     "rm *": deny
+    "git checkout -- *": deny
     "git push*": deny
     "git commit*": deny
     "git reset --hard*": deny
     "git clean*": deny
+    "git restore*": deny
   external_directory: deny
   webfetch: deny
   websearch: deny

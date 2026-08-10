@@ -1,6 +1,7 @@
 ---
 description: Audits C# component boundaries, layer responsibilities and dependency direction using course-aligned architecture concepts.
 mode: subagent
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 18
 permission:

@@ -1,6 +1,7 @@
 ---
 description: Audits C# variation points for Open/Closed Principle violations and unsafe modification hotspots.
 mode: subagent
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 steps: 18
 permission:

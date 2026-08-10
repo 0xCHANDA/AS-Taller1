@@ -1,6 +1,7 @@
 ---
 description: Converts confirmed SOLID findings into minimal, ordered, reversible C# refactoring slices without editing files.
 mode: subagent
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 24
 permission:

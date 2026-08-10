@@ -1,6 +1,7 @@
 ---
 description: Audits C# interfaces from the perspective of their clients and detects forced or unused dependencies.
 mode: subagent
+model: opencode-go/minimax-m3
 temperature: 0.1
 steps: 18
 permission:

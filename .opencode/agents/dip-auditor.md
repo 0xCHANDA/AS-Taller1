@@ -1,6 +1,7 @@
 ---
 description: Audits C# dependency direction between business policy and technical details, including composition roots and DI usage.
 mode: subagent
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 18
 permission:

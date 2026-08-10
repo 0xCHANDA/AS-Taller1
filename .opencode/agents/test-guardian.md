@@ -1,6 +1,7 @@
 ---
 description: Independently verifies C# refactors through baseline comparison, tests, build diagnostics and behavioral-risk analysis. Read-only.
 mode: subagent
+model: opencode-go/deepseek-v4-pro
 temperature: 0.1
 steps: 24
 permission:

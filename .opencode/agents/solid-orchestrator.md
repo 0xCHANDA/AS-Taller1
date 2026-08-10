@@ -1,14 +1,14 @@
 ---
 description: Primary coordinator for evidence-based SOLID audits and controlled C# refactoring. Use for complete repository, project, namespace or feature analysis.
 mode: primary
+model: openai/gpt-5.6-sol
 temperature: 0.1
 steps: 40
 permission:
-  edit:
-    "*": deny
-    ".solid-reports/**": allow
+  edit: deny
   bash:
     "*": ask
+    "git *": deny
     "dotnet --info*": allow
     "dotnet sln * list*": allow
     "dotnet build*": allow
@@ -21,9 +21,12 @@ permission:
     "find *": allow
     "ls *": allow
     "rm *": deny
+    "git commit*": deny
     "git push*": deny
     "git reset --hard*": deny
     "git clean*": deny
+    "git checkout -- *": deny
+    "git restore*": deny
   task:
     "*": deny
     "codebase-cartographer": allow
@@ -34,7 +37,7 @@ permission:
     "dip-auditor": allow
     "architecture-auditor": allow
     "refactor-planner": allow
-    "refactor-implementer": ask
+    "refactor-implementer": allow
     "test-guardian": allow
     "adversarial-reviewer": allow
   skill: allow
