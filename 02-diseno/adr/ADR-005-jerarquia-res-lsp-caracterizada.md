@@ -1,48 +1,137 @@
-# ADR-005 — Jerarquía Res: deuda LSP caracterizada vs composición/estado
+# ADR 5 — Generalización del método de venta
 
-**Estado:** ACEPTADO (retrospectivo — con deuda explícita)
-**Fecha:** 2026-08-10
-**Evidencia:** `Res.cs:12-36`, `Ternero.cs:9-19`, `Cebon.cs:9-19`, `Novillo.cs:9-19`, `02-diseno/DISENO-TO-BE.md` (§6)
+## ADR-005: Crear un método `Vender` general para cualquier producto
 
-## Contexto
+### Contexto
 
-OLD modela categorías etarias como subtipos de `Res`: `Ternero` (0-12 meses), `Cebon` (13-36), `Novillo` (37-48). El defecto original no era la herencia en sí, sino que `Res.Edad` tenía un setter público virtual cuyos overrides fortalecían precondiciones: una instancia de `Res` aceptaba cualquier edad, pero `Ternero.Edad.set` rechazaba >12. Esto rompe LSP: el subtipo no es sustituible donde se espera la base.
+El método original de `Hacienda` estaba diseñado únicamente para vender reses:
 
-Adicionalmente, `Res : Producto` duplicaba `Nombre` sin invocar `base(nombre)`, creando divergencia de identidad.
+```csharp
+public string vender_res(string id_potrero, string nombre, uint monto)
+```
 
-## Alternativas
+Esto hacía que `Hacienda` conociera directamente a `Potrero` y a `Res`.
 
-| ID | Descripción | Evaluación |
-|---|---|---|
-| A | Eliminar subtipos y usar composición: `Res` con propiedad `Categoria` (enum) + validación dinámica | **Descartada para esta entrega.** Cambia API pública, requiere migrar constructores, switches etarios y persistencia. Riesgo de regresión masiva sin cobertura de tests. |
-| B | Mantener subtipos con setter virtual y documentar violación LSP como trade-off | **Descartada.** Viola LSP formal, evaluable en C3. Riesgo C3 ≤ 2. |
-| C | Eliminar setter público de `Edad`; validar rango en constructor de cada subtipo antes de delegar a `base`; resolver identidad `Res : Producto` | **Elegida.** Corrige los defectos observables sin cambiar el modelo de dominio ni la API externa. |
+Con la creación de nuevos productos e inventarios:
 
-## Decisión
+```text
+Potrero
+InventarioLacteos
+InventarioPieles
+InventarioCarne
+```
 
-Alternativa C con deuda declarada. Cambios concretos:
+mantener métodos como:
 
-1. `Res.cs:23-27`: constructor invoca `base(nombre)`, eliminando `Nombre` duplicado.
-2. `Res.cs:34`: `Edad` pasa a ser propiedad de solo lectura (`=> edad`).
-3. `Ternero.cs:13-19`, `Cebon.cs:13-19`, `Novillo.cs:13-19`: cada constructor valida su invariante etaria y luego delega a `base(nombre, peso, edad)`.
-4. Ningún método común de `Res` muta la edad.
+```csharp
+vender_res()
+vender_lacteo()
+vender_piel()
+vender_carne()
+```
 
-Esto corrige el strengthening de precondiciones en operación polimórfica. No resuelve —ni pretende— el envejecimiento y cambio de categoría como requisito futuro.
+haría que cada nuevo producto obligara a modificar `Hacienda`.
 
-## Consecuencias
+### Alternativa 1
 
-- **Positivo:** LSP conforme para el contrato observado. `Edad` inmutable post-construcción garantiza que ningún cliente de `Res` reciba un rechazo inesperado.
-- **Positivo:** Identidad `Res`/`Producto` unificada; la venta registra exactamente el objeto retornado por `retirar`.
-- **Negativo (deuda):** Las categorías siguen siendo subtipos; cambiar de categoría (envejecimiento) no es posible sin recrear el objeto. Esto requeriría composición/estado si el dominio lo exigiera.
-- **Negativo (deuda):** `Producto.Nombre` conserva setter público para no romper consumidores; su mutabilidad debe caracterizarse antes de restringirla.
+Crear un método de venta para cada tipo de producto:
 
-## Principios SOLID
+```csharp
+VenderRes(...)
+VenderLacteo(...)
+VenderPiel(...)
+VenderCarne(...)
+```
 
-- **LSP:** Cerrado el defecto de fortalecimiento de precondiciones. La matriz de sustitución en `02-diseno/DISENO-TO-BE.md` (§6) cubre las relaciones.
-- **OCP:** Los switches etarios en `Potrero.anadir_res` y persistencia no se tocaron; no hay presión de cambio demostrada para ese eje.
+Se descarta porque `Hacienda` tendría que modificarse cada vez que aparezca un nuevo producto, violando OCP.
 
-## Verificación
+Además, aumentaría la cantidad de lógica que tiene `Hacienda`.
 
-- `HaciendaNEW.Verification/Program.cs`: `VerificarProductoRes` (identidad), `VerificarContratoRes` (rangos e inmutabilidad).
-- `02-diseno/DISENO-TO-BE.md` (§6): matriz completa de sustitución.
-- Test-Guardian: **PASS**. Adversarial-Reviewer: `BLOCKER-API-001 CLOSED`, **0 blockers nuevos**.
+### Alternativa 2
+
+Crear un único método general:
+
+```csharp
+Vender<T>(IInventario<T> inventario, T producto, uint monto)
+    where T : Producto
+```
+
+El método recibe el inventario y el producto que se quieren vender.
+
+Internamente:
+
+```csharp
+inventario.Retirar(producto);
+
+Venta venta = new Venta(producto, DateTime.Now, monto);
+
+registroVentas.Registrar(venta);
+```
+
+De esta forma, el método no necesita saber si está vendiendo una:
+
+```text
+Res
+Lacteo
+Piel
+Carne
+```
+
+### Decisión
+
+Se decidió reemplazar `vender_res()` por un método general `Vender()` que trabaje con la abstracción `IInventario<T>` y `Producto`.
+
+Así `Hacienda` solamente coordina la operación:
+
+```text
+Hacienda
+   ↓
+IInventario<T>
+   ↓
+Retirar(producto)
+
+Producto
+   ↓
+Venta
+   ↓
+RegistroVentas
+```
+
+Por ejemplo, para vender una res:
+
+```csharp
+Vender(potrero, res, monto);
+```
+
+Y para vender un lácteo:
+
+```csharp
+Vender(inventarioLacteos, lacteo, monto);
+```
+
+El método es el mismo.
+
+### ¿Qué ganamos?
+
+- No necesitamos crear un método de venta por cada producto.
+- `Hacienda` deja de depender directamente de `Potrero`.
+- Se pueden agregar nuevos productos sin modificar el método `Vender`.
+- Los diferentes inventarios pueden manejar sus propios productos.
+- `Venta` deja de estar acoplada exclusivamente a `Res`.
+- Se aplica OCP, porque agregar un nuevo tipo de producto no requiere modificar la lógica existente.
+
+### Consecuencia negativa
+
+El método utiliza genéricos e interfaces, por lo que la solución es un poco más compleja que el método original `vender_res()`.
+
+Además, cada nuevo producto debe heredar de `Producto` y contar con un inventario que implemente `IInventario<T>`.
+
+Aceptamos esta complejidad porque permite que el sistema pueda crecer sin tener que modificar `Hacienda` cada vez que aparezca un nuevo producto.
+
+### Principios involucrados
+
+- **OCP:** se pueden agregar nuevos productos sin modificar `Vender()`.
+- **DIP:** `Hacienda` trabaja con `IInventario<T>` en lugar de depender de un inventario concreto.
+- **SRP:** `Hacienda` coordina la venta, mientras `RegistroVentas` se encarga de almacenarlas y el inventario de retirar el producto.
+- **LSP:** cualquier producto que cumpla el contrato de `Producto` puede utilizarse donde se espera un `Producto`.
+- **ISP:** `Hacienda` utiliza únicamente las operaciones del inventario que necesita (retirar).
