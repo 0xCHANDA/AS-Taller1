@@ -1,0 +1,450 @@
+@startuml
+!pragma layout smetana
+title Hacienda TO-BE final materializado — 2026-08-10
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FAFAFA
+skinparam defaultFontSize 11
+
+' --- Leyenda ---
+legend right
+  |= Color (hex) |= Significado |
+  |<#FFFFFF>   Conservado | Sin intervención estructural |
+  |<#E8F5E9>   OCP | Punto de extensión / nueva variante |
+  |<#FFF3E0>   SRP | Responsabilidad separada |
+  |<#E3F2FD>   ISP | Interfaz segregada por capacidad |
+  |<#FCE4EC>   DIP | Puerto / inversión de dependencia |
+  |<#F3E5F5>   LSP | Jerarquía validada |
+  |<#ECEFF1>   Infraestructura | Composition root / servicio |
+  |<#FFFDE7>   SC-1 variante | Punto de extensión SC-1 |
+endlegend
+
+' --- Paquete Dominio ---
+package "Dominio — Bib_Hacienda.Clases" {
+
+  abstract class "Producto" #E8F5E9 {
+    - nombre : string
+    + Producto(nombre : string)
+    + Nombre : string { get; set }
+  }
+
+  abstract class "Res" #F3E5F5 {
+    - peso : uint
+    - edad : ushort
+    - l_vacunas_aplicadas : List<Vacuna>
+    + Res(nombre : string, peso : uint, edad : ushort)
+    + Edad : ushort { get }
+    + Peso : uint { get; set }
+    + L_vacunas_aplicadas : List<Vacuna> { get }
+    + aplicar_vacuna(vacuna : Vacuna) : void
+    + Alimentar(unidades : uint) : void
+    + {abstract} MaxVacunasBacterianas : byte { get }
+    + {abstract} MaxVacunasVivas : byte { get }
+  }
+
+  class "Ternero" #F3E5F5 {
+    + Ternero(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Cebon" #F3E5F5 {
+    + Cebon(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Novillo" #F3E5F5 {
+    + Novillo(nombre : string, peso : uint, edad : ushort)
+  }
+
+  class "Lacteo" #E8F5E9 {
+    + Lacteo(nombre : string)
+  }
+
+  class "Carne" <<SC-1 nuevo>> #FFFDE7 {
+    + Carne(nombre : string)
+  }
+
+  class "Piel" #E8F5E9 {
+    + Piel(nombre : string)
+  }
+
+  abstract class "Vacuna" #FFFFFF {
+    - nombre : string
+    - lote : string
+    - fecha_vencimiento : DateTime
+    - fecha_aplicacion : DateTime
+    + Vacuna(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime)
+    + Nombre : string { get; set }
+    + Lote : string { get; set }
+    + Fecha_vencimiento : DateTime { get; set }
+    + Fecha_aplicacion : DateTime { get; set }
+    + EstaVencida() : bool
+    + {abstract} Tipo : TipoVacuna { get }
+    + {abstract} PuedeAplicarseA(res : Res) : bool
+  }
+
+  class "Bacteriana" #FFFFFF {
+    - periodo_aplicacion : uint
+    + Bacteriana(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, periodo_aplicacion : uint)
+    + Periodo_aplicacion : uint { get; set }
+  }
+
+  class "Viva" #FFFFFF {
+    + enum enum_l_atenuaciones
+    + Viva(nombre : string, lote : string, fecha_vencimiento : DateTime, fecha_aplicacion : DateTime, grado : enum_l_atenuaciones)
+  }
+
+  class "Potrero" #E8F5E9 {
+    + enum l_tipos_potreros
+    - identificacion : string
+    - l_reses : List<Res>
+    - tipo_potrero : l_tipos_potreros
+    + Potrero(identificacion : string, tipo : l_tipos_potreros)
+    + anadir_res(nombre : string, edad : ushort, peso : uint) : string
+    + buscar_res(nombre : string) : Res
+    + agregar(producto : Res) : void
+    + contiene(producto : Res) : bool
+    + retirar(producto : Res) : Res
+  }
+
+  class "InventarioLacteos" #E8F5E9 {
+    + agregar(producto : Lacteo) : void
+    + contiene(producto : Lacteo) : bool
+    + retirar(producto : Lacteo) : Lacteo
+  }
+
+  class "InventarioCarnes" <<SC-1 nuevo>> #FFFDE7 {
+    + agregar(producto : Carne) : void
+    + contiene(producto : Carne) : bool
+    + retirar(producto : Carne) : Carne
+  }
+
+  class "InventarioPieles" #E8F5E9 {
+    + agregar(producto : Piel) : void
+    + contiene(producto : Piel) : bool
+    + retirar(producto : Piel) : Piel
+  }
+
+  class "Venta" #FFFFFF {
+    - fecha : DateTime
+    - producto : Producto
+    - monto : uint
+    - potrero : Potrero
+    - res : Res
+    + Venta(fecha : DateTime, producto : Producto, monto : uint)
+    + Venta(potrero : Potrero, fecha : DateTime, res : Res, monto : uint)
+    + Fecha : DateTime { get; set }
+    + Producto : Producto { get; set }
+    + Monto : uint { get; set }
+    + Potrero : Potrero { get; set }
+    + Res : Res { get; set }
+  }
+
+  class "RegistroVenta" #FFF3E0 {
+    - ventas : List<Venta>
+    + RegistroVenta()
+    + Ventas : IReadOnlyList<Venta> { get }
+    + registrar(venta : Venta) : void
+  }
+
+  class "FabricadorVacunas" #FFF3E0 {
+    - l_vacunas : List<Vacuna>
+    + FabricadorVacunas(l_vacunas : List<Vacuna>)
+    + L_vacunas : List<Vacuna> { get }
+    + Crear(nombre : string, lote : string, fv : DateTime, fa : DateTime, periodo : uint) : string
+    + Crear(nombre : string, lote : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones) : string
+    + CrearLote(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, periodo : uint, cantidad : uint) : string
+    + CrearLote(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones, cantidad : uint) : string
+  }
+
+  class "Hacienda" #FFF3E0 {
+    - l_potreros : List<Potrero>
+    - registroVentas : RegistroVenta
+    - l_vacunas : List<Vacuna>
+    - fabricadorVacunas : FabricadorVacunas
+    + Hacienda()
+    + Hacienda(registroVentas : RegistroVenta, fabricadorVacunas : FabricadorVacunas)
+    + crear_potrero(identificacion : string, tipo : Potrero.l_tipos_potreros) : string
+    + buscar_potrero(nombre : string) : Potrero
+    + anadir_res_potrero(id_potrero : string, nombre : string, edad : ushort, peso : uint) : string
+    + vender<T>(inventario : IInventario<T>, producto : T, monto : uint) : string
+    + vender<T>(inventario : IInventarioVendible<T>, producto : T, monto : uint) : string
+    + vender_res(id_potrero : string, nombre : string, monto : uint) : string
+    + registrar_venta_cargada(venta : Venta) : void
+    + alimentar_res(id_potrero : string, nombre : string) : string
+    + alimentar_res(id_potrero : string, nombre : string, cantidad : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fv : DateTime, fa : DateTime, periodo : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones) : string
+    + crear_vacuna(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, periodo : uint, cantidad : uint) : string
+    + crear_vacuna(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones, cantidad : uint) : string
+    + aplicar_vacuna(vacuna : Vacuna, nombre : string, idPotrero : string) : string
+    + L_potreros : List<Potrero> { get }
+    + L_ventas : List<Venta> { get }
+    + L_vacunas : List<Vacuna> { get }
+  }
+
+  class "Usuario" #FFFFFF {
+    - nombre : string
+    - contrasena : string
+    + Usuario(nombre : string, contrasena : string)
+    + Nombre : string { get; set }
+    + Contrasena : string { get; set }
+  }
+}
+
+' --- Paquete Contratos ---
+package "Contratos — Bib_Hacienda.Interfaces" {
+
+  interface "IInventarioVendible<T>" #E3F2FD {
+    + contiene(producto : T) : bool
+    + retirar(producto : T) : T
+  }
+
+  interface "IInventario<T>" #E3F2FD {
+    + agregar(producto : T) : void
+  }
+
+  interface "IVacunacion" #E3F2FD {
+    + aplicar_vacuna(vacuna : Vacuna, nombre : string, id_potrero : string) : string
+  }
+
+  interface "IVentaRes" #E3F2FD {
+    + vender_res(id_potrero : string, nombre : string, monto : uint) : string
+  }
+
+  interface "ICreacionVacuna" #E3F2FD {
+    + crear_vacuna(nombre : string, lote : string, fv : DateTime, fa : DateTime, periodo : uint) : string
+    + crear_vacuna(nombre : string, lote : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones) : string
+    + crear_vacuna(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, periodo : uint, cantidad : uint) : string
+    + crear_vacuna(nombre : string, lote_base : string, fv : DateTime, fa : DateTime, atenuacion : Viva.enum_l_atenuaciones, cantidad : uint) : string
+  }
+
+  interface "IValidadorRes" #E3F2FD {
+    + ValidarRes(res : Res) : bool
+  }
+
+  interface "IValidadorPotrero" #E3F2FD {
+    + ValidarPotrero(potrero : Potrero) : bool
+  }
+
+  interface "IValidadorVacuna" #E3F2FD {
+    + ValidarVacuna(vacuna : Vacuna) : bool
+  }
+
+  interface "IValidadorVenta" #E3F2FD {
+    + ValidarVenta(venta : Venta) : bool
+  }
+
+  interface "IPersistenciaPotreros" #FCE4EC {
+    + CargarPotreros() : List<Potrero>
+    + GuardarPotreros(potreros : List<Potrero>) : string
+  }
+
+  interface "IPersistenciaReses" #FCE4EC {
+    + CargarReses(potreros : List<Potrero>) : void
+    + GuardarReses(potreros : List<Potrero>) : string
+  }
+
+  interface "IPersistenciaVacunas" #FCE4EC {
+    + CargarVacunas() : List<Vacuna>
+    + GuardarVacunas(vacunas : List<Vacuna>) : string
+    + CargarVacunasAplicadas(potreros : List<Potrero>) : void
+    + GuardarVacunasAplicadas(potreros : List<Potrero>) : string
+  }
+
+  interface "IPersistenciaVentas" #FCE4EC {
+    + CargarVentas(potreros : List<Potrero>) : List<Venta>
+    + GuardarVentas(ventas : List<Venta>) : string
+  }
+
+  interface "IPersistenciaUsuarios" #FCE4EC {
+    + CargarUsuarios() : List<Usuario>
+    + GuardarUsuarios(usuarios : List<Usuario>) : string
+  }
+}
+
+' --- Paquete Validación ---
+package "Validación, eventos y reglas" {
+
+  class "ValidadorRes" #FFFFFF {
+    + ValidarRes(res : Res) : bool
+  }
+
+  class "ValidadorPotrero" #FFFFFF {
+    + ValidarPotrero(potrero : Potrero) : bool
+  }
+
+  class "ValidadorVacuna" #FFFFFF {
+    + ValidarVacuna(vacuna : Vacuna) : bool
+  }
+
+  class "ValidadorVenta" #FFFFFF {
+    + ValidarVenta(venta : Venta) : bool
+  }
+
+  enum "TipoVacuna" #FFFFFF {
+    Bacteriana
+    Viva
+  }
+}
+
+' --- Paquete Aplicación MVC ---
+package "Aplicación — p_mvcHacienda" {
+
+  class "PotreroService" #ECEFF1 {
+    + PotreroService(hacienda : Hacienda, persPotreros : IPersistenciaPotreros, persReses : IPersistenciaReses)
+  }
+
+  class "ResService" #ECEFF1 {
+    + ResService(hacienda : Hacienda, persReses : IPersistenciaReses, persVentas : IPersistenciaVentas)
+  }
+
+  class "VacunaService" #ECEFF1 {
+    + VacunaService(hacienda : Hacienda, persVacunas : IPersistenciaVacunas, persPotreros : IPersistenciaPotreros, persReses : IPersistenciaReses)
+  }
+
+  class "VentaService" #ECEFF1 {
+    + VentaService(hacienda : Hacienda)
+  }
+
+  class "UsuarioService" #ECEFF1 {
+    + UsuarioService(persUsuarios : IPersistenciaUsuarios)
+  }
+
+  class "PersistenciaService" <<adaptador>> #FCE4EC {
+    + CargarPotreros() : List<Potrero>
+    + CargarReses(potreros : List<Potrero>) : void
+    + CargarVacunas() : List<Vacuna>
+    + CargarVacunasAplicadas(potreros : List<Potrero>) : void
+    + CargarVentas(potreros : List<Potrero>) : List<Venta>
+    + CargarUsuarios() : List<Usuario>
+    + GuardarPotreros(potreros : List<Potrero>) : string
+    + GuardarReses(potreros : List<Potrero>) : string
+    + GuardarVacunas(vacunas : List<Vacuna>) : string
+    + GuardarVacunasAplicadas(potreros : List<Potrero>) : string
+    + GuardarVentas(ventas : List<Venta>) : string
+    + GuardarUsuarios(usuarios : List<Usuario>) : string
+  }
+
+  class "Program" <<composition root>> #ECEFF1 {
+    + Main(args : string[]) : void
+    ' Composition root:
+    '  - registra validadores concretos;
+    '  - decora con InterceptorValidarInformacion;
+    '  - registra PersistenciaService tras cinco puertos;
+    '  - construye Hacienda(registroVentas, fabricadorVacunas);
+    '  - hidrata desde persistencia;
+    '  - registra los cinco servicios de aplicación.
+  }
+}
+
+' --- Jerarquías ---
+Producto <|-- Res
+Producto <|-- Lacteo
+Producto <|-- Carne
+Producto <|-- Piel
+Res <|-- Ternero
+Res <|-- Cebon
+Res <|-- Novillo
+Vacuna <|-- Bacteriana
+Vacuna <|-- Viva
+
+' --- Realizaciones de interfaces ---
+IInventarioVendible <|-- IInventario : «extends»
+IInventario <|.. Potrero
+IInventario <|.. InventarioLacteos
+IInventario <|.. InventarioCarnes
+IInventario <|.. InventarioPieles
+
+ValidadorRes ..|> IValidadorRes
+ValidadorPotrero ..|> IValidadorPotrero
+ValidadorVacuna ..|> IValidadorVacuna
+ValidadorVenta ..|> IValidadorVenta
+
+PersistenciaService ..|> IPersistenciaPotreros
+PersistenciaService ..|> IPersistenciaReses
+PersistenciaService ..|> IPersistenciaVacunas
+PersistenciaService ..|> IPersistenciaVentas
+PersistenciaService ..|> IPersistenciaUsuarios
+
+Hacienda ..|> IVacunacion
+Hacienda ..|> IVentaRes
+Hacienda ..|> ICreacionVacuna
+
+' --- Relaciones de Hacienda ---
+Hacienda --> IInventarioVendible : «vender<T> usa»
+Hacienda *-- RegistroVenta : «historial ventas (DI, no DIP)»
+Hacienda *-- FabricadorVacunas : «delega crear_vacuna (DI, no DIP)»
+RegistroVenta o-- "0..*" Venta
+Venta --> "0..1" Producto : «producto TO-BE»
+Venta --> "0..1" Potrero : «legacy»
+Venta --> "0..1" Res : «legacy»
+
+' --- DIP / composition root ---
+PotreroService --> IPersistenciaPotreros
+PotreroService --> IPersistenciaReses
+ResService --> IPersistenciaReses
+ResService --> IPersistenciaVentas
+VacunaService --> IPersistenciaVacunas
+VacunaService --> IPersistenciaPotreros
+VacunaService --> IPersistenciaReses
+VentaService --> Hacienda
+UsuarioService --> IPersistenciaUsuarios
+
+Program --> PersistenciaService : «compone»
+Program --> Hacienda : «compone; DI, no DIP»
+Program --> "RegistroVenta" : «instancia»
+Program --> "FabricadorVacunas" : «instancia»
+
+' --- Notas explicativas ---
+note right of Hacienda
+  SRP: fachada que coordina.
+  Delega crear_vacuna a FabricadorVacunas.
+  Mantiene historial en RegistroVenta.
+  Dos constructores: vacío y con colaboradores concretos.
+  Constructor injection / DI; no constituye DIP.
+end note
+
+note right of FabricadorVacunas
+  SRP (2026-08-10): Hacienda concentraba
+  cuatro crear_vacuna (~180 líneas de duplicación).
+  Ahora la fachada delega en FabricadorVacunas.
+  Sigue acoplada a Bacteriana/Viva concretas
+  (deuda consciente: solo dos tipos).
+end note
+
+note right of RegistroVenta
+  SRP: historial separado de la venta.
+  Encapsula la lista de ventas.
+end note
+
+note right of Res
+  LSP: Edad inmutable post-construcción.
+  Cada subtipo valida su rango en el constructor.
+  No hay setter virtual fortalecible.
+end note
+
+note right of IInventarioVendible
+  ISP: clientes de venta solo conocen
+  contiene() y retirar(); no agregar().
+end note
+
+note right of IPersistenciaPotreros
+  DIP: puerto segregado por cliente.
+  PersistenciaService implementa cinco.
+  Client composition root en Program.cs.
+end note
+
+note right of Carne
+  SC-1 variante Lachée.
+  0 clases existentes modificadas.
+  2 nuevas (Carne + InventarioCarnes).
+end note
+
+note bottom of Program
+  Composition root en p_mvcHacienda/Program.cs.
+  Único lugar que conoce detalles concretos.
+  MVC usa ProjectReference, no HintPath.
+  - DIP real: registra PersistenciaService tras 5 puertos.
+  - DI (no DIP): construye Hacienda(RegistroVenta, FabricadorVacunas).
+end note
+
+@enduml

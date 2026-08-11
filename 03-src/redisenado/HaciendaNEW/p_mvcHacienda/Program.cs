@@ -79,8 +79,10 @@ namespace p_mvcHacienda
             // Hacienda como modelo de dominio (fuente única de estado en memoria)
             builder.Services.AddSingleton<Hacienda>(sp =>
             {
-                var hacienda = new Hacienda();
                 var persistencia = sp.GetRequiredService<PersistenciaService>();
+                var registroVentas = new RegistroVenta();
+                var fabricadorVacunas = new FabricadorVacunas(new List<Vacuna>());
+                var hacienda = new Hacienda(registroVentas, fabricadorVacunas);
 
                 try
                 {

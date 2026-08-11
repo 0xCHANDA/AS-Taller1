@@ -2,7 +2,7 @@
 
 **Corte:** 2026-08-10  
 **Estado actual:** COMPLETE (evidencia técnica verificable).  
-**Pendientes humanos:** roster/grupo/roles, contraste lectura fría, video (ver `TRAZABILIDAD-FINAL.md`).
+**Pendientes humanos:** roster/grupo/roles, contraste lectura fría, video (ver `trazabilidad/TRAZABILIDAD-FINAL.md`).
 
 ## 1. Historia y baseline
 
@@ -19,7 +19,7 @@ El reporte anterior quedó en `CIERRE BLOQUEADO` porque los agentes no podían c
 | Archivo | Razón concreta |
 |---|---|
 | `Clases/Res.cs` | C07 probó que NEW rechazaba `Alimentar(0)` aunque OLD lo acepta; se restauró conducta. |
-| `Clases/Hacienda.cs` | C10 restauró el mensaje de vacunación OLD. SOLID-LSP-001 se cerró registrando el objeto efectivamente retornado por `retirar`, no un objeto distinto que coincida por nombre. C12 restauró el publisher de evento de vencimiento con lote y fecha. C14/C15/C17 restauraron mensajes de límite OLD con tipo concreto y cantidad, y orden de validación límite antes que vencimiento. |
+| `Clases/Hacienda.cs` | C10 restauró el mensaje de vacunación OLD. SOLID-LSP-001 se cerró registrando el objeto efectivamente retornado por `retirar`, no un objeto distinto que coincida por nombre. C12 restauró el publisher de evento de vencimiento con lote y fecha. C14/C15/C17 restauraron mensajes y orden de validación. C19 preserva las dos sobrecargas públicas de `alimentar_res`. El constructor inyectado comparte el inventario real de `FabricadorVacunas`. |
 | `Clases/Carne.cs` | Variante faltante aprobada de SC-1. |
 | `Clases/InventarioCarnes.cs` | Inventario concreto requerido para vender Carne por el contrato existente. |
 
@@ -31,8 +31,8 @@ Se ejecutaron 20 casos determinísticos (11 línea base + 9 extendidos) contra O
 
 | Categoría | Casos | Detalle |
 |---|---|---|
-| MATCH | 18 | C01–C18 — comportamiento observable idéntico |
-| DELIBERATE_STRUCTURAL | 2 | C19, C20 — divergencias estructurales documentadas y aceptadas (consolidación de sobrecargas, granularidad ISP) |
+| MATCH | 19 | C01–C19 — comportamiento y superficie pública observable idénticos |
+| DELIBERATE_STRUCTURAL | 1 | C20 — divergencia estructural documentada y aceptada (granularidad ISP) |
 
 Cero behavioral mismatches. C12, C14, C15 y C17 fueron restaurados al contrato OLD (mensajes exactos de límite con tipo concreto y cantidad, orden de validación límite antes que vencimiento). Mismatches iniciales C07 y C10 también fueron corregidos en iteraciones anteriores. Toda la suite completa fue repetida tras cada iteración. Detalle y outputs retenidos: `characterization/CHARACTERIZATION-MATRIX.md`, `old-output.txt`, `new-output.txt`.
 
@@ -54,7 +54,7 @@ La persistencia V2 conserva ventas de variantes conocidas y desconocidas. Para u
 
 ## 6. TO-BE ↔ código
 
-Se resolvió el conflicto normativo. `02-diseno/diagramas/TO-BE-FINAL.puml` reemplaza como fuente final editable a los PNG aspiracionales congelados, que se conservan solo como historia. Una versión enriquecida con miembros implementados, colores por principio SOLID, leyenda, notas de composition root y referencias a SC-2/SC-3 está en `TO-BE-FINAL-ENRICHED.puml`. La matriz bidireccional `TOBE-CODE-MATRIX.md` mapea todas las clases/interfaces productivas y no deja elementos fantasma.
+Se resolvió el conflicto normativo. `02-diseno/diagramas/TO-BE.puml` reemplaza como fuente final editable a los PNG aspiracionales congelados, que se conservan solo como historia. Una versión enriquecida con miembros implementados, colores por principio SOLID, leyenda, notas de composition root y referencias a SC-2/SC-3 está en `02-diseno/diagramas/TO-BE.puml`. La matriz bidireccional `TOBE-CODE-MATRIX.md` mapea todas las clases/interfaces productivas y no deja elementos fantasma.
 
 **Nota:** Los PNG aspiracionales (`fase3 uml 1..4.png`) quedan formalmente SUPERSEDED. El `.puml` enriquecido es la fuente normativa con correspondencia 1:1 verificada.
 
@@ -73,7 +73,7 @@ Se resolvió el conflicto normativo. `02-diseno/diagramas/TO-BE-FINAL.puml` reem
 | OLD characterization runner | PASS, 20 escenarios (11 línea base + 9 extendidos) |
 | NEW MVC build | PASS, 2 warnings CS8618 preexistentes en `LoginViewModel` |
 | NEW verifier build/run | PASS, `TODAS LAS VERIFICACIONES PASARON.` |
-| NEW characterization runner | PASS, 20 escenarios; 18 MATCH, 2 divergencias estructurales, 0 behavioral mismatches, 0 regresiones |
+| NEW characterization runner | PASS, 20 escenarios; 19 MATCH, 1 divergencia estructural, 0 behavioral mismatches, 0 regresiones |
 | Demo + SC-1 | PASS |
 | TO-BE/código | PASS |
 | Bitácora IA | PASS (`BITACORA-IA.md`) |
@@ -91,7 +91,7 @@ La deuda completa está documentada en `DEUDA-TECNICA-CONSCIENTE.md`. Resumen:
 - `Vacuna.EstaVencida` usa `DateTime.Now`; sin `IClock`.
 - Hidratación parcial de `Hacienda` en startup; sin atomicidad.
 - Sin tests unitarios automatizados; cobertura mediante characterization runners y verifier.
-- Los cuatro PNG históricos no fueron regenerados porque no hay herramienta PlantUML instalada/autorizada; el `.puml` editable es normativo y documenta el comando.
+- Los cuatro PNG aspiracionales se archivaron; `02-diseno/diagramas/TO-BE.png` se genera desde la fuente PlantUML canónica.
 - OLD se ejecuta mediante su DLL legacy referenciada por el MVC, coherente con la baseline disponible; OLD source net472 sigue sin targeting pack en este host.
 - Permanecen 2 warnings de nulabilidad en `LoginViewModel`, no relacionados con el slice.
 
@@ -113,20 +113,13 @@ scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo
 
 | Artefacto | Ubicación | Propósito |
 |---|---|---|
-| 5 ADR retrospectivos | `04-evidencia/adr/ADR-001..005` | Toolchain, modelo SC-1, TO-BE reducido, puertos de persistencia, jerarquía Res/LSP |
-| SC-2 analizada no implementada | `SC2-ANALIZADA-NO-IMPLEMENTADA.md` | Chip/geolocalización: alcance, riesgos, razón de no implementación |
-| SC-3 analizada no implementada | `SC3-ANALIZADA-NO-IMPLEMENTADA.md` | Historia clínica: alcance, riesgos, razón de no implementación |
-| TO-BE enriquecido | `TO-BE-FINAL-ENRICHED.puml` | Miembros, colores SOLID, leyenda, composition root, notas SC-2/SC-3 |
-| Trazabilidad final | `TRAZABILIDAD-FINAL.md` | Cadena F0→F4, hallazgo→dolor→ADR→código→verificación |
+| 6 ADR | `02-diseno/adr/ADR-001..006` | Toolchain, modelo SC-1, TO-BE, persistencia, LSP y extracción de FabricadorVacunas |
+| SC-2 analizada no implementada | `metricas/SC2-ANALIZADA-NO-IMPLEMENTADA.md` | Chip/geolocalización: alcance, riesgos, razón de no implementación |
+| SC-3 analizada no implementada | `metricas/SC3-ANALIZADA-NO-IMPLEMENTADA.md` | Historia clínica: alcance, riesgos, razón de no implementación |
+| TO-BE enriquecido | `02-diseno/diagramas/TO-BE.puml` | Miembros, colores SOLID, leyenda, composition root, notas SC-2/SC-3 |
+| Trazabilidad final | `trazabilidad/TRAZABILIDAD-FINAL.md` | Cadena F0→F4, hallazgo→dolor→ADR→código→verificación |
 | Deuda técnica consciente | `DEUDA-TECNICA-CONSCIENTE.md` | 7 deudas declaradas con mitigación y condición de remediación |
 
-## 12. Bloqueos vigentes
+## 12. Pendientes humanos
 
-| Bloqueo | Impacto | Estado |
-|---|---|---|
-| Escritura en `02-diseno/adr/` | ADR deben copiarse manualmente desde `04-evidencia/adr/` | `TOOL_BLOCKED` |
-| Escritura en `02-diseno/diagramas/` | PUML enriquecido debe copiarse manualmente | `TOOL_BLOCKED` |
-| Escritura en `README.md` (raíz) | README académico no actualizable por este agente | `TOOL_BLOCKED` |
-| Banners SUPERSEDED en `02-diseno/` | Archivos obsoletos no marcables | `TOOL_BLOCKED` |
-| Generación PNG desde PUML | Sin PlantUML instalado/instalable | `TOOL_BLOCKED` |
-| Roster/grupo/roles/video | Depende de decisión humana | `PENDING_HUMAN_REVIEW` |
+La materialización de Fase 3 y la organización del repositorio están cerradas. Permanecen únicamente roster/grupo/roles, contraste de lectura fría y video, todos `PENDING_HUMAN_REVIEW`.

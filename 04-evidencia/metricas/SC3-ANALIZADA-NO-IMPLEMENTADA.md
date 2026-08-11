@@ -2,7 +2,7 @@
 
 **Estado:** ANALIZADA — NO IMPLEMENTADA
 **Fecha de análisis:** 2026-08-09 (baseline Fase 2)
-**Evidencia base:** `01-diagnostico/Fase 2 — Los cambios que vienen.docx`, `ESTADO_ACTUAL_Y_PLAN_CIERRE.md:132`
+**Evidencia base:** `01-diagnostico/Fase 2 — Los cambios que vienen.docx`, `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:132`
 
 ## Resumen del cambio solicitado
 
@@ -47,4 +47,4 @@ El TO-BE actual no incorpora historia clínica. Si se implementara SC-3, requeri
 
 ## Nota para el evaluador
 
-SC-3 fue analizada en Fase 2 con baseline congelada. La no implementación es una decisión de alcance, no una omisión. El análisis de Fase 2 cubre el "análisis de las otras SC en TO-BE" requerido por la rúbrica. Ver `ESTADO_ACTUAL_Y_PLAN_CIERRE.md:132` y `decisiones/SC1-SELECCION.md`.
+SC-3 fue analizada en Fase 2 con baseline congelada. La no implementación es una decisión de alcance, no una omisión. El análisis de Fase 2 cubre el "análisis de las otras SC en TO-BE" requerido por la rúbrica. Ver `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:132` y `decisiones/SC1-SELECCION.md`.

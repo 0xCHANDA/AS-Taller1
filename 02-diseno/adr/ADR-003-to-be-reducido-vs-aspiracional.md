@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo)
 **Fecha:** 2026-08-10
-**Evidencia:** `TOBE-CODE-MATRIX.md`, `PHASE4-REPORT.md:54-55`, `TO-BE-FINAL.puml`
+**Evidencia:** `04-evidencia/trazabilidad/TOBE-CODE-MATRIX.md`, `04-evidencia/PHASE4-REPORT.md`, `02-diseno/diagramas/TO-BE.puml`
 
 ## Contexto
 
@@ -20,7 +20,7 @@ La implementación real (`03-src/redisenado/HaciendaNEW`) sigue un modelo difere
 
 ## Decisión
 
-Alternativa C. `02-diseno/diagramas/TO-BE-FINAL.puml` reemplaza como fuente normativa a los PNG de Fase 3. Los PNG se conservan como evidencia histórica en `02-diseno/diagramas/` con banners de "SUPERSEDED". La matriz `TOBE-CODE-MATRIX.md` verifica bidireccionalmente que cada elemento del PUML tiene código y cada clase productiva tiene representación.
+Alternativa C. `02-diseno/diagramas/TO-BE.puml` reemplaza como fuente normativa a los PNG de Fase 3. Los PNG se conservan en `04-evidencia/historico/fase3-sustituciones/`. La matriz `04-evidencia/trazabilidad/TOBE-CODE-MATRIX.md` verifica bidireccionalmente que cada elemento del PUML tiene código y cada clase productiva tiene representación.
 
 ## Consecuencias
 
@@ -37,6 +37,6 @@ Alternativa C. `02-diseno/diagramas/TO-BE-FINAL.puml` reemplaza como fuente norm
 
 ## Verificación
 
-- `TOBE-CODE-MATRIX.md`: matriz bidireccional completa.
-- `TO-BE-FINAL.puml`: fuente editable con correspondencia 1:1.
+- `04-evidencia/trazabilidad/TOBE-CODE-MATRIX.md`: matriz bidireccional completa.
+- `02-diseno/diagramas/TO-BE.puml`: fuente editable con correspondencia 1:1.
 - `HaciendaNEW.Verification`: comprobaciones de puertos, validadores y composition root.

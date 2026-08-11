@@ -53,14 +53,14 @@ namespace Bib_Hacienda.Clases
         {
         }
 
-        // Constructor con inyección opcional de dependencias (DIP pedagógico).
-        // Si recibe null, crea instáncias por defecto para no romper consumidores.
+        // Constructor que permite proporcionar colaboradores desde la raíz de
+        // composición; el constructor vacío se conserva por compatibilidad.
         public Hacienda(RegistroVenta registroVentas, FabricadorVacunas fabricadorVacunas)
         {
             l_potreros = new List<Potrero>();
             this.registroVentas = registroVentas ?? new RegistroVenta();
-            l_vacunas = new List<Vacuna>();
-            this.fabricadorVacunas = fabricadorVacunas ?? new FabricadorVacunas(l_vacunas);
+            this.fabricadorVacunas = fabricadorVacunas ?? new FabricadorVacunas(new List<Vacuna>());
+            l_vacunas = this.fabricadorVacunas.L_vacunas;
         }
 
         //Metodo para crear potreros
@@ -201,8 +201,14 @@ namespace Bib_Hacienda.Clases
             }
         }
 
+        // Sobrecarga conservada para preservar la superficie pública de OLD.
+        public string alimentar_res(string id_potrero, string nombre)
+        {
+            return alimentar_res(id_potrero, nombre, 1);
+        }
+
         //Metodo para alimentar una res
-        public string alimentar_res(string id_potrero, string nombre, uint cantidad = 1)
+        public string alimentar_res(string id_potrero, string nombre, uint cantidad)
         {
             try
             {

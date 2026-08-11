@@ -93,4 +93,6 @@ scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characteriz
 scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
 ```
 
-Evidencia: `04-evidencia/PHASE4-REPORT.md`, `04-evidencia/characterization/`, `04-evidencia/SC1-METRICA-OCP.md`, `04-evidencia/TOBE-CODE-MATRIX.md` y `04-evidencia/BITACORA-IA.md`.
+Diseño canónico de Fase 3: `02-diseno/DISENO-TO-BE.md`, `02-diseno/diagramas/TO-BE.puml`, `02-diseno/diagramas/TO-BE.png` y `02-diseno/adr/`.
+
+Evidencia de Fase 4: `04-evidencia/PHASE4-REPORT.md`, `04-evidencia/characterization/`, `04-evidencia/metricas/`, `04-evidencia/trazabilidad/` y `04-evidencia/bitacora-ia/BITACORA-IA.md`.

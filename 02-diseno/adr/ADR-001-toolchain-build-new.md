@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo — documentado post-implementación)
 **Fecha:** 2026-08-10
-**Evidencia:** `ESTADO_ACTUAL_Y_PLAN_CIERRE.md:12-27`, `p_mvcHacienda.csproj:14-16`, `Bib_Hacienda.csproj:1-12`
+**Evidencia:** `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:12-27`, `p_mvcHacienda.csproj:14-16`, `Bib_Hacienda.csproj:1-12`
 
 ## Contexto
 

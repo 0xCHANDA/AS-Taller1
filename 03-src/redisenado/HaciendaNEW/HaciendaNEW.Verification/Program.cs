@@ -48,6 +48,7 @@ namespace HaciendaNEW.Verification
             VerificarPersistenciaVentasLegacyAbortaNumeroMalformado();
             VerificarRegistroVentaCargada();
             VerificarComposicionValidadores();
+            VerificarInventarioCompartidoFabricadorVacunas();
 
             if (_fallos == 0)
             {
@@ -1008,6 +1009,27 @@ namespace HaciendaNEW.Verification
             {
                 try { Directory.Delete(tempRoot, recursive: true); } catch { }
             }
+        }
+
+        private static void VerificarInventarioCompartidoFabricadorVacunas()
+        {
+            var inventario = new List<Vacuna>();
+            var fabricador = new FabricadorVacunas(inventario);
+            var hacienda = new Hacienda(new RegistroVenta(), fabricador);
+
+            hacienda.crear_vacuna(
+                "Bovina",
+                "COMPARTIDO-001",
+                new DateTime(2030, 8, 10),
+                new DateTime(2026, 8, 10),
+                4);
+
+            Assert(ReferenceEquals(hacienda.L_vacunas, fabricador.L_vacunas),
+                "Hacienda y FabricadorVacunas deben compartir la misma lista de vacunas.");
+            Assert(hacienda.L_vacunas.Count == 1 && inventario.Count == 1,
+                "La vacuna creada por el fabricador debe quedar visible en Hacienda.");
+
+            Console.WriteLine("[OK] Hacienda y FabricadorVacunas comparten inventario.");
         }
 
         private static void Assert(bool condicion, string mensaje)

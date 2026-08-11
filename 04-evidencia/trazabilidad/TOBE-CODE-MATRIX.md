@@ -2,12 +2,12 @@
 
 ## Fuente normativa resuelta
 
-`02-diseno/diagramas/TO-BE-FINAL.puml` es la fuente editable y normativa de la arquitectura final. Los cuatro PNG `fase3 uml 1..4.png` se conservan como evidencia histórica de Fase 3, pero quedan **superseded** porque describían tipos aspiracionales no materializados (`ItemVenta`, commands, serializadores y AppServices). No se agregaron cajas fantasma al código para satisfacer imágenes obsoletas.
+`02-diseno/diagramas/TO-BE.puml` es la fuente editable y normativa de la arquitectura final. Los cuatro PNG `fase3 uml 1..4.png` se conservan como evidencia histórica de Fase 3, pero quedan **superseded** porque describían tipos aspiracionales no materializados (`ItemVenta`, commands, serializadores y AppServices). No se agregaron cajas fantasma al código para satisfacer imágenes obsoletas.
 
 Render opcional cuando PlantUML esté disponible:
 
 ```bash
-plantuml 02-diseno/diagramas/TO-BE-FINAL.puml
+plantuml 02-diseno/diagramas/TO-BE.puml
 ```
 
 No se instaló una herramienta nueva para producir PNG.

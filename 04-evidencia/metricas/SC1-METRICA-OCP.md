@@ -28,7 +28,7 @@ No se modificarían `Hacienda.vender<T>`, `Venta`, `RegistroVenta`, `IInventario
 
 ## Refactor 2026-08-10 (impacto sobre SC-1)
 
-El refactor añadió `FabricadorVacunas` y un nuevo constructor `Hacienda(RegistroVenta, FabricadorVacunas)` para DIP pedagógico. Estos cambios **no afectan el eje SC-1**: la política de venta genérica ya era independiente del tipo concreto de `Producto` y la nueva extracción solo mueve la lógica de creación de vacunas, no la de venta.
+El refactor añadió `FabricadorVacunas` y un nuevo constructor `Hacienda(RegistroVenta, FabricadorVacunas)` para externalizar la construcción mediante DI (no DIP, porque los colaboradores son concretos). Estos cambios **no afectan el eje SC-1**: la política de venta genérica ya era independiente del tipo concreto de `Producto` y la nueva extracción solo mueve la lógica de creación de vacunas, no la de venta.
 
 | Métrica SC-1 | Antes (2026-08-09) | Después (2026-08-10) |
 |---|---|---|

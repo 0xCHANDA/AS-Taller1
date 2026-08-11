@@ -13,21 +13,19 @@
 | F1 | Inventario de hallazgos | `01-diagnostico/inventario de hallazgos.docx` | Conservado |
 | F1 | Puntos de dolor priorizados | `01-diagnostico/puntos de dolor priorizados.docx` | Conservado |
 | F2 | Baseline SC-1/2/3 | `01-diagnostico/Fase 2 — Los cambios que vienen.docx` | Congelado |
-| F3 | TO-BE normativo | `02-diseno/diagramas/TO-BE-FINAL.puml` | Activo |
-| F3 | PNG aspiracionales (históricos) | `02-diseno/diagramas/fase3 uml 1..4.png` | SUPERSEDED |
-| F3 | Argumentación SOLID | `02-diseno/Argumentacion-SOLID-con-evidencia.md` | Activo |
-| F3 | LSP | `02-diseno/Verificacion-de-herencias-LSP.md` | Activo |
-| F3 | DIP / composition root | `02-diseno/Inversiones-de-dependencia.md` | Activo |
-| F3 | Plan de cierre (obsoleto) | `02-diseno/Hacienda_Plan_Cierre_Sobresaliente.md` | SUPERSEDED |
-| F4 | 5 ADR retrospectivos | `04-evidencia/adr/ADR-001..005` | Activo |
-| F4 | Caracterización (11 casos) | `04-evidencia/characterization/CHARACTERIZATION-MATRIX.md` | Activo |
-| F4 | Métrica OCP SC-1 | `04-evidencia/SC1-METRICA-OCP.md` | Activo |
-| F4 | TO-BE ↔ código | `04-evidencia/TOBE-CODE-MATRIX.md` | Activo |
-| F4 | Bitácora IA | `04-evidencia/BITACORA-IA.md` | Activo |
+| F3 | TO-BE normativo | `02-diseno/diagramas/TO-BE.puml` | Activo |
+| F3 | Diseño consolidado | `02-diseno/DISENO-TO-BE.md` | Activo |
+| F3 | PNG canónico | `02-diseno/diagramas/TO-BE.png` | Activo |
+| F3 | Versiones sustituidas | `04-evidencia/historico/fase3-sustituciones/` | Histórico |
+| F4 | 6 ADR | `02-diseno/adr/ADR-001..006` | Activo |
+| F4 | Caracterización (20 casos) | `04-evidencia/characterization/CHARACTERIZATION-MATRIX.md` | Activo |
+| F4 | Métrica OCP SC-1 | `04-evidencia/metricas/SC1-METRICA-OCP.md` | Activo |
+| F4 | TO-BE ↔ código | `04-evidencia/trazabilidad/TOBE-CODE-MATRIX.md` | Activo |
+| F4 | Bitácora IA | `04-evidencia/bitacora-ia/BITACORA-IA.md` | Activo |
 | F4 | Demostración SC-1 | `04-evidencia/demo-output.txt` | Activo |
 | F4 | Selección SC-1 | `04-evidencia/decisiones/SC1-SELECCION.md` | Activo |
-| F4 | SC-2 analizada | `04-evidencia/SC2-ANALIZADA-NO-IMPLEMENTADA.md` | Activo |
-| F4 | SC-3 analizada | `04-evidencia/SC3-ANALIZADA-NO-IMPLEMENTADA.md` | Activo |
+| F4 | SC-2 analizada | `04-evidencia/metricas/SC2-ANALIZADA-NO-IMPLEMENTADA.md` | Activo |
+| F4 | SC-3 analizada | `04-evidencia/metricas/SC3-ANALIZADA-NO-IMPLEMENTADA.md` | Activo |
 | F4 | Deuda técnica | `04-evidencia/DEUDA-TECNICA-CONSCIENTE.md` | Activo |
 | F4 | Reporte Phase 4 | `04-evidencia/PHASE4-REPORT.md` | Activo |
 
@@ -57,15 +55,10 @@
 | Roster/grupo/roles | `PENDING_HUMAN_REVIEW` | Integrador humano |
 | Contraste lectura fría | `PENDING_HUMAN_REVIEW` | Integrador humano |
 | Video | `PENDING_HUMAN_REVIEW` | Equipo |
-| README académico (equipo/roles/SC) | Bloqueado por restricción de escritura en raíz | `TOOL_BLOCKED` |
-| ADR en `02-diseno/adr/` | Creados en `04-evidencia/adr/` por restricción de ruta | `TOOL_BLOCKED` |
-| TO-BE-FINAL.puml en `02-diseno/diagramas/` | Versión enriquecida creada en `04-evidencia/TO-BE-FINAL-ENRICHED.puml` | `TOOL_BLOCKED` |
-| Banners SUPERSEDED en archivos `02-diseno/` | Restricción de escritura | `TOOL_BLOCKED` |
-| TO-BE-FINAL.png | Sin PlantUML instalado; sin permiso de instalación | `TOOL_BLOCKED` |
 
 ## Verificación de enlaces y contenido
 
-- `characterization/CHARACTERIZATION-MATRIX.md`: 11 escenarios, MATCH 11/11, outputs retenidos.
+- `characterization/CHARACTERIZATION-MATRIX.md`: 20 escenarios, 19 MATCH, 1 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH.
 - `characterization/old-output.txt`, `new-output.txt`: existentes, legibles.
 - `demo-output.txt`: 4 ventas registradas, SC-1 PASS.
 - `BITACORA-IA.md`: 7 decisiones registradas.

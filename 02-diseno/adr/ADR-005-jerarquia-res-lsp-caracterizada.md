@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo — con deuda explícita)
 **Fecha:** 2026-08-10
-**Evidencia:** `Res.cs:12-36`, `Ternero.cs:9-19`, `Cebon.cs:9-19`, `Novillo.cs:9-19`, `Verificacion-de-herencias-LSP.md`
+**Evidencia:** `Res.cs:12-36`, `Ternero.cs:9-19`, `Cebon.cs:9-19`, `Novillo.cs:9-19`, `02-diseno/DISENO-TO-BE.md` (§6)
 
 ## Contexto
 
@@ -38,11 +38,11 @@ Esto corrige el strengthening de precondiciones en operación polimórfica. No r
 
 ## Principios SOLID
 
-- **LSP:** Cerrado el defecto de fortalecimiento de precondiciones. La matriz de sustitución en `Verificacion-de-herencias-LSP.md` cubre las 7 relaciones.
+- **LSP:** Cerrado el defecto de fortalecimiento de precondiciones. La matriz de sustitución en `02-diseno/DISENO-TO-BE.md` (§6) cubre las relaciones.
 - **OCP:** Los switches etarios en `Potrero.anadir_res` y persistencia no se tocaron; no hay presión de cambio demostrada para ese eje.
 
 ## Verificación
 
 - `HaciendaNEW.Verification/Program.cs`: `VerificarProductoRes` (identidad), `VerificarContratoRes` (rangos e inmutabilidad).
-- `Verificacion-de-herencias-LSP.md`: matriz completa de sustitución.
+- `02-diseno/DISENO-TO-BE.md` (§6): matriz completa de sustitución.
 - Test-Guardian: **PASS**. Adversarial-Reviewer: `BLOCKER-API-001 CLOSED`, **0 blockers nuevos**.

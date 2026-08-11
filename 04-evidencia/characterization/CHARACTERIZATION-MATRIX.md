@@ -1,7 +1,7 @@
 # Matriz de caracterización OLD ↔ NEW
 
 **Fecha:** 2026-08-10  
-**Resultado:** 20 escenarios (11 originales + 9 nuevos), 18 MATCH, 2 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH.
+**Resultado:** 20 escenarios (11 originales + 9 nuevos), 19 MATCH, 1 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH.
 
 Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta ruta es infraestructura no productiva. OLD se ejecutó primero. La primera ejecución NEW detectó C07 y C10; ambos se restauraron al contrato OLD y se repitió la suite completa. En una segunda iteración C12, C14, C15 y C17 se restauraron al contrato OLD; la suite completa se repitió nuevamente y todos están MATCH.
 
@@ -37,15 +37,15 @@ Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta rut
 | ID | Aspecto | Observable OLD | Observable NEW | Resultado | Clasificación |
 |---|---|---|---|---|---|
 | C18 | Semántica de `L_ventas` | `tipo=List`1;Count=1;Monto[0]=1200` | `tipo=List`1;Count=1;Monto[0]=1200` | MATCH | Comportamiento observable idéntico. Internamente OLD usa `List<Venta>` directo; NEW computa `registroVentas.Ventas.ToList()`. La copia es transparente para consumidores que solo leen Count/[]. |
-| C19 | Superficie de sobrecargas `alimentar_res` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | `overloads=1;defaultParam=True;dosParams=False;tresParams=True` | DELIBERATE_STRUCTURAL | OLD define 2 métodos separados `(id,nombre)` y `(id,nombre,cantidad)`. NEW consolida en 1 método `(id,nombre,cantidad=1)` con parámetro por defecto. La semántica de invocación es equivalente: llamar con 2 args sigue funcionando. |
+| C19 | Superficie de sobrecargas `alimentar_res` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | MATCH | NEW preserva las dos firmas públicas de OLD; la sobrecarga de dos parámetros delega en la de tres con cantidad 1. |
 | C20 | Existencia de `IValidarInformacion` | `EXISTS` | `ABSENT` | DELIBERATE_STRUCTURAL | OLD definía `IValidarInformacion` monolítico con 4 métodos. NEW lo reemplazó por 4 interfaces granulares `IValidadorRes`, `IValidadorPotrero`, `IValidadorVacuna`, `IValidadorVenta` (ISP). La interfaz monolítica no existe en NEW. |
 
 ## Clasificación de divergencias
 
 | Tipo | Casos | Significado |
 |---|---|---|
-| MATCH | C01–C18 | Comportamiento observable idéntico |
-| DELIBERATE_STRUCTURAL | C19, C20 | Diferencias en superficie de API pública (consolidación de sobrecargas, granularidad de interfaces ISP) documentadas como decisiones arquitectónicas |
+| MATCH | C01–C19 | Comportamiento y superficie pública observable idénticos |
+| DELIBERATE_STRUCTURAL | C20 | Diferencia estructural deliberada: granularidad de interfaces ISP |
 
 ## Mismatches detectados y resueltos (fases anteriores)
 

@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo)
 **Fecha:** 2026-08-10
-**Evidencia:** `IPersistencia.cs:6-36`, `PersistenciaService.cs:13-34`, `Program.cs:71-77`, `Inversiones-de-dependencia.md`
+**Evidencia:** `IPersistencia.cs:6-36`, `PersistenciaService.cs:13-34`, `Program.cs:71-77`, `02-diseno/DISENO-TO-BE.md` (§8–9)
 
 ## Contexto
 
@@ -37,6 +37,6 @@ Alternativa C. `Bib_Hacienda.Interfaces/IPersistencia.cs` declara cinco interfac
 
 ## Verificación
 
-- `Inversiones-de-dependencia.md`: mapa completo de inversiones.
+- `02-diseno/DISENO-TO-BE.md` (§8–9): mapa completo de inversiones.
 - `HaciendaNEW.Verification/Program.cs`: `VerificarPuertosPersistencia` comprueba que `PersistenciaService` implementa los cinco puertos.
 - `Bib_Hacienda.csproj:1-12`: sin referencias a Castle, ASP.NET ni acceso a archivos.

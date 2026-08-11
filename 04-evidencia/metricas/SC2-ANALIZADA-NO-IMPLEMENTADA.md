@@ -2,7 +2,7 @@
 
 **Estado:** ANALIZADA — NO IMPLEMENTADA
 **Fecha de análisis:** 2026-08-09 (baseline Fase 2)
-**Evidencia base:** `01-diagnostico/Fase 2 — Los cambios que vienen.docx`, `ESTADO_ACTUAL_Y_PLAN_CIERRE.md:131`
+**Evidencia base:** `01-diagnostico/Fase 2 — Los cambios que vienen.docx`, `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:131`
 
 ## Resumen del cambio solicitado
 
@@ -45,4 +45,4 @@ El TO-BE actual no incorpora chip ni geolocalización. Si se implementara SC-2, 
 
 ## Nota para el evaluador
 
-SC-2 fue analizada en Fase 2 con baseline congelada. El hecho de que no esté implementada es una decisión consciente de alcance (SC-1), no una omisión accidental. Ver `ESTADO_ACTUAL_Y_PLAN_CIERRE.md:128-133` y `decisiones/SC1-SELECCION.md`.
+SC-2 fue analizada en Fase 2 con baseline congelada. El hecho de que no esté implementada es una decisión consciente de alcance (SC-1), no una omisión accidental. Ver `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:128-133` y `decisiones/SC1-SELECCION.md`.
