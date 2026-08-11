@@ -65,8 +65,8 @@ En la iteración anterior, NEW evaluaba `EstaVencida()` antes de `PuedeAplicarse
 ## Reproducción
 
 ```bash
-scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
-scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
+dotnet run --project 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+dotnet run --project 03-src/phase4/Characterization/New/Characterization.New.csproj
 ```
 
 La comparación es línea por línea por ID. Los archivos retenidos contienen la salida canónica del runner, sin el ruido de restore/build del wrapper.

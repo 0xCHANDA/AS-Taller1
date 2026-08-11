@@ -38,7 +38,7 @@ El refactor añadió `FabricadorVacunas` y un nuevo constructor `Hacienda(Regist
 
 ## Eje NO cubierto (deuda consciente)
 
-El segundo eje natural de variación — "agregar un nuevo tipo de vacuna" — sigue dependiendo de extender `ICreacionVacuna`, `FabricadorVacunas` y `Hacienda.crear_vacuna`. No se introdujo una `IVacunaFactory` con reflection porque solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaría la complejidad sin cliente ni variación real. Ver `BITACORA-IA.md` (entradas 20-22).
+El segundo eje natural de variación — "agregar un nuevo tipo de vacuna" — sigue dependiendo de extender `ICreacionVacuna`, `FabricadorVacunas` y `Hacienda.crear_vacuna`. No se introdujo una `IVacunaFactory` con reflection porque solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaría la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`.
 
 ## Interpretación
 

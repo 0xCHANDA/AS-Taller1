@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo — documentado post-implementación)
 **Fecha:** 2026-08-10
-**Evidencia:** `04-evidencia/historico/ESTADO_ACTUAL_Y_PLAN_CIERRE.md:12-27`, `p_mvcHacienda.csproj:14-16`, `Bib_Hacienda.csproj:1-12`
+**Evidencia:** `p_mvcHacienda.csproj:14-16`, `Bib_Hacienda.csproj:1-12` y los ejecutables de caracterización OLD/NEW.
 
 ## Contexto
 
@@ -35,6 +35,6 @@ Alternativa C. Bib_Hacienda NEW compila `net8.0` sin paquetes (`Bib_Hacienda.csp
 ## Verificación
 
 ```bash
-scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.sln
-scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+dotnet build 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj
+dotnet build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
 ```

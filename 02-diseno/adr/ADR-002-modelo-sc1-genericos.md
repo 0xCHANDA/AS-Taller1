@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (retrospectivo)
 **Fecha:** 2026-08-10
-**Evidencia:** `Hacienda.cs:138-169`, `Producto.cs:9-31`, `IInventarioVendible.cs:8-12`, `SC1-METRICA-OCP.md`
+**Evidencia:** `Hacienda.cs:138-169`, `Producto.cs:9-31`, `IInventarioVendible.cs:8-12`, `04-evidencia/metricas/SC1-METRICA-OCP.md`
 
 ## Contexto
 
@@ -37,4 +37,4 @@ Alternativa C. Se define `Producto` como clase abstracta con `Nombre` validado. 
 
 - `HaciendaNEW.Verification` comprueba venta de Res, Lacteo, Piel, producto definido en el verifier y rechazo atómico.
 - Demo: `HaciendaNEW.Demo` ejecuta 4 ventas (res + SC-1 lácteo/carne/piel).
-- Métrica: `SC1-METRICA-OCP.md`.
+- Métrica: `04-evidencia/metricas/SC1-METRICA-OCP.md`.

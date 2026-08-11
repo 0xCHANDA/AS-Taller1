@@ -1,98 +1,97 @@
-# OpenCode SOLID C# + Phase 4 Workbench
+# Modernización arquitectónica — Hacienda
 
-Entorno multiagente para analizar principios SOLID, diseñar refactorizaciones y mejorar código C# existente sin alterar comportamiento de forma accidental.
+Este repositorio contiene la entrega del reto de Arquitectura de Software. Está organizado por fases para que cada requisito de la rúbrica tenga una ubicación clara.
 
-## Objetivo
+## Cómo está organizado
 
-El sistema separa descubrimiento, auditoría, planificación, implementación y verificación. Solo `refactor-implementer` puede modificar código de producción. Los auditores son de solo lectura para impedir soluciones contradictorias y refactorizaciones impulsivas.
+### Fase 0 — Lectura en frío
 
-## Componentes
+Carpeta: `00-lectura-en-frio/`
 
-- **1 agente principal:** `solid-orchestrator`.
-- **12 subagentes:** cartografía, cinco auditores SOLID, arquitectura, planificación, implementación, evidencia de Fase 4, pruebas y revisión adversarial.
-- **11 skills:** protocolo común, una skill independiente por principio, arquitectura, refactorización, pruebas y reporte.
-- **11 comandos:** auditoría integral, auditorías individuales, planificación, aplicación y verificación.
+- `Analisis-SantiagoHM.md`: hipótesis iniciales de Santiago antes de usar herramientas.
+- `Analisis-SebastianQJ.docx`: hipótesis iniciales de Sebastián antes de usar herramientas.
 
-## Instalación en un repositorio C#
+Estas hojas deben conservarse sin modificaciones y contrastarse con los resultados finales durante el video.
 
-Desde la carpeta descomprimida:
+### Fase 1 — Diagnóstico AS-IS
 
-```bash
-./scripts/install.sh /ruta/al/repositorio
-```
+Carpeta: `01-diagnostico/`
 
-O copie manualmente `AGENTS.md`, `opencode.jsonc`, `.opencode/` y `docs/solid/` a la raíz del repositorio.
+- `Hacienda_AS-IS.pdf`: diagrama UML del sistema original.
+- `diagramas/`: imágenes del UML y mapa de dependencias.
+- `inventario de hallazgos.docx`: problemas encontrados, ubicación en el código, principio relacionado e impacto.
+- `puntos de dolor priorizados.docx`: tres problemas principales y su orden de prioridad.
 
-Luego, desde el repositorio:
+### Fase 2 — Cambios futuros
 
-```bash
-opencode
-```
+Archivo: `01-diagnostico/Fase 2 — Los cambios que vienen.docx`
 
-En OpenCode:
+Contiene el análisis de SC-1, SC-2 y SC-3 sobre el sistema original: clases y archivos que habría que modificar, riesgos de regresión y comparación del impacto.
 
-```text
-/connect
-/models
-```
+### Fase 3 — Diseño TO-BE
 
-El paquete usa routing multimodelo explícito en cada agente, con `openai/gpt-5.6-sol` como modelo principal y `opencode-go/deepseek-v4-flash` para tareas ligeras. Conecte los proveedores requeridos mediante `/connect` y confirme los identificadores configurados con `/models`; no sustituya silenciosamente un modelo si todavía no está disponible en la sesión.
+Carpeta: `02-diseno/`
 
-## Fase 4 autónoma
+- `DISENO-TO-BE.md`: explicación del rediseño, aplicación de SOLID, análisis LSP, inversión de dependencias y composition root.
+- `diagramas/TO-BE.puml`: fuente editable del UML final.
+- `diagramas/TO-BE.png`: imagen generada desde el PUML.
+- `adr/`: seis registros de decisiones arquitectónicas con contexto, alternativas, decisión y consecuencias.
 
-La configuración nocturna congela la arquitectura de Fase 3 y separa dos writers: `refactor-implementer` para producción NEW y `phase4-evidence-engineer` para caracterización/evidencia. Todos los demás agentes son read-only; no hay preguntas, web, acceso externo, delegación de subagentes ni comandos Bash libres.
+### Fase 4 — Implementación y evidencia
 
-La guía operativa y los comandos exactos están en [docs/solid/PHASE4-OVERNIGHT.md](docs/solid/PHASE4-OVERNIGHT.md). Antes de dormir, el flujo esperado es:
+Código: `03-src/`
 
-```bash
-scripts/validate-phase4-workbench.sh
-scripts/prepare-phase4-worktree.sh
-# cambiar al WORKTREE_PATH impreso
-scripts/start-phase4-tmux.sh
-```
+- `original/HaciendaOLD/`: sistema original usado como referencia.
+- `redisenado/HaciendaNEW/`: sistema rediseñado.
+- `redisenado/HaciendaNEW/HaciendaNEW.Demo/`: programa principal de demostración.
+- `redisenado/HaciendaNEW/HaciendaNEW.Verification/`: verificaciones de arquitectura y comportamiento.
+- `phase4/Characterization/`: ejecutables que comparan OLD y NEW.
 
-El runner nunca hace push. Los builds se aíslan en una copia temporal para que los `bin/obj` rastreados no contaminen diffs ni métricas.
+Evidencia: `04-evidencia/`
 
-## Flujo recomendado
+- `characterization/CHARACTERIZATION-MATRIX.md`: explicación de los 20 casos comparados.
+- `characterization/old-output.txt`: salida del sistema original.
+- `characterization/new-output.txt`: salida del sistema rediseñado.
+- `decisiones/SC1-SELECCION.md`: justificación de la solicitud de cambio elegida.
+- `metricas/SC1-METRICA-OCP.md`: comparación de clases y archivos antes/después.
+- `bitacora-ia/BITACORA-IA.md`: propuestas de IA aceptadas, ajustadas o descartadas por el equipo.
 
-1. `/solid-audit` para obtener diagnóstico completo sin editar.
-2. Revisar hallazgos confirmados y descartar falsos positivos.
-3. `/solid-plan <alcance>` para producir una secuencia de refactorización reversible.
-4. `/solid-apply <alcance aprobado>` para implementar en slices pequeños.
-5. `/solid-verify <alcance>` para compilar, probar y realizar revisión adversarial.
+Resultado de caracterización: 19 casos iguales, una diferencia estructural deliberada por ISP y cero diferencias de comportamiento.
 
-Para un archivo o clase concreta:
+### Fase 5 — Sustentación
 
-```text
-/solid-audit-file src/Domain/Order.cs
-/solid-srp src/Domain/Order.cs
-/solid-lsp src/Domain/Vehicle.cs
-```
+Antes de entregar falta completar en este README:
 
-## Principio operativo
+- roles de cada integrante;
+- enlace del video;
+- contraste de las hipótesis de Fase 0.
 
-SOLID no es una cuota de interfaces ni una excusa para multiplicar clases. Una modificación solo se acepta cuando reduce un riesgo demostrado, conserva contratos y deja evidencia verificable.
+## Ejecutar el proyecto
 
-## Hacienda — ejecución final de Fase 4
-
-Todos los comandos usan el wrapper aislado del repositorio:
+Requisito: .NET SDK 8.
 
 ```bash
-# Compilar y arrancar NEW
-scripts/phase4-safe-dotnet.sh build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
-scripts/phase4-safe-dotnet.sh web-smoke 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+# Permite ejecutar net8 cuando el equipo solo tiene instalado un runtime posterior.
+export DOTNET_ROLL_FORWARD=Major
 
-# Verificador final
-scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
+# Compilar dominio y aplicación MVC
+dotnet build 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj
+dotnet build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
 
-# Caracterización OLD primero y NEW después
-scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/Old/Characterization.Old.csproj
-scripts/phase4-safe-dotnet.sh run 03-src/phase4/Characterization/New/Characterization.New.csproj
+# Ejecutar verificaciones
+dotnet run --project 03-src/redisenado/HaciendaNEW/HaciendaNEW.Verification/HaciendaNEW.Verification.csproj
 
-# Demo de flujo normal y SC-1 (Lacteo, Carne y Piel)
-scripts/phase4-safe-dotnet.sh run 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+# Comparar comportamiento OLD y NEW
+dotnet run --project 03-src/phase4/Characterization/Old/Characterization.Old.csproj
+dotnet run --project 03-src/phase4/Characterization/New/Characterization.New.csproj
+
+# Ejecutar demostración
+dotnet run --project 03-src/redisenado/HaciendaNEW/HaciendaNEW.Demo/HaciendaNEW.Demo.csproj
+
+# Ejecutar aplicación web
+dotnet run --project 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
 ```
 
-Diseño canónico de Fase 3: `02-diseno/DISENO-TO-BE.md`, `02-diseno/diagramas/TO-BE.puml`, `02-diseno/diagramas/TO-BE.png` y `02-diseno/adr/`.
+## Material de apoyo
 
-Evidencia de Fase 4: `04-evidencia/PHASE4-REPORT.md`, `04-evidencia/characterization/`, `04-evidencia/metricas/`, `04-evidencia/trazabilidad/` y `04-evidencia/bitacora-ia/BITACORA-IA.md`.
+`Resources/` contiene el enunciado, la rúbrica y las presentaciones del curso. No forma parte de las fases, pero se conserva como material de consulta.

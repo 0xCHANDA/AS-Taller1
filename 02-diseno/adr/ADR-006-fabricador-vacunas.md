@@ -2,7 +2,7 @@
 
 **Estado:** ACEPTADO (refactor 2026-08-10)
 **Fecha:** 2026-08-10
-**Evidencia:** `Clases/FabricadorVacunas.cs` (170 líneas, NUEVO); `Clases/Hacienda.cs:250-272` (delegación); `BITACORA-IA.md` (entradas 17-19, 21-22); `SC1-METRICA-OCP.md` (sección "Refactor 2026-08-10").
+**Evidencia:** `Clases/FabricadorVacunas.cs` (170 líneas, NUEVO); `Clases/Hacienda.cs:250-272` (delegación); `04-evidencia/bitacora-ia/BITACORA-IA.md`; `04-evidencia/metricas/SC1-METRICA-OCP.md`.
 
 ## Contexto
 
@@ -17,7 +17,7 @@ Cada una repetía el mismo patrón de validación: nombre no vacío, lote no vac
 
 Adicionalmente, `Hacienda` debía hacer `new List<Vacuna>()` inline y mantener la lista como campo privado. La creación de vacunas no era una responsabilidad cohesiva: la misma clase también coordinaba potreros, reses, ventas y aplicación de vacunas.
 
-Hallazgo asociado: H-08 en `02-diseno/TRAZABILIDAD-ADR.md`.
+Hallazgo asociado: H-08, documentado en `02-diseno/DISENO-TO-BE.md`.
 
 ## Alternativas evaluadas
 
@@ -25,7 +25,7 @@ Hallazgo asociado: H-08 en `02-diseno/TRAZABILIDAD-ADR.md`.
 |---|---|---|
 | A | Mantener la creación de vacunas en `Hacienda`. | **Descartada.** Viola SRP: cuatro métodos de creación + lista privada en la misma fachada que coordina seis dominios. Duplicación documentada. |
 | B | Extraer una clase concreta `FabricadorVacunas` que tiene referencia a la lista de vacunas. | **Elegida.** Una sola responsabilidad: crear y añadir vacunas. La fachada delega con `return fabricadorVacunas.Crear(...);`. El `new List<Vacuna>()` se mueve al constructor de `Hacienda`. |
-| C | Introducir una `IVacunaFactory` con hierarchy de tipos y reflection para construir Bacteriana/Viva. | **Descartada.** Solo existen dos tipos de vacuna. Una jerarquía completa con reflection incrementaría la complejidad sin cliente ni variación real. La clase concreta `FabricadorVacunas` documenta la deuda consciente. Ver `BITACORA-IA.md` entrada 20. |
+| C | Introducir una `IVacunaFactory` con hierarchy de tipos y reflection para construir Bacteriana/Viva. | **Descartada.** Solo existen dos tipos de vacuna. Una jerarquía completa con reflection incrementaría la complejidad sin cliente ni variación real. La clase concreta `FabricadorVacunas` documenta la deuda consciente. Ver `BITACORA-IA.md`, decisión sobre la fábrica de vacunas. |
 
 ## Decisión tomada
 
@@ -46,7 +46,7 @@ La clase concreta es aceptable porque:
 
 - Solo hay una implementación prevista.
 - El acoplamiento a `Bacteriana` y `Viva` concretas es deuda consciente (ver §5).
-- `IFabricadorVacunas` crearía un puerto sin cliente (ver `BITACORA-IA.md` entrada 21).
+- `IFabricadorVacunas` crearía un puerto sin cliente (ver `BITACORA-IA.md`, decisión sobre IFabricadorVacunas).
 
 ## Consecuencias positivas
 
@@ -87,5 +87,5 @@ La clase concreta es aceptable porque:
 
 - `HaciendaNEW.Verification`: PASS (29/29 verificaciones, ninguna regresión).
 - `Characterization.New`: 19 MATCH, 1 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH. Idéntico a OLD para C01-C19 salvo la interfaz monolítica C20, retirada deliberadamente por ISP.
-- `BITACORA-IA.md` entradas 17-19, 21-22 documentan este ADR.
-- `SC1-METRICA-OCP.md` confirma que el refactor no impacta la métrica SC-1 (eje "tipo de producto vendible" sigue aislado).
+- `04-evidencia/bitacora-ia/BITACORA-IA.md` recoge las decisiones sobre `FabricadorVacunas`, DI y los límites del rediseño.
+- `04-evidencia/metricas/SC1-METRICA-OCP.md` confirma que el refactor no impacta la métrica SC-1.

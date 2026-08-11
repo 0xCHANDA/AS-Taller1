@@ -113,7 +113,7 @@ Se extrajo `FabricadorVacunas` (visible en `02-diseno/diagramas/TO-BE.puml`) con
 ### 4.6 ¿Qué alternativa más simple o más compleja evaluamos?
 
 - **Más simple:** no extraer `FabricadorVacunas`, dejar las cuatro copias en `Hacienda`. **Rechazada:** violaba SRP y duplicaba validación.
-- **Más compleja:** introducir una `IVacunaFactory` con reflection y registro de tipos. **Rechazada:** solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaba la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entrada 20.
+- **Más compleja:** introducir una `IVacunaFactory` con reflection y registro de tipos. **Rechazada:** solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaba la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisión sobre la fábrica de vacunas.
 
 ### 4.7 ¿Qué gana el sistema?
 
@@ -123,7 +123,7 @@ Se extrajo `FabricadorVacunas` (visible en `02-diseno/diagramas/TO-BE.puml`) con
 
 ### 4.8 ¿Qué costo/trade-off aceptamos?
 
-- `FabricadorVacunas` sigue acoplada a las clases concretas `Bacteriana` y `Viva`. Si aparece un tercer tipo de vacuna, la fábrica concreta debe modificarse. Es deuda consciente documentada en `BITACORA-IA.md` entrada 20.
+- `FabricadorVacunas` sigue acoplada a las clases concretas `Bacteriana` y `Viva`. Si aparece un tercer tipo de vacuna, la fábrica concreta debe modificarse. Es una decisión consciente documentada en `04-evidencia/bitacora-ia/BITACORA-IA.md`.
 
 ### 4.9 ¿Dónde está en el código final?
 
@@ -133,7 +133,7 @@ Se extrajo `FabricadorVacunas` (visible en `02-diseno/diagramas/TO-BE.puml`) con
 
 ### 4.10 ¿Cómo se demuestra?
 
-- Compilación NEW: PASS (`scripts/phase4-safe-dotnet.sh build`).
+- Compilación NEW: PASS con `dotnet build` sobre los proyectos de dominio y MVC.
 - Verifier: `VerificarVentaGenericaRes/Lacteo/Carne/Piel` siguen pasando, evidencia que la fachada sigue operativa.
 
 ## 5. OCP — Open/Closed Principle
@@ -173,7 +173,7 @@ La métrica real de Fase 4 (`04-evidencia/metricas/SC1-METRICA-OCP.md`) muestra 
 
 ### 5.5 Límite explícito
 
-El segundo eje natural de variación — "agregar un nuevo tipo de vacuna" — sigue dependiendo de extender `ICreacionVacuna`, `FabricadorVacunas` y `Hacienda.crear_vacuna`. No se introdujo una `IVacunaFactory` con reflection porque solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaría la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entradas 20 y 22.
+El segundo eje natural de variación — "agregar un nuevo tipo de vacuna" — sigue dependiendo de extender `ICreacionVacuna`, `FabricadorVacunas` y `Hacienda.crear_vacuna`. No se introdujo una `IVacunaFactory` con reflection porque solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaría la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisiones sobre la fábrica de vacunas y alimentar_res.
 
 ### 5.6 ¿Qué ganamos / qué aceptamos?
 
@@ -332,7 +332,7 @@ El constructor `Hacienda(RegistroVenta, FabricadorVacunas)` demuestra:
 Este constructor NO es DIP porque:
 - `RegistroVenta` y `FabricadorVacunas` son clases **concretas** (no interfaces).
 - Hacienda depende de tipos concretos; no se invirtió la dirección de la dependencia.
-- DIP ocurriría si Hacienda dependiera de `IRegistroVenta` o `IFabricadorVacunas`. Por decisión consciente (ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entrada 21) tales interfaces NO existen: no hay cliente alternativo que justifique la abstracción.
+- DIP ocurriría si Hacienda dependiera de `IRegistroVenta` o `IFabricadorVacunas`. Por decisión consciente (ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisión sobre IFabricadorVacunas) tales interfaces NO existen: no hay cliente alternativo que justifique la abstracción.
 
 La DIP real del proyecto se demuestra con:
 - `PotreroService` → `IPersistenciaPotreros` ← `PersistenciaService` (no conoce archivos TXT). Dirección de dependencia: servicio → puerto ← adaptador.
@@ -404,9 +404,9 @@ Detalle en `02-diseno/adr/ADR-001..006.md`.
 
 | Decisión rechazada | Aportaba | Costo añadido | Por qué rechazada |
 |---|---|---|---|
-| `IVacunaFactory` con reflection | Cerrar el eje "tipo de vacuna" a extensión. | Una jerarquía completa con reflection para solo dos tipos. | Sin cliente ni variación real; `FabricadorVacunas` documenta la deuda. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entrada 20. |
-| `IFabricadorVacunas` por simetría DIP | Abstracción "completa" del factory. | Un puerto sin uso. | No hay cliente distinto de Hacienda. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entrada 21. |
-| Servicio separado para `alimentar_res` | Una clase más. | Múltiples actores sin reducción de presión de cambio. | La operación coordina Potrero, Res y eventos de forma cohesiva. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md` entrada 22. |
+| `IVacunaFactory` con reflection | Cerrar el eje "tipo de vacuna" a extensión. | Una jerarquía completa con reflection para solo dos tipos. | Sin cliente ni variación real; `FabricadorVacunas` documenta la deuda. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisión sobre la fábrica de vacunas. |
+| `IFabricadorVacunas` por simetría DIP | Abstracción "completa" del factory. | Un puerto sin uso. | No hay cliente distinto de Hacienda. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisión sobre IFabricadorVacunas. |
+| Servicio separado para `alimentar_res` | Una clase más. | Múltiples actores sin reducción de presión de cambio. | La operación coordina Potrero, Res y eventos de forma cohesiva. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`, decisión sobre alimentar_res. |
 | Interfaz por cada servicio MVC | "Pure DIP" completo. | Doce interfaces adicionales. | No hay segundo cliente ni variación. |
 | Reescritura completa de `PersistenciaService` | Cinco archivos separados. | Mayor cambio conductor de errores. | Los cinco puertos segregados ya cumplen ISP y DIP. |
 | Arquitectura hexagonal completa | Separación de dominio/infraestructura. | Sobreingeniería para el alcance real. | El proyecto solo tiene una capa de infraestructura (MVC). |
@@ -420,7 +420,7 @@ Detalle en `02-diseno/adr/ADR-001..006.md`.
 | SC-2 | NO IMPLEMENTADA (analizada) | Añadir `Chip` a `Res` y un puerto `IPersistenciaChips`. | Modelo y persistencia. | Sistema de venta y validación. |
 | SC-3 | NO IMPLEMENTADA (analizada) | `HistoriaClinica` agregada a `Res`, `IPersistenciaClinica`. | Modelo y persistencia. | Sistema de venta y validación. |
 
-Ver `04-evidencia/metricas/SC2-ANALIZADA-NO-IMPLEMENTADA.md` y `04-evidencia/metricas/SC3-ANALIZADA-NO-IMPLEMENTADA.md`.
+El análisis de SC-2 y SC-3 está en `01-diagnostico/Fase 2 — Los cambios que vienen.docx`.
 
 ## 13. Métrica SC-1 contractual (Lacteo + Carne + Piel)
 
@@ -491,4 +491,4 @@ La arquitectura TO-BE de HaciendaNEW:
 - Aplica SRP mediante la extracción de `FabricadorVacunas` (2026-08-10) y la conservación de `RegistroVenta`.
 - Mantiene límites explícitos y rechaza la sobreingeniería.
 
-La correspondencia UML ↔ código está verificada contra `04-evidencia/characterization/CHARACTERIZATION-MATRIX.md` y `04-evidencia/trazabilidad/TOBE-CODE-MATRIX.md`.
+La correspondencia UML ↔ código se comprobó contra el código de `03-src/redisenado/HaciendaNEW/` y las verificaciones de `HaciendaNEW.Verification`.
