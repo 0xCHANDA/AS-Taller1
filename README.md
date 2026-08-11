@@ -9,7 +9,8 @@ Este repositorio contiene la entrega del reto de Arquitectura de Software. Está
 Carpeta: `00-lectura-en-frio/`
 
 - `Analisis-SantiagoHM.md`: hipótesis iniciales de Santiago antes de usar herramientas.
-- `Analisis-SebastianQJ.docx`: hipótesis iniciales de Sebastián antes de usar herramientas.
+- `Analisis-SebastianQJ.md`: hipótesis iniciales de Sebastián antes de usar herramientas.
+- `Analisis-SimonBU.md`: hipótesis iniciales de Simón antes de usar herramientas.
 
 Estas hojas deben conservarse sin modificaciones y contrastarse con los resultados finales durante el video.
 
@@ -18,13 +19,13 @@ Estas hojas deben conservarse sin modificaciones y contrastarse con los resultad
 Carpeta: `01-diagnostico/`
 
 - `Hacienda_AS-IS.pdf`: diagrama UML del sistema original.
-- `diagramas/`: imágenes del UML y mapa de dependencias.
-- `inventario de hallazgos.docx`: problemas encontrados, ubicación en el código, principio relacionado e impacto.
-- `puntos de dolor priorizados.docx`: tres problemas principales y su orden de prioridad.
+- `diagramas/`: imágenes del UML, mapa de dependencias y enlace editable en `UML-ESTADO-ACTUAL-LINK.md`.
+- `INVENTARIO-HALLAZGOS.md`: problemas encontrados, ubicación exacta en el código, principio relacionado e impacto.
+- `PUNTOS-DOLOR-PRIORIZADOS.md`: tres problemas principales y su orden de prioridad.
 
 ### Fase 2 — Cambios futuros
 
-Archivo: `01-diagnostico/Fase 2 — Los cambios que vienen.docx`
+Archivo: `01-diagnostico/FASE-2-CAMBIOS.md`
 
 Contiene el análisis de SC-1, SC-2 y SC-3 sobre el sistema original: clases y archivos que habría que modificar, riesgos de regresión y comparación del impacto.
 
@@ -50,8 +51,8 @@ Código: `03-src/`
 Evidencia: `04-evidencia/`
 
 - `characterization/CHARACTERIZATION-MATRIX.md`: explicación de los 20 casos comparados.
-- `characterization/old-output.txt`: salida del sistema original.
-- `characterization/new-output.txt`: salida del sistema rediseñado.
+- `characterization/OLD-OUTPUT.md`: salida del sistema original.
+- `characterization/NEW-OUTPUT.md`: salida del sistema rediseñado.
 - `decisiones/SC1-SELECCION.md`: justificación de la solicitud de cambio elegida.
 - `metricas/SC1-METRICA-OCP.md`: comparación de clases y archivos antes/después.
 - `bitacora-ia/BITACORA-IA.md`: propuestas de IA aceptadas, ajustadas o descartadas por el equipo.

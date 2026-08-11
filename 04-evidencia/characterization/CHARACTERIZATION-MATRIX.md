@@ -9,7 +9,7 @@ Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta rut
 
 | ID | Nombre y propósito | Precondiciones / entradas / operaciones ordenadas | Observable OLD y NEW | Resultado | Evidencia |
 |---|---|---|---|---|---|
-| C01 | Alta de potrero | Hacienda vacía; crear `P1`, tipo ternero | Mensaje exacto; `potreros=1` | MATCH | `old-output.txt`, `new-output.txt` |
+| C01 | Alta de potrero | Hacienda vacía; crear `P1`, tipo ternero | Mensaje exacto; `potreros=1` | MATCH | `OLD-OUTPUT.md`, `NEW-OUTPUT.md` |
 | C02 | Duplicado case-insensitive | C01; crear `p1` | Misma excepción envuelta; lista permanece en 1 | MATCH | mismas rutas |
 | C03 | Inserción de res | C01; añadir Lola, 5 meses, 100 kg | Mensaje y evento de bajo peso; una `Ternero` | MATCH | mismas rutas |
 | C04 | Edad incompatible | C03; añadir 13 meses a potrero ternero | Misma excepción; continúa una res | MATCH | mismas rutas |
@@ -25,7 +25,7 @@ Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta rut
 
 | ID | Nombre y propósito | Precondiciones / entradas / operaciones ordenadas | Observable OLD | Observable NEW | Resultado | Clasificación |
 |---|---|---|---|---|---|---|
-| C12 | Vacuna vencida | Potrero P1 ternero + Lola (5m, 100kg); crear bacteriana Vencida con fechas 2020-01-01 / 2019-06-01; aplicar a Lola | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 1/1/2020` | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 1/1/2020` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=0). |
+| C12 | Vacuna vencida | Potrero P1 ternero + Lola (5m, 100kg); crear bacteriana Vencida con fechas 2020-01-01 / 2019-06-01; aplicar a Lola | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 01/01/2020` | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 01/01/2020` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=0). |
 | C13 | Aplicación duplicada | P1+Lola; crear dos bacterianas "Duplicada" con lotes C13-DUP-A y C13-DUP-B; aplicar primera OK; intentar segunda | `Exception:…La vacuna 'Duplicada' ya fue aplicada a la res 'Lola'.` | `Exception:…La vacuna 'Duplicada' ya fue aplicada a la res 'Lola'.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=1). |
 | C14 | Límite bacteriano ternero (max=3) | P1+Lola; crear y aplicar 3 bacterianas (C14-B1/B2/B3); crear cuarta (C14-B4); intentar aplicar | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=3). |
 | C15 | Límite viva ternero (max=1) | P1+Lola; crear y aplicar viva C15-V1 (Atenuacion10); crear segunda viva C15-V2; intentar aplicar | `Exception:…No se puede aplicar más vacunas vivas a la res 'Lola'. Ya tiene las 1 permitidas.` | `Exception:…No se puede aplicar más vacunas vivas a la res 'Lola'. Ya tiene las 1 permitidas.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=1). |
@@ -36,7 +36,7 @@ Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta rut
 
 | ID | Aspecto | Observable OLD | Observable NEW | Resultado | Clasificación |
 |---|---|---|---|---|---|
-| C18 | Semántica de `L_ventas` | `tipo=List`1;Count=1;Monto[0]=1200` | `tipo=List`1;Count=1;Monto[0]=1200` | MATCH | Comportamiento observable idéntico. Internamente OLD usa `List<Venta>` directo; NEW computa `registroVentas.Ventas.ToList()`. La copia es transparente para consumidores que solo leen Count/[]. |
+| C18 | Semántica de `L_ventas` | ``tipo=List`1;Count=1;Monto[0]=1200`` | ``tipo=List`1;Count=1;Monto[0]=1200`` | MATCH | Comportamiento observable idéntico. Internamente OLD usa `List<Venta>` directo; NEW obtiene `registroVentas.Ventas.ToList()`. La copia es transparente para consumidores que solo leen la cantidad y los elementos. |
 | C19 | Superficie de sobrecargas `alimentar_res` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | MATCH | NEW preserva las dos firmas públicas de OLD; la sobrecarga de dos parámetros delega en la de tres con cantidad 1. |
 | C20 | Existencia de `IValidarInformacion` | `EXISTS` | `ABSENT` | DELIBERATE_STRUCTURAL | OLD definía `IValidarInformacion` monolítico con 4 métodos. NEW lo reemplazó por 4 interfaces granulares `IValidadorRes`, `IValidadorPotrero`, `IValidadorVacuna`, `IValidadorVenta` (ISP). La interfaz monolítica no existe en NEW. |
 
@@ -47,7 +47,7 @@ Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta rut
 | MATCH | C01–C19 | Comportamiento y superficie pública observable idénticos |
 | DELIBERATE_STRUCTURAL | C20 | Diferencia estructural deliberada: granularidad de interfaces ISP |
 
-## Mismatches detectados y resueltos (fases anteriores)
+## Diferencias detectadas y resueltas
 
 | Caso | Primera salida NEW | Autoridad OLD | Resolución estrecha |
 |---|---|---|---|
@@ -69,4 +69,4 @@ dotnet run --project 03-src/phase4/Characterization/Old/Characterization.Old.csp
 dotnet run --project 03-src/phase4/Characterization/New/Characterization.New.csproj
 ```
 
-La comparación es línea por línea por ID. Los archivos retenidos contienen la salida canónica del runner, sin el ruido de restore/build del wrapper.
+La comparación es línea por línea por ID. `OLD-OUTPUT.md` y `NEW-OUTPUT.md` contienen la salida canónica, sin el ruido de restauración o compilación.

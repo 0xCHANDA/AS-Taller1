@@ -420,7 +420,7 @@ Detalle en `02-diseno/adr/ADR-001..006.md`.
 | SC-2 | NO IMPLEMENTADA (analizada) | Añadir `Chip` a `Res` y un puerto `IPersistenciaChips`. | Modelo y persistencia. | Sistema de venta y validación. |
 | SC-3 | NO IMPLEMENTADA (analizada) | `HistoriaClinica` agregada a `Res`, `IPersistenciaClinica`. | Modelo y persistencia. | Sistema de venta y validación. |
 
-El análisis de SC-2 y SC-3 está en `01-diagnostico/Fase 2 — Los cambios que vienen.docx`.
+El análisis de SC-2 y SC-3 está en `01-diagnostico/FASE-2-CAMBIOS.md`.
 
 ## 13. Métrica SC-1 contractual (Lacteo + Carne + Piel)
 

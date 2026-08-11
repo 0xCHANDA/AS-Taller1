@@ -15,7 +15,7 @@ Solo se cuentan clases y archivos de producción (excluye demo, characterization
 
 ## OLD
 
-La baseline 4/6 de Fase 2 corresponde a modificar la política y modelo centrados en res: `Hacienda`, `Venta`, `PersistenciaService` y el servicio de consulta de ventas; además alcanzaría el contrato histórico `IVentaRes.cs` y la vista `Views/Venta/Index.cshtml`. OLD no posee un producto vendible común ni un inventario abstraído. La cifra es contrafactual y condicionada al alcance mínimo documentado; no se editó OLD.
+La línea base 4/6 de la Fase 2 corresponde a cuatro clases existentes: `Venta`, `Hacienda`, `ResController` y `PersistenciaService`. Los seis archivos son los de esas cuatro clases más `Views/Res/Index.cshtml` y `Views/Venta/Index.cshtml`. OLD no posee un producto vendible común ni un inventario abstraído. La cifra es contrafactual y está condicionada al alcance mínimo documentado; OLD no fue modificado para obtenerla.
 
 ## NEW (estado final)
 
