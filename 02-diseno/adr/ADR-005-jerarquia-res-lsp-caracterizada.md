@@ -1,49 +1,137 @@
-# ADR-005 — Contrato de edad en la jerarquía `Res`
+# ADR 5 — Generalización del método de venta
 
-**Estado:** ACEPTADO
-**Fecha:** 2026-08-10
-**Hallazgo relacionado:** H-05
-**Evidencia:** `Res.cs`, `Ternero.cs`, `Cebon.cs`, `Novillo.cs` y casos C22 de caracterización.
+## ADR-005: Crear un método `Vender` general para cualquier producto
 
-## Contexto
+### Contexto
 
-OLD modela categorías etarias como subtipos: `Ternero` de 0 a 12 meses, `Cebon` de 13 a 48 y `Novillo` mayor a 48. Cada subtipo sobreescribe `Edad` y rechaza valores fuera de su rango, mientras la implementación base acepta cualquier `ushort`. Además, la API pública permite cambiar la edad después de construir el objeto.
+El método original de `Hacienda` estaba diseñado únicamente para vender reses:
 
-El rediseño debe aclarar el contrato de la clase base sin retirar ese setter público, porque hacerlo rompería consumidores de OLD.
+```csharp
+public string vender_res(string id_potrero, string nombre, uint monto)
+```
 
-## Alternativas
+Esto hacía que `Hacienda` conociera directamente a `Potrero` y a `Res`.
 
-| ID | Alternativa | Evaluación |
-|---|---|---|
-| A | Eliminar los subtipos y usar `Res` + `Categoria` | Modelo más flexible para envejecimiento, pero cambia constructores, persistencia, switches y API. Descartada para esta entrega. |
-| B | Hacer `Edad` inmutable | Simplifica invariantes, pero elimina un setter público de OLD. Descartada por compatibilidad. |
-| C | Mantener el setter en `Res` y definir un único contrato: la edad siempre debe pertenecer al rango de la categoría concreta | Elegida. Conserva API y reglas observables. |
+Con la creación de nuevos productos e inventarios:
 
-## Decisión
+```text
+Potrero
+InventarioLacteos
+InventarioPieles
+InventarioCarne
+```
 
-`Res.Edad` conserva `get; set;`. La propiedad se implementa una sola vez en la base y llama al método protegido `ValidarEdad`. Cada categoría implementa únicamente su rango:
+mantener métodos como:
 
-- `Ternero`: 0–12.
-- `Cebon`: 13–48.
-- `Novillo`: mayor a 48.
+```csharp
+vender_res()
+vender_lacteo()
+vender_piel()
+vender_carne()
+```
 
-Los constructores validan el mismo rango antes de invocar el constructor base, evitando llamadas virtuales desde el constructor. `Res` también hereda `Nombre` de `Producto`, por lo que ya no mantiene una identidad duplicada.
+haría que cada nuevo producto obligara a modificar `Hacienda`.
 
-## Consecuencias
+### Alternativa 1
 
-- **Positiva:** el setter y las excepciones de rango observables se conservan.
-- **Positiva:** ya no hay tres implementaciones públicas diferentes de la propiedad; el contrato está declarado en `Res`.
-- **Positiva:** `Res` y `Producto` comparten una sola propiedad `Nombre`.
-- **Negativa:** la validez de una edad sigue dependiendo de la categoría concreta.
-- **Negativa:** una res no cambia automáticamente de subtipo al envejecer; ese requisito exigiría composición o State.
+Crear un método de venta para cada tipo de producto:
 
-## Principios
+```csharp
+VenderRes(...)
+VenderLacteo(...)
+VenderPiel(...)
+VenderCarne(...)
+```
 
-- **LSP:** el contrato base declara explícitamente el invariante de categoría y todas las implementaciones lo mantienen. No se promete que cualquier edad sea válida para cualquier res.
-- **OCP:** no se rediseñó el eje de categorías porque SC-1 se concentra en productos vendibles.
+Se descarta porque `Hacienda` tendría que modificarse cada vez que aparezca un nuevo producto, violando OCP.
 
-## Verificación
+Además, aumentaría la cantidad de lógica que tiene `Hacienda`.
 
-- `HaciendaNEW.Verification` comprueba los límites de las tres categorías, el setter público y que una asignación inválida no cambie el estado.
-- C22 ejecuta el mismo setter válido e inválido contra OLD y NEW.
-- C23 comprueba que `L_vacunas_aplicadas` también conserve su setter público legacy.
+### Alternativa 2
+
+Crear un único método general:
+
+```csharp
+Vender<T>(IInventario<T> inventario, T producto, uint monto)
+    where T : Producto
+```
+
+El método recibe el inventario y el producto que se quieren vender.
+
+Internamente:
+
+```csharp
+inventario.Retirar(producto);
+
+Venta venta = new Venta(producto, DateTime.Now, monto);
+
+registroVentas.Registrar(venta);
+```
+
+De esta forma, el método no necesita saber si está vendiendo una:
+
+```text
+Res
+Lacteo
+Piel
+Carne
+```
+
+### Decisión
+
+Se decidió reemplazar `vender_res()` por un método general `Vender()` que trabaje con la abstracción `IInventario<T>` y `Producto`.
+
+Así `Hacienda` solamente coordina la operación:
+
+```text
+Hacienda
+   ↓
+IInventario<T>
+   ↓
+Retirar(producto)
+
+Producto
+   ↓
+Venta
+   ↓
+RegistroVentas
+```
+
+Por ejemplo, para vender una res:
+
+```csharp
+Vender(potrero, res, monto);
+```
+
+Y para vender un lácteo:
+
+```csharp
+Vender(inventarioLacteos, lacteo, monto);
+```
+
+El método es el mismo.
+
+### ¿Qué ganamos?
+
+- No necesitamos crear un método de venta por cada producto.
+- `Hacienda` deja de depender directamente de `Potrero`.
+- Se pueden agregar nuevos productos sin modificar el método `Vender`.
+- Los diferentes inventarios pueden manejar sus propios productos.
+- `Venta` deja de estar acoplada exclusivamente a `Res`.
+- Se aplica OCP, porque agregar un nuevo tipo de producto no requiere modificar la lógica existente.
+
+### Consecuencia negativa
+
+El método utiliza genéricos e interfaces, por lo que la solución es un poco más compleja que el método original `vender_res()`.
+
+Además, cada nuevo producto debe heredar de `Producto` y contar con un inventario que implemente `IInventario<T>`.
+
+Aceptamos esta complejidad porque permite que el sistema pueda crecer sin tener que modificar `Hacienda` cada vez que aparezca un nuevo producto.
+
+### Principios involucrados
+
+- **OCP:** se pueden agregar nuevos productos sin modificar `Vender()`.
+- **DIP:** `Hacienda` trabaja con `IInventario<T>` en lugar de depender de un inventario concreto.
+- **SRP:** `Hacienda` coordina la venta, mientras `RegistroVentas` se encarga de almacenarlas y el inventario de retirar el producto.
+- **LSP:** cualquier producto que cumpla el contrato de `Producto` puede utilizarse donde se espera un `Producto`.
+- **ISP:** `Hacienda` utiliza únicamente las operaciones del inventario que necesita (retirar).
