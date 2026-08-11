@@ -2,6 +2,18 @@
 
 Este repositorio contiene la entrega del reto de Arquitectura de Software. Está organizado por fases para que cada requisito de la rúbrica tenga una ubicación clara.
 
+La solicitud implementada es **SC-1: venta de productos derivados del ganado —lácteos, carne y piel—**.
+
+## Equipo y roles
+
+| Integrante | Responsabilidad principal |
+|---|---|
+| Santiago Hernández Morantes | Arquitectura de dominio: SRP, modelo y jerarquías/LSP |
+| Sebastián Quintero Jaramillo | Arquitectura de dependencias: mapa, ISP, DIP y composition root |
+| Simón Bedoya Urrea | Comportamiento, integración y evidencia: caracterización, demo, UML-código, bitácora y métricas |
+
+Todos deben conocer la solución completa. Como el equipo tiene tres integrantes, Simón reúne los frentes de comportamiento e integración/evidencia.
+
 ## Cómo está organizado
 
 ### Fase 0 — Lectura en frío
@@ -19,7 +31,7 @@ Estas hojas deben conservarse sin modificaciones y contrastarse con los resultad
 Carpeta: `01-diagnostico/`
 
 - `Hacienda_AS-IS.pdf`: diagrama UML del sistema original.
-- `diagramas/`: imágenes del UML, mapa de dependencias y enlace editable en `UML-ESTADO-ACTUAL-LINK.md`.
+- `diagramas/`: mapa de dependencias y enlace editable del UML en `UML-ESTADO-ACTUAL-LINK.md`.
 - `INVENTARIO-HALLAZGOS.md`: problemas encontrados, ubicación exacta en el código, principio relacionado e impacto.
 - `PUNTOS-DOLOR-PRIORIZADOS.md`: tres problemas principales y su orden de prioridad.
 
@@ -50,22 +62,18 @@ Código: `03-src/`
 
 Evidencia: `04-evidencia/`
 
-- `characterization/CHARACTERIZATION-MATRIX.md`: explicación de los 20 casos comparados.
+- `characterization/CHARACTERIZATION-MATRIX.md`: explicación de los 23 casos comparados.
 - `characterization/OLD-OUTPUT.md`: salida del sistema original.
 - `characterization/NEW-OUTPUT.md`: salida del sistema rediseñado.
 - `decisiones/SC1-SELECCION.md`: justificación de la solicitud de cambio elegida.
 - `metricas/SC1-METRICA-OCP.md`: comparación de clases y archivos antes/después.
 - `bitacora-ia/BITACORA-IA.md`: propuestas de IA aceptadas, ajustadas o descartadas por el equipo.
 
-Resultado de caracterización: 19 casos iguales, una diferencia estructural deliberada por ISP y cero diferencias de comportamiento.
+Resultado de caracterización: 22 casos iguales, una diferencia estructural deliberada por ISP y cero diferencias de comportamiento.
 
 ### Fase 5 — Sustentación
 
-Antes de entregar falta completar en este README:
-
-- roles de cada integrante;
-- enlace del video;
-- contraste de las hipótesis de Fase 0.
+Quedan pendientes deliberadamente para la sustentación el enlace del video y el contraste oral de las hipótesis de Fase 0.
 
 ## Ejecutar el proyecto
 

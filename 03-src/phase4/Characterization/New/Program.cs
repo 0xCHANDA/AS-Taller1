@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bib_Hacienda.Clases;
@@ -157,7 +158,7 @@ namespace Characterization.New
         }
 
         // ================================================================
-        // Reflexión de API pública C18–C20
+        // Reflexión de API pública C18–C23
         // ================================================================
         private static void EjecutarReflexionApi()
         {
@@ -191,6 +192,45 @@ namespace Characterization.New
                 var t = Type.GetType("Bib_Hacienda.Interfaces.IValidarInformacion, Bib_Hacienda");
                 string existe = t != null ? "EXISTS" : "ABSENT";
                 Console.WriteLine($"C20|API|IValidarInformacion={existe}|-");
+            }
+
+            // C21: L_ventas conserva la semántica legacy de lista viva.
+            {
+                var h = new Hacienda();
+                h.crear_potrero("P1", l_tipos_potreros.ternero);
+                h.anadir_res_potrero("P1", "Lola", 5, 100);
+                h.vender_res("P1", "Lola", 1200);
+                var lista = h.L_ventas;
+                bool mismaReferencia = ReferenceEquals(lista, h.L_ventas);
+                lista.Add(lista[0]);
+                Console.WriteLine($"C21|API|L_ventas viva={mismaReferencia};Count={h.L_ventas.Count}|-");
+            }
+
+            // C22: Edad conserva setter público y las reglas legacy del subtipo.
+            {
+                var ternero = new Ternero("Lola", 100, 5);
+                bool setter = typeof(Ternero).GetProperty("Edad")?.GetSetMethod() != null;
+                ternero.Edad = 10;
+                string invalida;
+                try
+                {
+                    ternero.Edad = 13;
+                    invalida = "ACCEPTED";
+                }
+                catch (Exception ex)
+                {
+                    invalida = $"{ex.GetType().Name}:{Limpiar(ex.Message)}";
+                }
+                Console.WriteLine($"C22|API|Edad setter={setter};valida={ternero.Edad};invalida={invalida}|-");
+            }
+
+            // C23: L_vacunas_aplicadas conserva setter público y lista asignada.
+            {
+                var ternero = new Ternero("Lola", 100, 5);
+                var lista = new List<Vacuna>();
+                ternero.L_vacunas_aplicadas = lista;
+                bool setter = typeof(Ternero).GetProperty("L_vacunas_aplicadas")?.GetSetMethod() != null;
+                Console.WriteLine($"C23|API|L_vacunas_aplicadas setter={setter};misma={ReferenceEquals(lista, ternero.L_vacunas_aplicadas)};Count={ternero.L_vacunas_aplicadas.Count}|-");
             }
         }
 

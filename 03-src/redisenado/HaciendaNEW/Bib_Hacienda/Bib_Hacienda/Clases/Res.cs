@@ -27,12 +27,24 @@ namespace Bib_Hacienda.Clases
             this.l_vacunas_aplicadas = new List<Vacuna>();
         }
 
-        //Accesores
-        // Edad es inmutable tras la construcción: cada subtipo valida su rango
-        // en su propio constructor. Esto elimina el setter virtual fortalecible
-        // y evita llamar a miembros virtuales desde el constructor base.
-        public ushort Edad => edad;
-        public List<Vacuna> L_vacunas_aplicadas { get => l_vacunas_aplicadas;  }
+        // Accesores legacy conservados. El contrato de Res establece que la edad
+        // debe pertenecer al rango de la categoría concreta; cada subtipo aplica
+        // esa misma regla tanto en construcción como en cambios posteriores.
+        public virtual ushort Edad
+        {
+            get => edad;
+            set
+            {
+                ValidarEdad(value);
+                edad = value;
+            }
+        }
+
+        public List<Vacuna> L_vacunas_aplicadas
+        {
+            get => l_vacunas_aplicadas;
+            set => l_vacunas_aplicadas = value;
+        }
         public uint Peso { get => peso; set => peso = value; }
 
         //metodo desde Res
@@ -91,6 +103,12 @@ namespace Bib_Hacienda.Clases
 
         public abstract byte MaxVacunasBacterianas { get; }
         public abstract byte MaxVacunasVivas { get; }
+
+        protected virtual void ValidarEdad(ushort edad)
+        {
+            // El comportamiento base legacy acepta cualquier ushort.
+            // Las categorías conocidas conservan sus rangos mediante override.
+        }
 
         public ushort CantidadVacunasBacterianas
         {

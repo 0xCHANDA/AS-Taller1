@@ -12,7 +12,7 @@
             <h1 class="display-6 fw-bold mb-1" style="color: var(--aw-text);">
                 Detalles del Potrero
             </h1>
-            <p class="text-muted mb-0">InformaciÛn completa del potrero @Model.Identificacion</p>
+            <p class="text-muted mb-0">Informaci√≥n completa del potrero @Model.Identificacion</p>
         </div>
         <a asp-action="Index" class="btn aw-btn aw-btn-secondary">
              <span class="material-icons-outlined" style="font-size: 1.2rem; vertical-align: sub;">arrow_back</span>
@@ -25,9 +25,9 @@
         <div class="aw-card-header">@Model.Identificacion</div>
         <div class="card-body p-4">
             <div class="row">
-                <!-- InformaciÛn b·sica -->
+                <!-- Informaci√≥n b√°sica -->
                 <div class="col-md-6 mb-4">
-                    <h5 class="border-bottom pb-2" style="color: var(--aw-green);">InformaciÛn B·sica</h5>
+                    <h5 class="border-bottom pb-2" style="color: var(--aw-green);">Informaci√≥n B√°sica</h5>
                     <dl class="row">
                         <dt class="col-sm-5">Tipo:</dt>
                         <dd class="col-sm-7">
@@ -36,9 +36,9 @@
                     </dl>
                 </div>
 
-                <!-- EstadÌsticas de ocupaciÛn -->
+                <!-- Estad√≠sticas de ocupaci√≥n -->
                 <div class="col-md-6 mb-4">
-                    <h5 class="border-bottom pb-2" style="color: var(--aw-green);">OcupaciÛn</h5>
+                    <h5 class="border-bottom pb-2" style="color: var(--aw-green);">Ocupaci√≥n</h5>
                     <dl class="row">
                         <dt class="col-sm-5">Reses actuales:</dt>
                         <dd class="col-sm-7"><strong class="fs-4">@Model.L_reses.Count</strong></dd>
@@ -81,7 +81,7 @@
             else
             {
                 <div class="alert alert-info mt-4">
-                    <strong>Este potrero est· vacÌo.</strong> No hay reses registradas actualmente.
+                    <strong>Este potrero est√° vac√≠o.</strong> No hay reses registradas actualmente.
                 </div>
             }
         </div>

@@ -17,7 +17,7 @@ Cada una repetía el mismo patrón de validación: nombre no vacío, lote no vac
 
 Adicionalmente, `Hacienda` debía hacer `new List<Vacuna>()` inline y mantener la lista como campo privado. La creación de vacunas no era una responsabilidad cohesiva: la misma clase también coordinaba potreros, reses, ventas y aplicación de vacunas.
 
-Hallazgo asociado: H-08, documentado en `02-diseno/DISENO-TO-BE.md`.
+Hallazgo asociado: H-02, que documenta las responsabilidades independientes concentradas en `Hacienda`.
 
 ## Alternativas evaluadas
 
@@ -34,7 +34,7 @@ Alternativa B. Se crea `Bib_Hacienda/Clases/FabricadorVacunas.cs` (170 líneas) 
 - Constructor `FabricadorVacunas(List<Vacuna> l_vacunas)`.
 - Cuatro métodos públicos: `Crear` (bacteriana), `Crear` (viva), `CrearLote` (bacteriano), `CrearLote` (vivo).
 - Validación común: `ValidarDatosBasicos` (nombre, lote, fechas, duplicado) y `ValidarCantidadYLoteBase` (cantidad, lote base).
-- `L_vacunas` propiedad para acceso de sólo lectura.
+- `L_vacunas` expone la lista compartida con `Hacienda` para conservar el comportamiento existente.
 
 `Hacienda` añade campo `private readonly FabricadorVacunas fabricadorVacunas` y delega las cuatro sobrecargas de `crear_vacuna` con `return fabricadorVacunas.Crear(...)` o `return fabricadorVacunas.CrearLote(...)`.
 
@@ -85,7 +85,7 @@ La clase concreta es aceptable porque:
 
 ## Evidencia Fase 4
 
-- `HaciendaNEW.Verification`: PASS (29/29 verificaciones, ninguna regresión).
-- `Characterization.New`: 19 MATCH, 1 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH. Idéntico a OLD para C01-C19 salvo la interfaz monolítica C20, retirada deliberadamente por ISP.
+- `HaciendaNEW.Verification`: PASS (30/30 verificaciones).
+- Caracterización: 22 MATCH y una diferencia estructural deliberada en C20 por la interfaz monolítica retirada mediante ISP.
 - `04-evidencia/bitacora-ia/BITACORA-IA.md` recoge las decisiones sobre `FabricadorVacunas`, DI y los límites del rediseño.
 - `04-evidencia/metricas/SC1-METRICA-OCP.md` confirma que el refactor no impacta la métrica SC-1.

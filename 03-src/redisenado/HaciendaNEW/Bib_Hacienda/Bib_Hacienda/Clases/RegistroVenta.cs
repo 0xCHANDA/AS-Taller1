@@ -12,6 +12,10 @@ namespace Bib_Hacienda.Clases
 
         public IReadOnlyList<Venta> Ventas => ventas;
 
+        // Hacienda conserva su contrato legacy de exponer una List<Venta> viva.
+        // El acceso mutable queda interno para no ampliar la API nueva de RegistroVenta.
+        internal List<Venta> VentasMutables => ventas;
+
         public void registrar(Venta venta)
         {
             if (venta == null)

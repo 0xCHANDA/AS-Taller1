@@ -624,8 +624,8 @@ namespace HaciendaNEW.Verification
             {
                 var propiedadEdad = tipo.GetProperty("Edad");
                 Assert(propiedadEdad != null, $"{tipo.Name} expone propiedad Edad.");
-                Assert(propiedadEdad.GetSetMethod() == null, $"{tipo.Name}.Edad no tiene setter público.");
-                Assert(!propiedadEdad.CanWrite, $"{tipo.Name}.Edad no es escribible.");
+                Assert(propiedadEdad.GetSetMethod() != null, $"{tipo.Name}.Edad conserva setter público legacy.");
+                Assert(propiedadEdad.CanWrite, $"{tipo.Name}.Edad sigue siendo escribible.");
 
                 var propiedadPeso = tipo.GetProperty("Peso");
                 Assert(propiedadPeso != null && propiedadPeso.GetSetMethod() != null,
@@ -645,6 +645,18 @@ namespace HaciendaNEW.Verification
 
             var novillo = new Novillo("N", 500, 49);
             Assert(novillo.Edad == 49, "Novillo acepta edad límite inferior 49.");
+
+            ternero.Edad = 10;
+            Assert(ternero.Edad == 10, "El setter legacy permite una edad válida para Ternero.");
+
+            try { ternero.Edad = 13; Fail("El setter legacy de Ternero debe rechazar edad 13."); }
+            catch (Exception) { /* esperado */ }
+            Assert(ternero.Edad == 10, "Una edad inválida no debe modificar el estado del Ternero.");
+
+            var vacunasAsignadas = new List<Vacuna>();
+            ternero.L_vacunas_aplicadas = vacunasAsignadas;
+            Assert(ReferenceEquals(ternero.L_vacunas_aplicadas, vacunasAsignadas),
+                "L_vacunas_aplicadas conserva el setter público y la identidad de la lista legacy.");
 
             // Rangos inválidos
             try { var _ = new Ternero("T", 100, 13); Fail("Ternero debe rechazar edad 13."); }
@@ -691,7 +703,7 @@ namespace HaciendaNEW.Verification
             Assert(!vacunaBacterianaCebon.PuedeAplicarseA(cebonBac),
                 "Cebon alcanzó el máximo de vacunas bacterianas (1).");
 
-            Console.WriteLine("[OK] Contrato común Res/Ternero/Cebon/Novillo: inmutabilidad de Edad, rangos, Alimentar y vacunación.");
+            Console.WriteLine("[OK] Contrato común Res/Ternero/Cebon/Novillo: API legacy de Edad, rangos, Alimentar y vacunación.");
         }
 
         private static void VerificarPersistenciaVentas()
@@ -985,12 +997,12 @@ namespace HaciendaNEW.Verification
                 Assert(p1.Count == 1 && p1[0].Res.Nombre == "Lola",
                     "VentaService debe filtrar la venta legacy por potrero P1.");
 
-                // La lista devuelta por L_ventas es una copia: mutarla no debe alterar el registro.
+                // Compatibilidad legacy: L_ventas sigue siendo una lista viva y modificable.
                 int countAntes = haciendaReiniciada.L_ventas.Count;
-                var copia = haciendaReiniciada.L_ventas;
-                copia.Add(new Venta(fecha, new Lacteo("NoPersistir"), 1));
-                Assert(haciendaReiniciada.L_ventas.Count == countAntes,
-                    "Mutar la copia devuelta por L_ventas no debe agregar ventas al registro real.");
+                var listaExpuesta = haciendaReiniciada.L_ventas;
+                listaExpuesta.Add(new Venta(fecha, new Lacteo("VentaLegacyMutable"), 1));
+                Assert(haciendaReiniciada.L_ventas.Count == countAntes + 1,
+                    "Mutar L_ventas debe alterar el registro real como en OLD.");
 
                 // El método nuevo rechaza null.
                 try

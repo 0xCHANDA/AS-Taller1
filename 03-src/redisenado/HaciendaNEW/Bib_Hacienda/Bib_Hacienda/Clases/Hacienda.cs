@@ -28,7 +28,7 @@ namespace Bib_Hacienda.Clases
             private set => l_potreros = value;
         }
 
-        public List<Venta> L_ventas => registroVentas.Ventas.ToList();
+        public List<Venta> L_ventas => registroVentas.VentasMutables;
 
         public List<Vacuna> L_vacunas
         {

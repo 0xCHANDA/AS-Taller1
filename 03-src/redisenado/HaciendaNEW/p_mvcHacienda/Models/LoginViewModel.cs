@@ -5,10 +5,10 @@ namespace p_mvcHacienda.Models
     public class LoginViewModel
     {
         [Required(ErrorMessage = "El nombre de usuario es requerido")]
-        public string Username { get; set; }
+        public string Username { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La contraseña es requerida")]
+        [Required(ErrorMessage = "La contraseÃ±a es requerida")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

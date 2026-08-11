@@ -656,39 +656,13 @@ SC-3 tiene mayor blast radius; SC-1 amenaza más directamente una transacción o
 - `PersistenciaService`, `Hacienda`, `ResController` y `Views/Res/Index.cshtml` aparecen en las tres solicitudes de cambio y son los puntos de mayor incidencia.
 - Las acciones `Create` de `VentaController` son scaffolding sin escritura efectiva; la venta operativa comienza en `ResController.Vender`.
 - La incidencia se comprobó siguiendo llamadas y datos en el código. No se interpretó el número de referencias como prueba automática de acoplamiento de negocio.
-## 7.3 Correcciones al DOCX anterior
-
-| **Anterior** | **Corrección** |
-| --- | --- |
-| SC-1: 8 .cs, 7 clases y 1 interfaz | 6 archivos/4 clases; IVentaRes y ValidadorVenta no son must-modify; las views sí cuentan. |
-| SC-2: 10 archivos y 10 clases | 5 archivos/4 clases; subtipos, Potrero, Create, PotreroService y ValidadorRes son regresión. |
-| SC-2 era el mayor impacto | SC-3 tiene mayor blast radius; SC-1 mayor riesgo transaccional. |
-| SC-3 incluía Potrero | Potrero no registra historia sobre una res existente. |
-| SC-3 incluía VacunaService/VacunaController | Vacunación queda en regresión; el alta clínica usa Res. |
-| VentaController incorporaría modalidad | La escritura real está en ResController. |
-| Persistencia JSON en Archivos/ | El código usa Datos/*.txt delimitados por \|. |
-
 # 8. Conclusión
 
 El costo AS-IS proviene de interpretaciones rígidas distribuidas: Venta equivale a una res retirada; Res tiene un esquema fijo de cinco campos; y lo sanitario equivale a List<Vacuna> más un archivo especializado. PersistenciaService, Hacienda y ResController concentran esas decisiones y aparecen en los tres cambios.
 
 Línea base condicionada por los alcances mínimos declarados: SC-1 = 4 clases/6 archivos; SC-2 = 4/5; SC-3 = 5/8, más 1 clase y 2 archivos nuevos. Los elementos de regresión y los datos legacy no se sumaron como modificaciones. La Fase 3 deberá compararse contra estos conjuntos, pero este documento no diseña esa arquitectura.
 
-# Anexo A. Control automático
-
-| **SC** | **Clases** | **Archivos** | **Clases nuevas** | **Archivos nuevos** | **Regresiones** | **N=longitud** |
-| --- | --- | --- | --- | --- | --- | --- |
-| SC-1 | 4 | 6 | 0 | 0 | 5 | OK |
-| SC-2 | 4 | 5 | 0 | 0 | 6 | OK |
-| SC-3 | 5 | 8 | 1 | 2 | 5 | OK |
-
-- Consistencia aritmética interna: OK. Las decisiones de inclusión y exclusión quedaron registradas en la sección 2.7.
-- Archivos y símbolos citados comprobados en el checkout.
-- Ningún archivo nuevo fue contado como existente.
-- Ningún elemento de regresión fue sumado a must-modify.
-- Views cuentan como archivos, no clases.
-- No se incluyó TO-BE ni implementación.
-# Anexo B. Incertidumbre residual
+# Anexo. Incertidumbre residual
 
 - Cantidad/unidad, inventario y sacrificio ampliarían SC-1.
 - Proveedor/protocolo, tiempo real, mapas o historial ampliarían SC-2.

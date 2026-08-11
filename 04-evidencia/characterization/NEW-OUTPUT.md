@@ -21,4 +21,7 @@ C17|EXCEPTION|Exception:Error inesperado en el metodo aplicar_vacuna: No se pued
 C18|API|L_ventas tipo=List`1;Count=1;Monto[0]=1200|-
 C19|API|alimentar_res overloads=2;defaultParam=False;dosParams=True;tresParams=True|-
 C20|API|IValidarInformacion=ABSENT|-
+C21|API|L_ventas viva=True;Count=2|-
+C22|API|Edad setter=True;valida=10;invalida=Exception:El ternero excedió la edad maxima|-
+C23|API|L_vacunas_aplicadas setter=True;misma=True;Count=0|-
 ```

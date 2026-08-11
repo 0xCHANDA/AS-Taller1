@@ -18,6 +18,8 @@ Usamos la IA para revisar ideas y comparar opciones, pero no aplicamos todo lo q
 | Crear una fábrica genérica con reflexión, registro de tipos e interfaz propia. | **RECHAZADA** | Solo existen dos tipos de vacuna. Para este alcance, una fábrica genérica agregaba más complejidad de la que resolvía. |
 | Recibir `RegistroVenta` y `FabricadorVacunas` por el constructor de `Hacienda`. | **ACEPTADA** | Permite crear esos colaboradores desde `Program.cs` y facilita las pruebas. Es inyección de dependencias, aunque no demuestra DIP porque las dos dependencias siguen siendo clases concretas. |
 | Mover `alimentar_res` a un servicio nuevo. | **RECHAZADA** | Esa operación coordina el potrero, la res y sus eventos. Separarla habría agregado otra clase sin dejar una responsabilidad más clara. |
+| Devolver una copia desde `Hacienda.L_ventas` para proteger el registro interno. | **RECHAZADA** | OLD expone una lista viva y algunos consumidores podrían modificarla. Para no cambiar comportamiento público, NEW conserva esa semántica y la comprueba en C21. |
+| Eliminar los setters públicos de `Edad` y `L_vacunas_aplicadas`. | **CORREGIDA** | Mejoraba encapsulamiento, pero rompía la API de OLD. Se conservaron los setters y se añadieron C22/C23 para verificar reglas e identidad de las listas. |
 
 ## Conclusión
 

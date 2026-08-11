@@ -1,45 +1,46 @@
-# SC-1 — métrica empírica OCP (regenerada 2026-08-10)
+# SC-1 — métrica antes y después
 
-## Reglas de conteo
+Solicitud implementada: vender productos derivados del ganado —lácteos, carne y piel—.
 
-Solo se cuentan clases y archivos de producción (excluye demo, characterization, verifier, evidencia, `bin`, `obj`, generados). La métrica se regenera contra el estado final del refactor 2026-08-10.
+## Regla de conteo
 
-## Eje de variación medido
+Se compara exactamente la misma capacidad en OLD y NEW. Solo cuentan clases y archivos de producción. No se cuentan demo, caracterización, verificador, documentación ni archivos generados.
 
-"Agregar un nuevo producto vendible" (lácteos, carne, piel y variantes). Una nueva variante hipotética "Lana" se modela así:
+## Resultado
 
 | Arquitectura | Clases existentes modificadas | Archivos existentes modificados | Clases nuevas | Archivos nuevos |
 |---|---:|---:|---:|---:|
-| OLD / AS-IS estimado para "Lana" | 4 | 6 | 0 | 0 |
-| NEW / final tras refactor 2026-08-10 | 0 | 0 | 2 | 2 |
+| OLD / AS-IS estimado | 4 | 6 | 0 | 0 |
+| NEW / TO-BE implementado | 0 | 0 | 6 | 6 |
 
 ## OLD
 
-La línea base 4/6 de la Fase 2 corresponde a cuatro clases existentes: `Venta`, `Hacienda`, `ResController` y `PersistenciaService`. Los seis archivos son los de esas cuatro clases más `Views/Res/Index.cshtml` y `Views/Venta/Index.cshtml`. OLD no posee un producto vendible común ni un inventario abstraído. La cifra es contrafactual y está condicionada al alcance mínimo documentado; OLD no fue modificado para obtenerla.
+Clases existentes que habría que modificar:
 
-## NEW (estado final)
+1. `Venta`: dejar de representar únicamente una res.
+2. `Hacienda`: agregar la política para vender productos derivados.
+3. `ResController`: exponer la operación que hoy concentra la venta real.
+4. `PersistenciaService`: guardar y cargar los nuevos tipos vendidos.
 
-Para incorporar la variante "Lana" se agregarían únicamente:
+Archivos existentes: los cuatro anteriores, `Views/Res/Index.cshtml` y `Views/Venta/Index.cshtml`.
 
-1. `Clases/Lana.cs` — `Lana : Producto`.
-2. `Clases/InventarioLanas.cs` — `IInventario<Lana>`.
+El alcance mínimo de Fase 2 modela la categoría del derivado dentro de las clases actuales; por eso no estima clases nuevas. La cifra OLD es contrafactual porque el sistema original no se modificó.
 
-No se modificarían `Hacienda.vender<T>`, `Venta`, `RegistroVenta`, `IInventarioVendible<T>`, `IInventario<T>`, `PersistenciaService` ni la vista `Venta/Index.cshtml` para reconocer Lana. El formato V2 guarda el nombre de tipo y recarga tipos no conocidos como `ProductoPersistido`, conservando tipo original, nombre y monto sin un `if` nuevo por variante.
+## NEW
 
-## Refactor 2026-08-10 (impacto sobre SC-1)
+Clases y archivos agregados:
 
-El refactor añadió `FabricadorVacunas` y un nuevo constructor `Hacienda(RegistroVenta, FabricadorVacunas)` para externalizar la construcción mediante DI (no DIP, porque los colaboradores son concretos). Estos cambios **no afectan el eje SC-1**: la política de venta genérica ya era independiente del tipo concreto de `Producto` y la nueva extracción solo mueve la lógica de creación de vacunas, no la de venta.
+1. `Lacteo.cs`
+2. `InventarioLacteos.cs`
+3. `Carne.cs`
+4. `InventarioCarnes.cs`
+5. `Piel.cs`
+6. `InventarioPieles.cs`
 
-| Métrica SC-1 | Antes (2026-08-09) | Después (2026-08-10) |
-|---|---|---|
-| Clases existentes modificadas para añadir Carne | 0 | 0 |
-| Clases nuevas para añadir Carne | 2 (Carne + InventarioCarnes) | 2 (Carne + InventarioCarnes) |
-| Eje OCP sigue aislado en SC-1 | sí | sí |
-
-## Eje NO cubierto (deuda consciente)
-
-El segundo eje natural de variación — "agregar un nuevo tipo de vacuna" — sigue dependiendo de extender `ICreacionVacuna`, `FabricadorVacunas` y `Hacienda.crear_vacuna`. No se introdujo una `IVacunaFactory` con reflection porque solo existen dos tipos (`Bacteriana`, `Viva`); añadir la abstracción completa incrementaría la complejidad sin cliente ni variación real. Ver `04-evidencia/bitacora-ia/BITACORA-IA.md`.
+No fue necesario modificar `Hacienda.vender<T>`, `Venta`, `RegistroVenta`, `IInventarioVendible<T>`, `IInventario<T>`, `PersistenciaService` ni la vista de ventas para reconocer cada variante.
 
 ## Interpretación
 
-El resultado apoya OCP en el eje aprobado "tipo de producto vendible": la política estable permanece cerrada y la capacidad crece agregando implementaciones. No afirma que toda la aplicación sea cerrada a cualquier cambio. El costo de dos clases nuevas es dominio/inventario real, no inflación de métrica.
+OLD resolvería la capacidad reabriendo clases y vistas existentes. NEW introduce seis piezas de dominio, pero no modifica la política estable ni sus consumidores por cada tipo. En este caso, agregar código nuevo es preferible a distribuir condicionales de categoría sobre seis archivos existentes.
+
+La conclusión es local al eje “tipo de producto vendible”. No se afirma que toda la aplicación cumpla OCP ni que agregar un nuevo tipo de vacuna sea igualmente aditivo.

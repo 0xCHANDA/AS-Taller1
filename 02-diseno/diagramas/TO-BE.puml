@@ -33,25 +33,32 @@ package "Dominio — Bib_Hacienda.Clases" {
     - edad : ushort
     - l_vacunas_aplicadas : List<Vacuna>
     + Res(nombre : string, peso : uint, edad : ushort)
-    + Edad : ushort { get }
+    + Edad : ushort { get; set }
     + Peso : uint { get; set }
-    + L_vacunas_aplicadas : List<Vacuna> { get }
+    + L_vacunas_aplicadas : List<Vacuna> { get; set }
     + aplicar_vacuna(vacuna : Vacuna) : void
     + Alimentar(unidades : uint) : void
     + {abstract} MaxVacunasBacterianas : byte { get }
     + {abstract} MaxVacunasVivas : byte { get }
+    # ValidarEdad(edad : ushort) : void
   }
 
   class "Ternero" #F3E5F5 {
     + Ternero(nombre : string, peso : uint, edad : ushort)
+    - {static} ValidarEdadInicial(edad : ushort) : ushort
+    # ValidarEdad(edad : ushort) : void
   }
 
   class "Cebon" #F3E5F5 {
     + Cebon(nombre : string, peso : uint, edad : ushort)
+    - {static} ValidarEdadInicial(edad : ushort) : ushort
+    # ValidarEdad(edad : ushort) : void
   }
 
   class "Novillo" #F3E5F5 {
     + Novillo(nombre : string, peso : uint, edad : ushort)
+    - {static} ValidarEdadInicial(edad : ushort) : ushort
+    # ValidarEdad(edad : ushort) : void
   }
 
   class "Lacteo" #E8F5E9 {
@@ -188,6 +195,16 @@ package "Dominio — Bib_Hacienda.Clases" {
     + Nombre : string { get; set }
     + Contrasena : string { get; set }
   }
+
+  class "Autenticacion" #FFFFFF {
+    - usuarios_registrados : List<Usuario>
+    + Usuarios_registrados : List<Usuario> { get; set }
+    + crear_usuario(nombre : string, contrasena : string) : string
+    + listar_usuarios() : List<Usuario>
+    + ValidarCredenciales(nombre : string, contrasena : string) : bool
+    + buscar_usuario(nombre : string) : Usuario
+    + AutorizarOperacion(usuario : Usuario, operacion : string) : void
+  }
 }
 
 ' --- Paquete Contratos ---
@@ -231,6 +248,10 @@ package "Contratos — Bib_Hacienda.Interfaces" {
 
   interface "IValidadorVenta" #E3F2FD {
     + ValidarVenta(venta : Venta) : bool
+  }
+
+  interface "IAutenticacion" #FFFFFF {
+    + AutorizarOperacion(usuario : Usuario, operacion : string) : void
   }
 
   interface "IPersistenciaPotreros" #FCE4EC {
@@ -284,6 +305,57 @@ package "Validación, eventos y reglas" {
     Bacteriana
     Viva
   }
+
+  class "PublisherPesoMin" #FFFFFF {
+    + evt_peso_min
+    + Informar_Peso_Min(res : Res) : void
+  }
+
+  class "PublisherPesoVenta" #FFFFFF {
+    + evt_peso_venta
+    + Informar_Peso_Venta(res : Res) : void
+  }
+
+  class "PublisherPotreroLleno" #FFFFFF {
+    + evt_potrero_lleno
+    + Informar_Potrero_Lleno(cantidad : ushort, potrero : Potrero) : void
+  }
+
+  class "PublisherPotreroMitad" #FFFFFF {
+    + evt_potrero_mitad
+    + Informar_Potrero_Mitad(cantidad : ushort, potrero : Potrero) : void
+  }
+
+  class "PublisherVacunaVencida" #FFFFFF {
+    + evt_vacuna_vencida
+    + Informar_Vacuna_Vencida(vacuna : Vacuna) : bool
+  }
+
+  class "PublisherVacunacionCompletada" #FFFFFF {
+    + evt_vacunacion_completada
+    + Informar_Vacunacion_Completada(res : Res, bacterianas : ushort, vivas : ushort) : bool
+  }
+
+  abstract class "ReglaPotrero" #FFFFFF {
+    + {static} max_reses_potrero : ushort
+  }
+
+  abstract class "ReglaRes" #FFFFFF {
+    + {static} edad_max_ternero : byte
+    + {static} edad_max_cebon : byte
+    + {static} peso_min_ternero : ushort
+    + {static} peso_min_cebon : ushort
+    + {static} peso_min_novillo : ushort
+  }
+
+  abstract class "ReglaVacuna" #FFFFFF {
+    + {static} max_bac_ternero : byte
+    + {static} max_bac_cebon : byte
+    + {static} max_bac_novillo : byte
+    + {static} max_viv_ternero : byte
+    + {static} max_viv_cebon : byte
+    + {static} max_viv_novillo : byte
+  }
 }
 
 ' --- Paquete Aplicación MVC ---
@@ -309,6 +381,11 @@ package "Aplicación — p_mvcHacienda" {
     + UsuarioService(persUsuarios : IPersistenciaUsuarios)
   }
 
+  class "ProductoPersistido" <<adaptador de lectura>> #ECEFF1 {
+    + ProductoPersistido(tipoOriginal : string, nombre : string)
+    + TipoOriginal : string { get }
+  }
+
   class "PersistenciaService" <<adaptador>> #FCE4EC {
     + CargarPotreros() : List<Potrero>
     + CargarReses(potreros : List<Potrero>) : void
@@ -322,6 +399,79 @@ package "Aplicación — p_mvcHacienda" {
     + GuardarVacunasAplicadas(potreros : List<Potrero>) : string
     + GuardarVentas(ventas : List<Venta>) : string
     + GuardarUsuarios(usuarios : List<Usuario>) : string
+  }
+
+  class "AccountController" #FFFFFF {
+    + AccountController(usuarioService : UsuarioService)
+    + Login(returnUrl : string) : IActionResult
+    + Login(model : LoginViewModel, returnUrl : string) : Task<IActionResult>
+    + Logout() : Task<IActionResult>
+    + AccessDenied() : IActionResult
+  }
+
+  class "HomeController" #FFFFFF {
+    + HomeController(logger : ILogger<HomeController>)
+    + Index() : IActionResult
+    + Privacy() : IActionResult
+    + Error() : IActionResult
+  }
+
+  class "PotreroController" #FFFFFF {
+    + PotreroController(service : PotreroService)
+    + Index() : ActionResult
+    + Details(id : string) : ActionResult
+    + Create(...) : ActionResult
+  }
+
+  class "ResController" #FFFFFF {
+    + ResController(resService : ResService, potreroService : PotreroService)
+    + Index() : ActionResult
+    + DetalleVacunas(potreroId : string, nombreRes : string) : ActionResult
+    + Create(...) : ActionResult
+    + Alimentar(...) : ActionResult
+    + Vender(...) : ActionResult
+  }
+
+  class "VacunaController" #FFFFFF {
+    + VacunaController(vacunaService : VacunaService, resService : ResService, potreroService : PotreroService)
+    + Index() : ActionResult
+    + Create(...) : ActionResult
+    + Aplicar(...) : ActionResult
+  }
+
+  class "VentaController" #FFFFFF {
+    + VentaController(ventaService : VentaService)
+    + Index() : ActionResult
+    + Details(id : int) : ActionResult
+    + Create(...) : ActionResult
+    + Edit(...) : ActionResult
+    + Delete(...) : ActionResult
+  }
+
+  class "UsuarioController" #FFFFFF {
+    + UsuarioController(usuarioService : UsuarioService)
+    + Index() : ActionResult
+    + Create(...) : ActionResult
+  }
+
+  class "LoginViewModel" #FFFFFF {
+    + Username : string
+    + Password : string
+  }
+
+  class "ErrorViewModel" #FFFFFF {
+    + RequestId : string
+    + ShowRequestId : bool
+  }
+
+  class "InterceptorValidarInformacion" #ECEFF1 {
+    + InterceptorValidarInformacion(httpContextAccessor : IHttpContextAccessor)
+    + Intercept(invocation : IInvocation) : void
+  }
+
+  class "InterceptorAutenticacion" <<legacy conservado>> #FFFFFF {
+    + InterceptorAutenticacion(httpContextAccessor : IHttpContextAccessor)
+    + Intercept(invocation : IInvocation) : void
   }
 
   class "Program" <<composition root>> #ECEFF1 {
@@ -368,6 +518,8 @@ PersistenciaService ..|> IPersistenciaUsuarios
 Hacienda ..|> IVacunacion
 Hacienda ..|> IVentaRes
 Hacienda ..|> ICreacionVacuna
+Autenticacion ..|> IAutenticacion
+ProductoPersistido --|> Producto
 
 ' --- Relaciones de Hacienda ---
 Hacienda --> IInventarioVendible : «vender<T> usa»
@@ -388,6 +540,39 @@ VacunaService --> IPersistenciaPotreros
 VacunaService --> IPersistenciaReses
 VentaService --> Hacienda
 UsuarioService --> IPersistenciaUsuarios
+
+AccountController --> UsuarioService
+AccountController --> LoginViewModel
+HomeController --> ErrorViewModel
+PotreroController --> PotreroService
+ResController --> ResService
+ResController --> PotreroService
+VacunaController --> VacunaService
+VacunaController --> ResService
+VacunaController --> PotreroService
+VentaController --> VentaService
+UsuarioController --> UsuarioService
+
+InterceptorValidarInformacion ..> IValidadorRes
+InterceptorValidarInformacion ..> IValidadorPotrero
+InterceptorValidarInformacion ..> IValidadorVacuna
+InterceptorValidarInformacion ..> IValidadorVenta
+
+Ternero ..> ReglaRes
+Cebon ..> ReglaRes
+Novillo ..> ReglaRes
+Ternero ..> ReglaVacuna
+Cebon ..> ReglaVacuna
+Novillo ..> ReglaVacuna
+Potrero ..> ReglaPotrero
+Bacteriana ..> ReglaVacuna
+
+Potrero ..> PublisherPotreroLleno
+Potrero ..> PublisherPotreroMitad
+Hacienda ..> PublisherPesoMin
+Hacienda ..> PublisherPesoVenta
+Hacienda ..> PublisherVacunaVencida
+Hacienda ..> PublisherVacunacionCompletada
 
 Program --> PersistenciaService : «compone»
 Program --> Hacienda : «compone; DI, no DIP»
@@ -417,9 +602,10 @@ note right of RegistroVenta
 end note
 
 note right of Res
-  LSP: Edad inmutable post-construcción.
-  Cada subtipo valida su rango en el constructor.
-  No hay setter virtual fortalecible.
+  LSP: Res define un único contrato de Edad:
+  el valor debe pertenecer al rango de la categoría.
+  El setter público legacy se conserva.
+  Cada subtipo implementa la validación del rango.
 end note
 
 note right of IInventarioVendible
@@ -434,7 +620,7 @@ note right of IPersistenciaPotreros
 end note
 
 note right of Carne
-  SC-1 variante Lachée.
+  SC-1: variante Carne.
   0 clases existentes modificadas.
   2 nuevas (Carne + InventarioCarnes).
 end note

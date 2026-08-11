@@ -1,72 +1,40 @@
-# Matriz de caracterización OLD ↔ NEW
+# Caracterización OLD ↔ NEW
 
-**Fecha:** 2026-08-10  
-**Resultado:** 20 escenarios (11 originales + 9 nuevos), 19 MATCH, 1 DELIBERATE_STRUCTURAL, 0 BEHAVIORAL_MISMATCH.
+Los dos ejecutables reciben las mismas entradas y recorren las mismas operaciones. Resultado vigente: **23 escenarios, 22 MATCH, una diferencia estructural deliberada y cero diferencias de comportamiento**.
 
-Los ejecutables están en `03-src/phase4/Characterization/Old` y `New`. Esta ruta es infraestructura no productiva. OLD se ejecutó primero. La primera ejecución NEW detectó C07 y C10; ambos se restauraron al contrato OLD y se repitió la suite completa. En una segunda iteración C12, C14, C15 y C17 se restauraron al contrato OLD; la suite completa se repitió nuevamente y todos están MATCH.
-
-## Escenarios C01–C11 (línea base)
-
-| ID | Nombre y propósito | Precondiciones / entradas / operaciones ordenadas | Observable OLD y NEW | Resultado | Evidencia |
-|---|---|---|---|---|---|
-| C01 | Alta de potrero | Hacienda vacía; crear `P1`, tipo ternero | Mensaje exacto; `potreros=1` | MATCH | `OLD-OUTPUT.md`, `NEW-OUTPUT.md` |
-| C02 | Duplicado case-insensitive | C01; crear `p1` | Misma excepción envuelta; lista permanece en 1 | MATCH | mismas rutas |
-| C03 | Inserción de res | C01; añadir Lola, 5 meses, 100 kg | Mensaje y evento de bajo peso; una `Ternero` | MATCH | mismas rutas |
-| C04 | Edad incompatible | C03; añadir 13 meses a potrero ternero | Misma excepción; continúa una res | MATCH | mismas rutas |
-| C05 | Búsqueda parcial | C01; buscar `p` | Retorna `P1`; estado sin cambio | MATCH | mismas rutas |
-| C06 | Alimentación normal | C03; alimentar una unidad | Peso 101, mensaje y evento exactos | MATCH | mismas rutas |
-| C07 | Alimentación de cero | C06; alimentar 0 | Operación válida, peso 101 y mismo mensaje/evento | MATCH | mismas rutas |
-| C08 | Alta vacuna bacteriana | Fechas 2026-08-10/2030-08-10; lote L1 | Mensaje exacto; inventario=1 | MATCH | mismas rutas |
-| C09 | Lote de vacuna duplicado | C08; lote `l1` | Misma excepción; inventario=1 | MATCH | mismas rutas |
-| C10 | Aplicación de vacuna | C03+C08; aplicar L1 a Lola | Mensaje incluyendo evento de esquema; inventario=0, aplicadas=1 | MATCH | mismas rutas |
-| C11 | Venta legacy | C03; vender Lola por 1200 | Mensaje exacto; reses=0, ventas=1, monto=1200 | MATCH | mismas rutas |
-
-## Escenarios C12–C17 (extendidos: vacuna vencida, duplicado, límites, combinados)
-
-| ID | Nombre y propósito | Precondiciones / entradas / operaciones ordenadas | Observable OLD | Observable NEW | Resultado | Clasificación |
-|---|---|---|---|---|---|---|
-| C12 | Vacuna vencida | Potrero P1 ternero + Lola (5m, 100kg); crear bacteriana Vencida con fechas 2020-01-01 / 2019-06-01; aplicar a Lola | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 01/01/2020` | `Exception:…[Evento] La vacuna 'Vencida' del lote 'C12-VENC' está vencida desde 01/01/2020` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=0). |
-| C13 | Aplicación duplicada | P1+Lola; crear dos bacterianas "Duplicada" con lotes C13-DUP-A y C13-DUP-B; aplicar primera OK; intentar segunda | `Exception:…La vacuna 'Duplicada' ya fue aplicada a la res 'Lola'.` | `Exception:…La vacuna 'Duplicada' ya fue aplicada a la res 'Lola'.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=1). |
-| C14 | Límite bacteriano ternero (max=3) | P1+Lola; crear y aplicar 3 bacterianas (C14-B1/B2/B3); crear cuarta (C14-B4); intentar aplicar | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=3). |
-| C15 | Límite viva ternero (max=1) | P1+Lola; crear y aplicar viva C15-V1 (Atenuacion10); crear segunda viva C15-V2; intentar aplicar | `Exception:…No se puede aplicar más vacunas vivas a la res 'Lola'. Ya tiene las 1 permitidas.` | `Exception:…No se puede aplicar más vacunas vivas a la res 'Lola'. Ya tiene las 1 permitidas.` | MATCH | Mensaje, tipo de excepción y post-estado idénticos (vacunas=1;aplicadas=1). |
-| C16 | Límites independientes: bacteriano lleno + viva exitosa | P1+Lola; aplicar 3 bacterianas (C16-B1/B2/B3) hasta agotar límite; crear viva C16-V1 y aplicar | `OK\|…La res 'Lola' ha completado su esquema de vacunación.\|vacunas=0;aplicadas=4` | `OK\|…La res 'Lola' ha completado su esquema de vacunación.\|vacunas=0;aplicadas=4` | MATCH | Ambos permiten viva tras límite bacteriano alcanzado; contadores independientes preservados. |
-| C17 | Combinado: límite bacteriano + vacuna vencida | P1+Lola; aplicar 3 bacterianas (C17-B1/B2/B3); crear bacteriana vencida C17-E (2020-01-01); intentar aplicar | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | `Exception:…No se puede aplicar más vacunas bacterianas a la res 'Lola'. Ya tiene las 3 permitidas.` | MATCH | Orden de validación restaurado al contrato OLD: límite se evalúa antes que vencimiento. Post-estado idéntico (vacunas=1;aplicadas=3). |
-
-## Escenarios C18–C20 (reflexión de API pública)
-
-| ID | Aspecto | Observable OLD | Observable NEW | Resultado | Clasificación |
-|---|---|---|---|---|---|
-| C18 | Semántica de `L_ventas` | ``tipo=List`1;Count=1;Monto[0]=1200`` | ``tipo=List`1;Count=1;Monto[0]=1200`` | MATCH | Comportamiento observable idéntico. Internamente OLD usa `List<Venta>` directo; NEW obtiene `registroVentas.Ventas.ToList()`. La copia es transparente para consumidores que solo leen la cantidad y los elementos. |
-| C19 | Superficie de sobrecargas `alimentar_res` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | `overloads=2;defaultParam=False;dosParams=True;tresParams=True` | MATCH | NEW preserva las dos firmas públicas de OLD; la sobrecarga de dos parámetros delega en la de tres con cantidad 1. |
-| C20 | Existencia de `IValidarInformacion` | `EXISTS` | `ABSENT` | DELIBERATE_STRUCTURAL | OLD definía `IValidarInformacion` monolítico con 4 métodos. NEW lo reemplazó por 4 interfaces granulares `IValidadorRes`, `IValidadorPotrero`, `IValidadorVacuna`, `IValidadorVenta` (ISP). La interfaz monolítica no existe en NEW. |
-
-## Clasificación de divergencias
-
-| Tipo | Casos | Significado |
-|---|---|---|
-| MATCH | C01–C19 | Comportamiento y superficie pública observable idénticos |
-| DELIBERATE_STRUCTURAL | C20 | Diferencia estructural deliberada: granularidad de interfaces ISP |
-
-## Diferencias detectadas y resueltas
-
-| Caso | Primera salida NEW | Autoridad OLD | Resolución estrecha |
+| ID | Escenario | Observable comparado | Resultado |
 |---|---|---|---|
-| C07 | Excepción para cantidad 0 | OLD acepta 0 sin cambiar peso | `Res.Alimentar` volvió a permitir cero. |
-| C10 | Omitía el mensaje del evento | OLD devuelve el mensaje del esquema | `Hacienda.aplicar_vacuna` captura y concatena el evento. |
-| C12 | Mensaje simplificado sin lote ni fecha | OLD incluye lote y fecha vía publisher de evento | `Hacienda.aplicar_vacuna` restaurado al contrato OLD: el publisher de vencimiento emite el mensaje completo. |
-| C14 | Mensaje genérico "de este tipo" | OLD menciona tipo concreto (bacterianas) y cantidad | `PuedeAplicarseA` restaurado al mensaje OLD con tipo concreto y límite numérico. |
-| C15 | Mensaje genérico "de este tipo" | OLD menciona tipo concreto (vivas) y cantidad | `PuedeAplicarseA` restaurado al mensaje OLD con tipo concreto y límite numérico. |
-| C17 | Orden invertido (vencimiento antes que límite) | OLD evalúa límite antes que vencimiento | Orden de validación en `Hacienda.aplicar_vacuna` restaurado al contrato OLD. |
+| C01 | Crear potrero | Mensaje y cantidad | MATCH |
+| C02 | Potrero duplicado sin distinguir mayúsculas | Excepción y estado | MATCH |
+| C03 | Añadir res | Mensaje, evento, cantidad y tipo | MATCH |
+| C04 | Edad incompatible con potrero | Excepción y estado | MATCH |
+| C05 | Búsqueda parcial | Potrero encontrado | MATCH |
+| C06 | Alimentar una unidad | Mensaje, evento y peso | MATCH |
+| C07 | Alimentar cero | Operación aceptada y peso sin cambio | MATCH |
+| C08 | Crear vacuna bacteriana | Mensaje e inventario | MATCH |
+| C09 | Lote duplicado | Excepción e inventario | MATCH |
+| C10 | Aplicar vacuna válida | Mensaje, evento y colecciones | MATCH |
+| C11 | Venta legacy | Mensaje, retiro, venta y monto | MATCH |
+| C12 | Vacuna vencida | Excepción, lote, fecha y estado | MATCH |
+| C13 | Vacuna duplicada | Excepción y estado | MATCH |
+| C14 | Límite bacteriano | Excepción y cantidades | MATCH |
+| C15 | Límite de vacuna viva | Excepción y cantidades | MATCH |
+| C16 | Límites bacteriano y vivo independientes | Aplicación exitosa y cantidades | MATCH |
+| C17 | Orden entre límite y vencimiento | Excepción de límite antes de vencimiento | MATCH |
+| C18 | Lectura de `L_ventas` | Tipo, cantidad y monto | MATCH |
+| C19 | Sobrecargas de `alimentar_res` | Firmas públicas | MATCH |
+| C20 | Existencia de `IValidarInformacion` | OLD existe; NEW no existe | DIFERENCIA ESTRUCTURAL |
+| C21 | Mutación de `L_ventas` | Misma lista viva; la adición queda visible | MATCH |
+| C22 | Setter de `Edad` | Setter público, asignación válida y rechazo inválido | MATCH |
+| C23 | Setter de `L_vacunas_aplicadas` | Setter público e identidad de la lista | MATCH |
 
-## Resolución de C17 (cerrado)
+C20 es deliberado: NEW reemplaza la interfaz monolítica por `IValidadorRes`, `IValidadorPotrero`, `IValidadorVacuna` e `IValidadorVenta`. Los demás casos conservan mensajes, reglas, excepciones, orden de validación, estado y API pública observada.
 
-En la iteración anterior, NEW evaluaba `EstaVencida()` antes de `PuedeAplicarseA()` en `Res.aplicar_vacuna`, produciendo un BEHAVIORAL_MISMATCH. Se restauró la validación de límites antes del vencimiento (contrato OLD de `Hacienda.aplicar_vacuna`). La suite completa se repitió y C17 ahora es MATCH. No hay BEHAVIORAL_MISMATCH pendientes.
-
-## Reproducción
+## Ejecutar
 
 ```bash
 dotnet run --project 03-src/phase4/Characterization/Old/Characterization.Old.csproj
 dotnet run --project 03-src/phase4/Characterization/New/Characterization.New.csproj
 ```
 
-La comparación es línea por línea por ID. `OLD-OUTPUT.md` y `NEW-OUTPUT.md` contienen la salida canónica, sin el ruido de restauración o compilación.
+Las salidas completas están en `OLD-OUTPUT.md` y `NEW-OUTPUT.md`.
