@@ -1,40 +1,73 @@
-# ADR-001 — Toolchain y build del source NEW
+# ADR 1 — Abstracción de inventarios
 
-**Estado:** ACEPTADO (retrospectivo — documentado post-implementación)
-**Fecha:** 2026-08-10
-**Evidencia:** `p_mvcHacienda.csproj:14-16`, `Bib_Hacienda.csproj:1-12` y los ejecutables de caracterización OLD/NEW.
+## ADR-001: Crear `IInventario`
 
-## Contexto
+### Contexto
 
-OLD `Bib_Hacienda` compila con `net472` y requiere targeting pack de .NET Framework, no disponible en este host Linux. MVC OLD usa `HintPath` a una DLL precompilada. El source NEW de `Bib_Hacienda` migró a `net8.0` SDK-style sin dependencias de paquetes; el MVC NEW usa `ProjectReference`. Persiste el riesgo de que el MVC OLD arranque como si fuera NEW (las DLL tienen SHA-256 idéntico).
+El código original está acoplado a `Potrero`.
 
-## Alternativas
+Por ejemplo en el método de vender tenemos esto, dejándonos una gran dificultad para vender los nuevos productos:
 
-| ID | Descripción | Evaluación |
-|---|---|---|
-| A | Instalar targeting pack net472 en el host | Descartada: sin acceso al sistema ni garantía en entorno del evaluador. |
-| B | Migrar OLD a net8 sin cambios funcionales | Descartada: riesgo de deriva conductual sin cobertura de tests. |
-| C | NEW net8 con `ProjectReference`; OLD caracterizado mediante DLL legacy | **Elegida.** Build reproducible; OLD ejecutado con artefacto compilado real. |
+```csharp
+Potrero potrero = buscar_potrero(idPotrero);
 
-## Decisión
-
-Alternativa C. Bib_Hacienda NEW compila `net8.0` sin paquetes (`Bib_Hacienda.csproj:1-12`). MVC NEW referencia por `ProjectReference` (`p_mvcHacienda.csproj:14-16`), eliminando `HintPath`. OLD se caracteriza con la DLL que acompaña al MVC OLD.
-
-## Consecuencias
-
-- **Positivo:** Build NEW reproducible en cualquier host SDK net8.0.
-- **Positivo:** Cambios en Bib_Hacienda se propagan automáticamente al MVC.
-- **Negativo:** OLD no compila desde source en este host; la caracterización depende del artefacto precompilado.
-- **Riesgo mitigado:** SHA-256 confirma que la DLL OLD usada es exactamente la referenciada.
-
-## Principios SOLID
-
-- **DIP:** `ProjectReference` > `HintPath` en dirección de dependencia.
-- Esta decisión es infraestructural, no de diseño de dominio.
-
-## Verificación
-
-```bash
-dotnet build 03-src/redisenado/HaciendaNEW/Bib_Hacienda/Bib_Hacienda/Bib_Hacienda.csproj
-dotnet build 03-src/redisenado/HaciendaNEW/p_mvcHacienda/p_mvcHacienda.csproj
+potrero.eliminar_res(nombre);
 ```
+
+Pero el requisito de la creación de productos para vender nos obliga a crear diferentes inventarios:
+
+```csharp
+Potrero
+InventarioLacteos
+InventarioPieles
+InventarioCarne
+```
+
+### Alternativa 1
+
+Mantener `Potrero` como único inventario.
+
+Esto generaría que cada nuevo producto tenga lógica especial en `Hacienda`. Esto nos obligaría a crear un método de vender por cada producto, lo cual violaría el principio open close.
+
+### Alternativa 2
+
+Crear:
+
+```csharp
+public interface IInventario
+{
+    void Agregar(Producto producto);
+    Producto Retirar(Producto producto);
+    bool Contiene(Producto producto);
+}
+```
+
+Y así podemos tener implementaciones: `Potrero`, `InventarioCarnes`, `InventarioLacteos`, `InventarioPieles`.
+
+### Decisión
+
+Adoptamos `IInventario`.
+
+Así `Hacienda` depende de:
+
+`IInventario`
+
+en lugar de:
+
+`Potrero`
+
+### ¿Qué ganamos?
+
+Se puede cambiar el método de `vender_res` a uno de `vender`, haciendo que no tengamos que tener un nuevo método para vender por cada producto.
+
+### Consecuencia negativa
+
+La interfaz agrega una capa de abstracción y obliga a que cada inventario implemente operaciones comunes.
+
+Además, no todos los inventarios necesariamente tendrán exactamente la misma lógica interna.
+
+### Principios
+
+- **DIP**
+- **OCP**
+- **ISP**
