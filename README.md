@@ -1,5 +1,7 @@
 # Modernización arquitectónica — Hacienda
 
+## video : https://youtu.be/Ylk\_boRPkdA
+
 Este repositorio contiene la entrega del reto de Arquitectura de Software. Está organizado por fases para que cada requisito de la rúbrica tenga una ubicación clara.
 
 La solicitud implementada es **SC-1: venta de productos derivados del ganado —lácteos, carne y piel—**.
@@ -8,9 +10,9 @@ La solicitud implementada es **SC-1: venta de productos derivados del ganado —
 
 | Integrante | Responsabilidad principal |
 |---|---|
-| Santiago Hernández Morantes | Arquitectura de dominio: SRP, modelo y jerarquías/LSP |
-| Sebastián Quintero Jaramillo | Arquitectura de dependencias: mapa, ISP, DIP y composition root |
-| Simón Bedoya Urrea | Comportamiento, integración y evidencia: caracterización, demo, UML-código, bitácora y métricas |
+| Santiago Hernández Morantes | Arquitectura de dominio |
+| Sebastián Quintero Jaramillo | Arquitectura de dependencias|
+| Simón Bedoya Urrea | Integrador y evidencia - Ingeniero de comportamiento |
 
 Todos deben conocer la solución completa. Como el equipo tiene tres integrantes, Simón reúne los frentes de comportamiento e integración/evidencia.
 
