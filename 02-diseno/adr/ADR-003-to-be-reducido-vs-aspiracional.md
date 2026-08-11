@@ -1,42 +1,42 @@
-# ADR-003 — TO-BE reducido al vertical materializado vs UML aspiracional completo
+# ADR 3 — Separar registro de ventas
 
-**Estado:** ACEPTADO (retrospectivo)
-**Fecha:** 2026-08-10
-**Evidencia:** `02-diseno/diagramas/TO-BE.puml`, `02-diseno/diagramas/TO-BE.png` y `HaciendaNEW.Verification`.
+## ADR-003: Crear `RegistroVenta`
 
-## Contexto
+### Contexto
 
-La Fase 3 produjo cuatro PNG (`fase3 uml 1..4.png`) que describían una arquitectura con `ItemVenta`, `IVendible`, `ProductoGanadero`, categoría, AppServices con interfaces, commands, `ResultadoAplicacion`, puertos/adapters/serializadores e `InicializadorHacienda`. Ninguno de estos tipos existe en el código fuente implementado.
+Actualmente `Hacienda` mantiene la lista de ventas y además realiza la venta.
 
-La implementación real (`03-src/redisenado/HaciendaNEW`) sigue un modelo diferente: `Producto` + `IInventarioVendible<T>` + venta genérica; validadores por capacidad sin jerarquía ancha; persistencia con cinco puertos segregados implementados por un solo servicio. El UML aspiracional y el código implementado describen dos soluciones incompatibles para el mismo problema.
+Esto significa que `Hacienda` tiene dos responsabilidades:
 
-## Alternativas
+1. Coordinar una venta
+2. Administrar el historial de ventas
 
-| ID | Descripción | Evaluación |
-|---|---|---|
-| A | Implementar todas las cajas del UML aspiracional | **Descartada.** Decenas de tipos sin presión de cambio demostrada consumirían el plazo. Riesgo de quedar sin tests, SC funcional ni evidencia (escenario de fracaso #2 del plan de cierre). |
-| B | Mantener los PNG como normativos y declarar el código como "parcial" | **Descartada.** Viola correspondencia UML↔código 1:1 (C2/C4 limitados a 3). |
-| C | Reemplazar los PNG aspiracionales por un `.puml` editable que describa exactamente el código implementado | **Elegida.** Correspondencia 1:1 verificable; sin tipos fantasma. |
+### Alternativa 1
 
-## Decisión
+Mantener dentro de `Hacienda` el registro de las ventas.
 
-Alternativa C. `02-diseno/diagramas/TO-BE.puml` queda como fuente normativa y describe únicamente la arquitectura implementada. Su correspondencia con el código se comprueba mediante `HaciendaNEW.Verification`.
+`List`
 
-## Consecuencias
+No afecta el comportamiento del programa, pero sí deja muchas responsabilidades a la clase de `Hacienda`.
 
-- **Positivo:** Cumple correspondencia UML↔código 1:1 exigida por la rúbrica.
-- **Positivo:** Reduce el riesgo de inconsistencia documental (escenario de fracaso #3).
-- **Negativo:** Pierde la ambición arquitectónica de puertos/adapters/serializadores completos.
-- **Negativo:** `PersistenciaService` sigue implementando cinco puertos en una clase; la segregación es solo a nivel de interfaz.
+### Alternativa 2
 
-## Principios SOLID
+Crear un `RegistroVenta`, responsable de registrar ventas (o sea de guardarlas), así toda la responsabilidad de las ventas no queda en `Hacienda`.
 
-- **ISP:** Las cinco interfaces de persistencia corresponden a clientes reales observables; no se crearon repositorios por entidad.
-- **DIP:** Dirección de dependencia verificada: dominio → contratos ← infraestructura.
-- **YAGNI:** No se implementan abstracciones sin cliente/variación demostrada.
+### Decisión
 
-## Verificación
+Elegimos la opción 2.
 
-- `02-diseno/diagramas/TO-BE.puml`: fuente editable con correspondencia 1:1.
-- `02-diseno/diagramas/TO-BE.png`: render final del diseño.
-- `HaciendaNEW.Verification`: comprobaciones de puertos, validadores y composition root.
+### Consecuencia negativa
+
+Ahora existe una clase adicional y la venta requiere delegar el registro:
+
+```csharp
+registroVentas.Registrar(venta);
+```
+
+Pero esto se acepta porque la responsabilidad queda correctamente encapsulada.
+
+### Principio
+
+- **SRP**
